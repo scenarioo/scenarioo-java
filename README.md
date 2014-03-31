@@ -1,4 +1,4 @@
 scenarioo-java
 ==============
 
-Java API for Scenarioo
+Scenarioo API for Java to generate Scenarioo Documentations - http://www.scenarioo.org
