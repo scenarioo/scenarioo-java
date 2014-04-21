@@ -28,13 +28,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-import org.scenarioo.api.ScenarioDocuReader;
-import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;

@@ -47,20 +47,23 @@ import org.scenarioo.model.docu.entities.UseCase;
 /**
  * Generator to produce documentation files for a specific build.
  * 
- * The writer performs all save operations as asynchronous writes, to not block the webtests tht are typically calling
- * the save operations to save docu content.
+ * The writer performs all save operations as asynchronous writes, to not block the webtests that are typically calling
+ * the save operations to save documentation content.
+ * 
+ * An instance of such a writer needs to be closed after last write operation by using the method {@link #flush()}.
+ * After calling {@link #flush()} once the writer can not be used anymore.
  */
 public class ScenarioDocuWriter {
 	
-	private ScenarioDocuFiles docuFiles;
+	private final ScenarioDocuFiles docuFiles;
 	
-	private String branchName;
+	private final String branchName;
 	
-	private String buildName;
+	private final String buildName;
 	
-	private ExecutorService asyncWriteExecutor = newAsyncWriteExecutor();
+	private final ExecutorService asyncWriteExecutor = newAsyncWriteExecutor();
 	
-	private List<RuntimeException> caughtExceptions = new ArrayList<RuntimeException>();
+	private final List<RuntimeException> caughtExceptions = new ArrayList<RuntimeException>();
 	
 	/**
 	 * Initialize with directory inside which to generate the documentation contents.
@@ -72,7 +75,8 @@ public class ScenarioDocuWriter {
 	 * @param buildName
 	 *            name of the build (concrete identifier like revision and date) for which we are generating content.
 	 */
-	public ScenarioDocuWriter(final File destinationRootDirectory, final String branchName, final String buildName) {
+	public ScenarioDocuWriter(final File destinationRootDirectory, final String branchName,
+			final String buildName) {
 		docuFiles = new ScenarioDocuFiles(destinationRootDirectory);
 		this.branchName = branchName;
 		this.buildName = buildName;
@@ -228,8 +232,8 @@ public class ScenarioDocuWriter {
 				.getTimeoutWaitingForWritingFinishedInSeconds();
 		asyncWriteExecutor.shutdown();
 		try {
-			boolean temrinated = asyncWriteExecutor.awaitTermination(timeoutInSeconds, TimeUnit.SECONDS);
-			if (!temrinated) {
+			boolean terminated = asyncWriteExecutor.awaitTermination(timeoutInSeconds, TimeUnit.SECONDS);
+			if (!terminated) {
 				asyncWriteExecutor.shutdownNow();
 				throw new ScenarioDocuTimeoutException(
 						"Timeout occured while waiting for docu files to be written. Writing of files took too long.");
