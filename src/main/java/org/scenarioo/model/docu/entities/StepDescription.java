@@ -73,7 +73,7 @@ public class StepDescription implements Serializable {
 		return index;
 	}
 	
-	public void setIndex(int index) {
+	public void setIndex(final int index) {
 		this.index = index;
 	}
 	
@@ -81,7 +81,7 @@ public class StepDescription implements Serializable {
 		return title;
 	}
 	
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 	
@@ -89,7 +89,7 @@ public class StepDescription implements Serializable {
 		return status;
 	}
 	
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 	
@@ -97,7 +97,7 @@ public class StepDescription implements Serializable {
 		return screenshotFileName;
 	}
 	
-	public void setScreenshotFileName(String screenshotFileName) {
+	public void setScreenshotFileName(final String screenshotFileName) {
 		this.screenshotFileName = screenshotFileName;
 	}
 	
@@ -105,43 +105,83 @@ public class StepDescription implements Serializable {
 		return details;
 	}
 	
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
 	public StepIdentification getPreviousStepVariant() {
 		return previousStepVariant;
 	}
 	
-	public void setPreviousStepVariant(StepIdentification previousStepVariant) {
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
+	public void setPreviousStepVariant(final StepIdentification previousStepVariant) {
 		this.previousStepVariant = previousStepVariant;
 	}
 	
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
 	public StepIdentification getNextStepVariant() {
 		return nextStepVariant;
 	}
 	
-	public void setNextStepVariant(StepIdentification nextStepVariant) {
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
+	public void setNextStepVariant(final StepIdentification nextStepVariant) {
 		this.nextStepVariant = nextStepVariant;
 	}
 	
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
 	public int getOccurence() {
 		return occurence;
 	}
 	
-	public void setOccurence(int occurence) {
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
+	public void setOccurence(final int occurence) {
 		this.occurence = occurence;
 	}
 	
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
 	public int getRelativeIndex() {
 		return relativeIndex;
 	}
 	
-	public void setRelativeIndex(int relativeIndex) {
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
+	public void setRelativeIndex(final int relativeIndex) {
 		this.relativeIndex = relativeIndex;
 	}
 	
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
 	public int getVariantIndex() {
 		return variantIndex;
 	}
 	
-	public void setVariantIndex(int variantIndex) {
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
+	public void setVariantIndex(final int variantIndex) {
 		this.variantIndex = variantIndex;
 	}
 	
