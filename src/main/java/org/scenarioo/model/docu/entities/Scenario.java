@@ -41,13 +41,14 @@ public class Scenario implements Serializable {
 	private String status = "";
 	private Details details = new Details();
 	
+	@Deprecated
 	private ScenarioCalculatedData calculatedData;
 	
 	public Scenario() {
-		this("", "", 0, 0);
+		this("", "");
 	}
 	
-	public Scenario(final String name, final String description, final int numberOfPages, final int numberOfSteps) {
+	public Scenario(final String name, final String description) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -57,7 +58,7 @@ public class Scenario implements Serializable {
 		return name;
 	}
 	
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 	
@@ -65,7 +66,7 @@ public class Scenario implements Serializable {
 		return description;
 	}
 	
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 	
@@ -73,7 +74,7 @@ public class Scenario implements Serializable {
 		return status;
 	}
 	
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 	
@@ -89,13 +90,20 @@ public class Scenario implements Serializable {
 		details.addDetail(key, value);
 	}
 	
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
 	public ScenarioCalculatedData getCalculatedData() {
 		return calculatedData;
 	}
 	
-	public void setCalculatedData(ScenarioCalculatedData calculatedData) {
+	/**
+	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
+	 */
+	@Deprecated
+	public void setCalculatedData(final ScenarioCalculatedData calculatedData) {
 		this.calculatedData = calculatedData;
 	}
-	
 	
 }

@@ -32,7 +32,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Special calculated data for a scenario, this data gets calculated by the Scenarioo webaplication when generated docu
  * is imported automatically, therefore you do NOT have to fill this data when generating documentation (it will be
  * overwritten by the webapplication anyway).
+ * 
+ * Will be removed from next major version of the scenarioo-java API, to make the API more easier.
  */
+@Deprecated
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ScenarioCalculatedData implements Serializable {
@@ -42,19 +45,35 @@ public class ScenarioCalculatedData implements Serializable {
 	private int numberOfPages;
 	private int numberOfSteps;
 	
+	/**
+	 * Only for internal use, do not set this by yourself, when you generate documentation, will be caclualted when docu
+	 * is imported by webapplication anyway.
+	 */
 	public int getNumberOfPages() {
 		return numberOfPages;
 	}
 	
-	public void setNumberOfPages(int numberOfPages) {
+	/**
+	 * Only for internal use, do not set this by yourself, when you generate documentation, will be caclualted when docu
+	 * is imported by webapplication anyway.
+	 */
+	public void setNumberOfPages(final int numberOfPages) {
 		this.numberOfPages = numberOfPages;
 	}
 	
+	/**
+	 * Only for internal use, do not set this by yourself, when you generate documentation, will be caclualted when docu
+	 * is imported by webapplication anyway.
+	 */
 	public int getNumberOfSteps() {
 		return numberOfSteps;
 	}
 	
-	public void setNumberOfSteps(int numberOfSteps) {
+	/**
+	 * Only for internal use, do not set this by yourself, when you generate documentation, will be caclualted when docu
+	 * is imported by webapplication anyway.
+	 */
+	public void setNumberOfSteps(final int numberOfSteps) {
 		this.numberOfSteps = numberOfSteps;
 	}
 	
