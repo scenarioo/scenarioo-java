@@ -28,6 +28,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Only for internal use, wherever ths class is used on the model, this is for internal use only, will be removed in
+ * next major version of the API.
+ */
+@Deprecated
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepIdentification implements Serializable {
@@ -59,7 +64,7 @@ public class StepIdentification implements Serializable {
 		return useCaseName;
 	}
 	
-	public void setUseCaseName(String useCaseName) {
+	public void setUseCaseName(final String useCaseName) {
 		this.useCaseName = useCaseName;
 	}
 	
@@ -67,7 +72,7 @@ public class StepIdentification implements Serializable {
 		return scenarioName;
 	}
 	
-	public void setScenarioName(String scenarioName) {
+	public void setScenarioName(final String scenarioName) {
 		this.scenarioName = scenarioName;
 	}
 	
@@ -75,7 +80,7 @@ public class StepIdentification implements Serializable {
 		return pageName;
 	}
 	
-	public void setPageName(String pageName) {
+	public void setPageName(final String pageName) {
 		this.pageName = pageName;
 	}
 	
@@ -83,7 +88,7 @@ public class StepIdentification implements Serializable {
 		return index;
 	}
 	
-	public void setIndex(int index) {
+	public void setIndex(final int index) {
 		this.index = index;
 	}
 	
@@ -91,7 +96,7 @@ public class StepIdentification implements Serializable {
 		return occurence;
 	}
 	
-	public void setOccurence(int occurence) {
+	public void setOccurence(final int occurence) {
 		this.occurence = occurence;
 	}
 	
@@ -99,7 +104,7 @@ public class StepIdentification implements Serializable {
 		return relativeIndex;
 	}
 	
-	public void setRelativeIndex(int relativeIndex) {
+	public void setRelativeIndex(final int relativeIndex) {
 		this.relativeIndex = relativeIndex;
 	}
 	
