@@ -50,7 +50,7 @@ public class StepDescription implements Serializable {
 	private final Details details = new Details();
 	
 	/**
-	 * TODO #72: remove deprecated data fields<br/>
+	 * TODO #73: remove deprecated data fields<br/>
 	 * all the following fields can be removed from the API, because we do not need them internaly anymore, and these
 	 * fields have no effect anymore. The same data is calculated now by the webapplication internaly and saved in a
 	 * separated data structure.
