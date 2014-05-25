@@ -41,13 +41,13 @@ public class StepDescription implements Serializable {
 	private String title = "";
 	private String status = "";
 	
-	private final Details details = new Details();
-	
 	/**
 	 * TODO #195: Remove screenshot file name from API:<br/>
 	 * Instead the image filename should always be calculated from step index.
 	 */
 	private String screenshotFileName;
+	
+	private final Details details = new Details();
 	
 	/**
 	 * TODO #72: remove deprecated data fields<br/>
