@@ -42,6 +42,7 @@ import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
 
 /**
@@ -160,11 +161,24 @@ public class ScenarioDocuWriter {
 			public void run() {
 				File destStepsDir = getScenarioStepsDirectory(useCaseName, scenarioName);
 				createDirectoryIfNotYetExists(destStepsDir);
+				calculateDeprecatedScreenshotFileNameIfNotSetWorkaround(useCaseName, scenarioName, step);
 				File destStepFile = docuFiles.getStepFile(branchName, buildName, useCaseName, scenarioName, step
 						.getStepDescription().getIndex());
 				ScenarioDocuXMLFileUtil.marshal(step, destStepFile);
 			}
 		});
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void calculateDeprecatedScreenshotFileNameIfNotSetWorkaround(final String useCaseName,
+			final String scenarioName, final Step step) {
+		// Calculate the screenshot file name (will later be removed from data format anyway):
+		StepDescription stepDescription = step.getStepDescription();
+		if (stepDescription != null && stepDescription.getScreenshotFileName() == null) {
+			File imageFile = docuFiles.getScreenshotFile(branchName, buildName, useCaseName, scenarioName,
+					stepDescription.getIndex());
+			stepDescription.setScreenshotFileName(imageFile.getName());
+		}
 	}
 	
 	/**

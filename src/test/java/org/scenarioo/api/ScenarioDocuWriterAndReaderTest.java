@@ -296,8 +296,6 @@ public class ScenarioDocuWriterAndReaderTest {
 		// Description
 		StepDescription stepDescription = new StepDescription();
 		stepDescription.setIndex(index);
-		stepDescription.setScreenshotFileName(docuFiles.getScreenshotFile(TEST_BRANCH_NAME, TEST_BUILD_NAME,
-				TEST_CASE_NAME, TEST_SCENARIO_NAME, index).getName());
 		stepDescription
 				.setTitle("this is a step with a lot of data in it such that writing should take realy long for testing async writing");
 		step.setStepDescription(stepDescription);

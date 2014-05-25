@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 @XmlRootElement
@@ -40,26 +41,27 @@ public class StepDescription implements Serializable {
 	private String title = "";
 	private String status = "";
 	
-	/**
-	 * Only the filename of the image, the directory is defined through the scenario, usecase etc.
-	 * 
-	 * TODO(#72): may be we should remove this from the model and replace by a convention ({stepIndex}.png: 001.png,
-	 * 002.png etc.)
-	 */
-	private String screenshotFileName;
-	
 	private final Details details = new Details();
 	
 	/**
-	 * TODO(#72) the following data should be removed from here, this does not belong into the API for generating data.
-	 * Thsi data is calculated by the webapp anyway.
+	 * TODO #195: Remove screenshot file name from API:<br/>
+	 * Instead the image filename should always be calculated from step index.
 	 */
+	private String screenshotFileName;
 	
-	// TODO(#72): name should be something like pageIndex ??
+	/**
+	 * TODO #72: remove deprecated data fields<br/>
+	 * all the following fields can be removed from the API, because we do not need them internaly anymore, and these
+	 * fields have no effect anymore. The same data is calculated now by the webapplication internaly and saved in a
+	 * separated data structure.
+	 * 
+	 * Why are these fields still here then? Why haven't they been removed yet?<br/>
+	 * Removing this fields means a change in the data format and we need to ensure, that no project already using
+	 * scenarioo has a problem afterwards with reading its step data into scenarioo, therefore we should provide a
+	 * migration script, that removes these fields from existing files on importing builds.
+	 */
 	@Deprecated
 	private int occurence = 0;
-	
-	// TODO(#72): name should be something like pageStepIndex ??
 	@Deprecated
 	private int relativeIndex = 0;
 	@Deprecated
@@ -93,10 +95,18 @@ public class StepDescription implements Serializable {
 		this.status = status;
 	}
 	
+	@Deprecated
 	public String getScreenshotFileName() {
 		return screenshotFileName;
 	}
 	
+	/**
+	 * Do not use this method anymore, the image file name will be calculated for you. Use
+	 * {@link ScenarioDocuWriter#getScreenshotFile(String, String, int)} to get the file where you should store your
+	 * image for this step, or better use {@link ScenarioDocuWriter#saveScreenshot} directly to save your image for this
+	 * step.
+	 */
+	@Deprecated
 	public void setScreenshotFileName(final String screenshotFileName) {
 		this.screenshotFileName = screenshotFileName;
 	}
