@@ -34,6 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * overwritten by the webapplication anyway).
  * 
  * Will be removed from next major version of the scenarioo-java API, to make the API more easier.
+ * 
+ * TODO #196: Remove calculated data from scenario in API<br/>
+ * This class should be removed from API and data calculated and stored on sceanrioo application server elsewhere.
  */
 @Deprecated
 @XmlRootElement
@@ -46,7 +49,7 @@ public class ScenarioCalculatedData implements Serializable {
 	private int numberOfSteps;
 	
 	/**
-	 * Only for internal use, do not set this by yourself, when you generate documentation, will be caclualted when docu
+	 * Only for internal use, do not set this by yourself, when you generate documentation, will be calculated when docu
 	 * is imported by webapplication anyway.
 	 */
 	public int getNumberOfPages() {
@@ -54,7 +57,7 @@ public class ScenarioCalculatedData implements Serializable {
 	}
 	
 	/**
-	 * Only for internal use, do not set this by yourself, when you generate documentation, will be caclualted when docu
+	 * Only for internal use, do not set this by yourself, when you generate documentation, will be calculated when docu
 	 * is imported by webapplication anyway.
 	 */
 	public void setNumberOfPages(final int numberOfPages) {
@@ -62,7 +65,7 @@ public class ScenarioCalculatedData implements Serializable {
 	}
 	
 	/**
-	 * Only for internal use, do not set this by yourself, when you generate documentation, will be caclualted when docu
+	 * Only for internal use, do not set this by yourself, when you generate documentation, will be calculated when docu
 	 * is imported by webapplication anyway.
 	 */
 	public int getNumberOfSteps() {
@@ -70,7 +73,7 @@ public class ScenarioCalculatedData implements Serializable {
 	}
 	
 	/**
-	 * Only for internal use, do not set this by yourself, when you generate documentation, will be caclualted when docu
+	 * Only for internal use, do not set this by yourself, when you generate documentation, will be calculated when docu
 	 * is imported by webapplication anyway.
 	 */
 	public void setNumberOfSteps(final int numberOfSteps) {
