@@ -20,11 +20,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.api.util.files;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +36,17 @@ public class FilesUtil {
 	
 	private FilesUtil() {
 	}
-
+	
+	public static String decodeName(final String name) {
+		try {
+			return URLDecoder.decode(name, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalStateException(
+					"Unsupported UTF-8 charset. Scenarioo needs to run on a JVM or server environment that supports 'UTF-8'.",
+					e);
+		}
+	}
+	
 	public static String encodeName(final String name) {
 		try {
 			return URLEncoder.encode(name, "UTF-8");
@@ -46,7 +56,7 @@ public class FilesUtil {
 					e);
 		}
 	}
-
+	
 	/**
 	 * List all files in the given directory sorted alphanumerically using a collator.
 	 */
@@ -55,7 +65,7 @@ public class FilesUtil {
 		Arrays.sort(files, new AlphanumericFileComparator());
 		return files;
 	}
-
+	
 	/**
 	 * Read all files from 'directory'.
 	 */
@@ -71,7 +81,7 @@ public class FilesUtil {
 		}
 		return result;
 	}
-
+	
 	/**
 	 * Read all files with given name from all subdirectories of 'directory'.
 	 */

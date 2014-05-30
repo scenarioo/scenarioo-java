@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.api;
 
 import java.io.File;
@@ -29,6 +28,7 @@ import java.util.List;
 
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.api.files.ScenarioDocuFiles;
+import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
@@ -42,7 +42,7 @@ import org.scenarioo.model.docu.entities.UseCase;
  */
 public class ScenarioDocuReader {
 	
-	private ScenarioDocuFiles docuFiles;
+	private final ScenarioDocuFiles docuFiles;
 	
 	public ScenarioDocuReader(final File rootDirectory) {
 		this.docuFiles = new ScenarioDocuFiles(rootDirectory);
@@ -68,7 +68,7 @@ public class ScenarioDocuReader {
 		List<BuildLink> result = new ArrayList<BuildLink>();
 		for (ObjectFromDirectory<Build> build : ScenarioDocuXMLFileUtil.unmarshalListOfFilesWithDirNames(buildFiles,
 				Build.class)) {
-			BuildLink link = new BuildLink(build.getObject(), build.getDirectoryName());
+			BuildLink link = new BuildLink(build.getObject(), FilesUtil.decodeName(build.getDirectoryName()));
 			result.add(link);
 		}
 		return result;
