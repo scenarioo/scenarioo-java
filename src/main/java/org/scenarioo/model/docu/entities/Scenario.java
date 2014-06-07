@@ -30,6 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.docu.entities.generic.Details;
 
+/**
+ * Informations to store and display for one test scenario (one webtest).
+ * 
+ * It is important that each scenario gets a unique 'name' inside its belonging usecase.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Scenario implements Serializable {
@@ -58,6 +63,12 @@ public class Scenario implements Serializable {
 		return name;
 	}
 	
+	/**
+	 * A unique name for this scenario inside the {@link UseCase} it belongs to.
+	 * 
+	 * Make sure to use descriptive names that stay stable as much as possible, such that you can compare scenarios
+	 * between different builds.
+	 */
 	public void setName(final String name) {
 		this.name = name;
 	}
@@ -66,6 +77,9 @@ public class Scenario implements Serializable {
 		return description;
 	}
 	
+	/**
+	 * (optional but recommended) More detailed description for current scenario (additionally to descriptive name).
+	 */
 	public void setDescription(final String description) {
 		this.description = description;
 	}
@@ -74,6 +88,12 @@ public class Scenario implements Serializable {
 		return status;
 	}
 	
+	/**
+	 * Status of the scenario (did this test fail or succeed?). <br/>
+	 * Usual values are "success" or "failed".<br/>
+	 * But you can use application specific additional values, like "not implemented", "unknown" etc. where it makes
+	 * sense. Those additional values will be displayed in warning-style by the scenarioo webapplication.
+	 */
 	public void setStatus(final String status) {
 		this.status = status;
 	}
@@ -82,10 +102,20 @@ public class Scenario implements Serializable {
 		return details;
 	}
 	
+	/**
+	 * Additional application specific details with additional metadata informations.
+	 * 
+	 * See {@link Details}
+	 */
 	public void setDetails(final Details details) {
 		this.details = details;
 	}
 	
+	/**
+	 * Add application specific details as key-value-data-items.
+	 * 
+	 * See {@link Details} for what can be used as values.
+	 */
 	public void addDetail(final String key, final Object value) {
 		details.addDetail(key, value);
 	}
