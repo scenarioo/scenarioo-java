@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Description of a generic (application specific) object to store in the documentation.
+ * Description of an application specific object to store in the documentation.
  * 
  * May contain other childs or references to other objects in the store as child objects inside details.
  */
@@ -55,7 +55,7 @@ public class ObjectDescription implements Serializable {
 		return name;
 	}
 	
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 	
@@ -63,7 +63,7 @@ public class ObjectDescription implements Serializable {
 		return type;
 	}
 	
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
 	}
 	
@@ -71,7 +71,7 @@ public class ObjectDescription implements Serializable {
 		return details;
 	}
 	
-	public void setDetails(Details details) {
+	public void setDetails(final Details details) {
 		this.details = details;
 	}
 	
@@ -90,7 +90,7 @@ public class ObjectDescription implements Serializable {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

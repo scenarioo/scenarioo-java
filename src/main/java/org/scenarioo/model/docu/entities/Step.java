@@ -29,9 +29,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Contains all the data collected from a webtest for one step of the webtest.
- * 
- * The data is processed by the Scenarioo webapplication to transform into webapps internal structure.
+ * Contains all the data collected from a webtest for one step of one scenario/webtest (except for the step image, which
+ * has to be stored separately).
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -48,7 +47,12 @@ public class Step implements Serializable {
 		return page;
 	}
 	
-	public void setPage(Page page) {
+	/**
+	 * Information about the page this step belongs to (usually there are several steps that show the same UI page).
+	 * 
+	 * This information is optional in case you do not have a page concept in your application.
+	 */
+	public void setPage(final Page page) {
 		this.page = page;
 	}
 	
@@ -56,7 +60,11 @@ public class Step implements Serializable {
 		return stepDescription;
 	}
 	
-	public void setStepDescription(StepDescription stepDescription) {
+	/**
+	 * Most important description information about this step. Only put the most important values and informations about
+	 * a step into this object.
+	 */
+	public void setStepDescription(final StepDescription stepDescription) {
 		this.stepDescription = stepDescription;
 	}
 	
@@ -64,7 +72,10 @@ public class Step implements Serializable {
 		return html;
 	}
 	
-	public void setHtml(StepHtml html) {
+	/**
+	 * Optional information for webapplications about the html output of current step.
+	 */
+	public void setHtml(final StepHtml html) {
 		this.html = html;
 	}
 	
@@ -72,7 +83,11 @@ public class Step implements Serializable {
 		return metadata;
 	}
 	
-	public void setMetadata(StepMetadata metadata) {
+	/**
+	 * (optional) Additional metadata that will only be displayed on the step details page. Especially put huge
+	 * additional detail data about a step into this object.
+	 */
+	public void setMetadata(final StepMetadata metadata) {
 		this.metadata = metadata;
 	}
 	

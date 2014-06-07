@@ -32,6 +32,23 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Collection of application specific additional information to store and display in the scenarioo documentation.
+ * 
+ * A client of the scenarioo-API can add any key-value-data to this detail informations.
+ * 
+ * Following type of objects are possible values inside the details:
+ * <ul>
+ * <li>{@link String}: for usual text information</li>
+ * <li>{@link ObjectDescription}: for describing an object (described through a type and a name and additional
+ * key-value-details again).</li>
+ * <li>{@link ObjectReference}: for referencing an {@link ObjectDescription} that was already stored elsewhere, only
+ * through its type and name without storing all the details information again.</li>
+ * <li>{@link ObjectList}: for a list of such value items (same types allowed as content types again).</li>
+ * <li>{@link ObjectTreeNode}: for complex tree structures (containing same content types as possible node objects
+ * again).</li>
+ * </ul>
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Details implements Map<String, Object>, Serializable {

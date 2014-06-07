@@ -30,6 +30,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.docu.entities.generic.Details;
 
+/**
+ * Metadata for a step. This is a container for all additional detail data about a step that is only displayed on
+ * details page for a step.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepMetadata implements Serializable {
@@ -44,7 +48,14 @@ public class StepMetadata implements Serializable {
 		return visibleText;
 	}
 	
-	public void setVisibleText(String visibleText) {
+	/**
+	 * (optional) You can set all visible text of a step here to provide possibility to search inside visible step text.
+	 * But currently the scenarioo webapplication does not yet support full text search anyway and also not to display
+	 * this visible text anywhere in the webapplication.
+	 * 
+	 * @param visibleText
+	 */
+	public void setVisibleText(final String visibleText) {
 		this.visibleText = visibleText;
 	}
 	
@@ -52,10 +63,20 @@ public class StepMetadata implements Serializable {
 		return details;
 	}
 	
-	public void setDetails(Details details) {
+	/**
+	 * Additional application specific details with additional metadata informations.
+	 * 
+	 * See {@link Details}
+	 */
+	public void setDetails(final Details details) {
 		this.details = details;
 	}
 	
+	/**
+	 * Add application specific details as key-value-data-items.
+	 * 
+	 * See {@link Details} for what can be used as values.
+	 */
 	public void addDetail(final String key, final Object value) {
 		details.put(key, value);
 	}
