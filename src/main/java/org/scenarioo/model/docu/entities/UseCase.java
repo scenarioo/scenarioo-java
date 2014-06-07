@@ -30,6 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.docu.entities.generic.Details;
 
+/**
+ * Description and other informations to store and display for one use case (usualy tested in same use case test class).
+ * 
+ * It is important that each usecase gets a unique 'name'.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UseCase implements Serializable {
@@ -55,6 +60,12 @@ public class UseCase implements Serializable {
 		return name;
 	}
 	
+	/**
+	 * A unique name for this usecase.
+	 * 
+	 * Make sure to use descriptive names that stay stable as much as possible between multiple builds, such that you
+	 * can compare usecases and its scenarios between different builds.
+	 */
 	public void setName(final String name) {
 		this.name = name;
 	}
@@ -63,6 +74,9 @@ public class UseCase implements Serializable {
 		return description;
 	}
 	
+	/**
+	 * (optional but recommended) More detailed description for current scenario (additionally to descriptive name).
+	 */
 	public void setDescription(final String description) {
 		this.description = description;
 	}
@@ -71,6 +85,15 @@ public class UseCase implements Serializable {
 		return status;
 	}
 	
+	/**
+	 * (optional) Status of the whole use case: did all tests for this use case succeed or not?<br/>
+	 * Usual values are "success" or "failed".<br/>
+	 * But you can use application specific additional values, like "not implemented", "unknown" etc. where it makes
+	 * sense. Those additional values will be displayed in warning-style by the scenarioo webapplication.
+	 * 
+	 * You do not have to set this value, if not set the value will be calculated from all contained scenarios, if no
+	 * scenario is marked as "failed" the use case will be marked as "success" otherwise as "failed".
+	 */
 	public void setStatus(final String status) {
 		this.status = status;
 	}
@@ -79,10 +102,20 @@ public class UseCase implements Serializable {
 		return details;
 	}
 	
-	public void setDetails(Details details) {
+	/**
+	 * Additional application specific details with additional metadata informations.
+	 * 
+	 * See {@link Details}
+	 */
+	public void setDetails(final Details details) {
 		this.details = details;
 	}
 	
+	/**
+	 * Add application specific details as key-value-data-items.
+	 * 
+	 * See {@link Details} for what can be used as values.
+	 */
 	public void addDetail(final String key, final Object value) {
 		details.addDetail(key, value);
 	}
