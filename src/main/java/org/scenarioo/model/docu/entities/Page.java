@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.docu.entities.generic.Details;
 
+/**
+ * Representation of a unique page of the application under test.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Page implements Serializable {
@@ -51,7 +54,13 @@ public class Page implements Serializable {
 		return name;
 	}
 	
-	public void setName(String name) {
+	/**
+	 * Unique name of the page. For a webpage you usualy use the relative application intenal url-path to that page or
+	 * the relative-file-path of the template file rendering this page. Try to use names that are as short as possible
+	 * and do not include any url parameters. Names should be as stable as possible, do not use names that might change
+	 * on each new build.
+	 */
+	public void setName(final String name) {
 		this.name = name;
 	}
 	
@@ -59,38 +68,52 @@ public class Page implements Serializable {
 		return details;
 	}
 	
-	public void setDetails(Details details) {
+	/**
+	 * Additional application specific details with additional metadata informations.
+	 * 
+	 * See {@link Details}
+	 */
+	public void setDetails(final Details details) {
 		this.details = details;
 	}
 	
+	/**
+	 * Add application specific details as key-value-data-items.
+	 * 
+	 * See {@link Details} for what can be used as values.
+	 */
+	public void addDetail(final String key, final Object value) {
+		details.addDetail(key, value);
+	}
+	
 	@Override
-    	public int hashCode() {
-    		final int prime = 31;
-    		int result = 1;
-    		result = prime * result + ((name == null) ? 0 : name.hashCode());
-    		return result;
-    	}
-
-    	@Override
-    	public boolean equals(Object obj) {
-    		if (this == obj) {
-    			return true;
-    		}
-    		if (obj == null) {
-    			return false;
-    		}
-    		if (getClass() != obj.getClass()) {
-    			return false;
-    		}
-    		Page other = (Page) obj;
-    		if (name == null) {
-    			if (other.name != null) {
-    				return false;
-    			}
-    		} else if (!name.equals(other.name)) {
-    			return false;
-    		}
-    		return true;
-    	}
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Page other = (Page) obj;
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		return true;
+	}
 	
 }

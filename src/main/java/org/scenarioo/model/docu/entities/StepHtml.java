@@ -24,6 +24,9 @@ package org.scenarioo.model.docu.entities;
 
 import java.io.Serializable;
 
+/**
+ * HTML source code of a step for webapplications.
+ */
 public class StepHtml implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -41,7 +44,7 @@ public class StepHtml implements Serializable {
 		return htmlSource;
 	}
 	
-	public void setHtmlSource(String htmlSource) {
+	public void setHtmlSource(final String htmlSource) {
 		this.htmlSource = htmlSource;
 	}
 	
