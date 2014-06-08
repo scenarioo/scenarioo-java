@@ -61,6 +61,12 @@ public class Details implements Map<String, Object>, Serializable {
 		return properties;
 	}
 	
+	/**
+	 * Add a key value pair as a information item to this details. The details will be presented in same order as added
+	 * to the details object in the documentation.
+	 * 
+	 * See class description of {@link Details} about possible types to use as values.
+	 */
 	public void addDetail(final String key, final Object value) {
 		if (value != null) {
 			properties.put(key, value);
