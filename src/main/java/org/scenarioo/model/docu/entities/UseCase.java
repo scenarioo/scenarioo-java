@@ -86,6 +86,15 @@ public class UseCase implements Serializable {
 	}
 	
 	/**
+	 * Set status of current step.
+	 * 
+	 * See also {@link #setStatus(String)} for setting additional application-specific states.
+	 */
+	public void setStatus(final Status status) {
+		setStatus(status.getKeyword());
+	}
+	
+	/**
 	 * (optional) Status of the whole use case: did all tests for this use case succeed or not?<br/>
 	 * Usual values are "success" or "failed".<br/>
 	 * But you can use application specific additional values, like "not implemented", "unknown" etc. where it makes

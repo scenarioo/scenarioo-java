@@ -89,6 +89,15 @@ public class Scenario implements Serializable {
 	}
 	
 	/**
+	 * Set status of current step.
+	 * 
+	 * See also {@link #setStatus(String)} for setting additional application-specific states.
+	 */
+	public void setStatus(final Status status) {
+		setStatus(status.getKeyword());
+	}
+	
+	/**
 	 * Status of the scenario (did this test fail or succeed?). <br/>
 	 * Usual values are "success" or "failed".<br/>
 	 * But you can use application specific additional values, like "not implemented", "unknown" etc. where it makes

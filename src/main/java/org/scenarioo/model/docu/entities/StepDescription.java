@@ -71,8 +71,17 @@ public class StepDescription implements Serializable {
 	}
 	
 	/**
+	 * Set status of current step.
+	 * 
+	 * See also {@link #setStatus(String)} for setting additional application-specific states.
+	 */
+	public void setStatus(final Status status) {
+		setStatus(status.getKeyword());
+	}
+	
+	/**
 	 * A status of current step. Usually it is "success", "failed" or "unknown". Use "failed" in case an assertion
-	 * failed on current step, otherwise use "success" or "unknown". you can use different application-specific strings
+	 * failed on current step, otherwise use "success" or "unknown". You can use different application-specific strings
 	 * for marking any other special states of a step.
 	 */
 	public void setStatus(final String status) {

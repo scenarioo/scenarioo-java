@@ -31,6 +31,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.docu.entities.generic.Details;
 
+/**
+ * Simple description for a documentation build. Simply contains most important properties of a build, like when it was
+ * generated and whether all tests succeeded and what revision of the software was built and documented.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Build implements Serializable {
@@ -54,7 +58,7 @@ public class Build implements Serializable {
 		return name;
 	}
 	
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 	
@@ -62,7 +66,7 @@ public class Build implements Serializable {
 		return revision;
 	}
 	
-	public void setRevision(String revision) {
+	public void setRevision(final String revision) {
 		this.revision = revision;
 	}
 	
@@ -70,7 +74,7 @@ public class Build implements Serializable {
 		return date;
 	}
 	
-	public void setDate(Date date) {
+	public void setDate(final Date date) {
 		this.date = date;
 	}
 	
@@ -78,7 +82,22 @@ public class Build implements Serializable {
 		return status;
 	}
 	
-	public void setStatus(String status) {
+	/**
+	 * Set status of current step.
+	 * 
+	 * See also {@link #setStatus(String)} for setting additional application-specific states.
+	 */
+	public void setStatus(final Status status) {
+		setStatus(status.getKeyword());
+	}
+	
+	/**
+	 * (optional) Status of the whole build: did all tests for this build succeed or not?<br/>
+	 * Usual values are "success" or "failed".<br/>
+	 * But you can use application specific additional value where it makes sense. Those additional values will be
+	 * displayed in warning-style by the scenarioo webapplication.
+	 */
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 	
@@ -86,8 +105,22 @@ public class Build implements Serializable {
 		return details;
 	}
 	
-	public void setDetails(Details details) {
+	/**
+	 * Additional application specific details with additional metadata informations.
+	 * 
+	 * See {@link Details}
+	 */
+	public void setDetails(final Details details) {
 		this.details = details;
+	}
+	
+	/**
+	 * Add application specific details as key-value-data-items.
+	 * 
+	 * See {@link Details} for what can be used as values.
+	 */
+	public void addDetail(final String key, final Object value) {
+		details.addDetail(key, value);
 	}
 	
 }
