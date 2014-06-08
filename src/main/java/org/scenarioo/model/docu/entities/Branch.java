@@ -30,6 +30,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.docu.entities.generic.Details;
 
+/**
+ * Description of the branch of your application that you are documenting. Can be used to have different documentations
+ * for different versions or product lines of your software and to document them separately (e.g. different release
+ * branches for different releases).
+ * 
+ * In case you want to document different applications or modules in the same scenarioo webapplication, you could also
+ * use the branch as a structuring element to document different applications or modules.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Branch implements Serializable {
@@ -57,7 +65,10 @@ public class Branch implements Serializable {
 		return name;
 	}
 	
-	public void setName(String name) {
+	/**
+	 * Unique name of the banch. This name is also displayed in the UI to select a branch.
+	 */
+	public void setName(final String name) {
 		this.name = name;
 	}
 	
@@ -65,7 +76,10 @@ public class Branch implements Serializable {
 		return description;
 	}
 	
-	public void setDescription(String description) {
+	/**
+	 * More detailed description of a branch.
+	 */
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 	
@@ -73,8 +87,22 @@ public class Branch implements Serializable {
 		return details;
 	}
 	
-	public void setDetails(Details details) {
+	/**
+	 * Additional application specific details with additional metadata informations.
+	 * 
+	 * See {@link Details}
+	 */
+	public void setDetails(final Details details) {
 		this.details = details;
+	}
+	
+	/**
+	 * Add application specific details as key-value-data-items.
+	 * 
+	 * See {@link Details} for what can be used as values.
+	 */
+	public void addDetail(final String key, final Object value) {
+		details.addDetail(key, value);
 	}
 	
 }

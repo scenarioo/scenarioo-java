@@ -58,6 +58,15 @@ public class Build implements Serializable {
 		return name;
 	}
 	
+	/**
+	 * A unique name for this build.
+	 * 
+	 * Name of a build defines its key under which aou can access it and especially defines the directory in the
+	 * filepath where this build is stored. Apart from that the name for a build is not important.
+	 * 
+	 * Name is not displayed in the web application user interface, there the revision and date as the unique label of a
+	 * build is displayed.
+	 */
 	public void setName(final String name) {
 		this.name = name;
 	}
@@ -66,6 +75,10 @@ public class Build implements Serializable {
 		return revision;
 	}
 	
+	/**
+	 * This is a unique identifier (usually a number) to identify which version in your version control system was
+	 * built.
+	 */
 	public void setRevision(final String revision) {
 		this.revision = revision;
 	}
@@ -74,6 +87,9 @@ public class Build implements Serializable {
 		return date;
 	}
 	
+	/**
+	 * The date and time when this documentation build was built.
+	 */
 	public void setDate(final Date date) {
 		this.date = date;
 	}
@@ -83,7 +99,7 @@ public class Build implements Serializable {
 	}
 	
 	/**
-	 * Set status of current step.
+	 * Set status of current build.
 	 * 
 	 * See also {@link #setStatus(String)} for setting additional application-specific states.
 	 */
