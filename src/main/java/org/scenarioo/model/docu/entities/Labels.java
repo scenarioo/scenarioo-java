@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Labels {
 	@XmlElement(name = "label")
-	private Set<String> labels;
+	private Set<String> labels = new LinkedHashSet<String>();
 	
 	public Labels add(String label) {
 		if(isValidLabel(label)) {
@@ -40,8 +40,8 @@ public class Labels {
 	/**
 	 * Validates a label for validity. A label must only contain letters, numbers and/or '_', '-'
 	 */
-	public boolean isValidLabel(String label) {
-		return label.matches("^[a-zA-Z0-9_-]+$");
+	public static boolean isValidLabel(String label) {
+		return label.matches("^[ a-zA-Z0-9_-]+$");
 	}
 
 	/**
