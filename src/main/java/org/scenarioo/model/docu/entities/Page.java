@@ -41,6 +41,7 @@ public class Page implements Serializable {
 	
 	private String name;
 	private Details details = new Details();
+	private Labels labels;
 	
 	public Page() {
 		this.name = "";
@@ -114,6 +115,24 @@ public class Page implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * 
+	 * @return all labels of this object. Never null.
+	 */
+	public Labels getLabels() {
+		if(labels == null) {
+			labels = new Labels();
+		}
+		return labels;
+	}
+	
+	/**
+	 * (optional) Allows to assign multiple labels to a scenarioo object.
+	 */
+	public void setLabels(Labels labels) {
+		this.labels = labels;
 	}
 	
 }

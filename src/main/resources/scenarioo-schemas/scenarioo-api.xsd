@@ -7,6 +7,8 @@
 
   <xs:element name="details" type="details" xmlns=""/>
 
+  <xs:element name="labels" type="labels" xmlns=""/>
+
   <xs:element name="objectDescription" type="objectDescription" xmlns=""/>
 
   <xs:element name="objectList" type="objectList" xmlns=""/>
@@ -24,8 +26,6 @@
   <xs:element name="step" type="step" xmlns=""/>
 
   <xs:element name="stepDescription" type="stepDescription" xmlns=""/>
-
-  <xs:element name="stepIdentification" type="stepIdentification" xmlns=""/>
 
   <xs:element name="stepMetadata" type="stepMetadata" xmlns=""/>
 
@@ -75,6 +75,12 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="labels">
+    <xs:sequence>
+      <xs:element name="label" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="page">
     <xs:sequence>
       <xs:element name="name" type="xs:string" minOccurs="0"/>
@@ -92,6 +98,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element ref="labels" minOccurs="0" xmlns=""/>
     </xs:sequence>
   </xs:complexType>
 
@@ -114,6 +121,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element ref="labels" minOccurs="0" xmlns=""/>
       <xs:element name="calculatedData" type="scenarioCalculatedData" minOccurs="0" xmlns=""/>
     </xs:sequence>
   </xs:complexType>
@@ -131,6 +139,7 @@
       <xs:element ref="stepDescription" minOccurs="0" xmlns=""/>
       <xs:element name="html" type="stepHtml" minOccurs="0" xmlns=""/>
       <xs:element name="metadata" type="stepMetadata" minOccurs="0" xmlns=""/>
+      <xs:element ref="labels" minOccurs="0" xmlns=""/>
     </xs:sequence>
   </xs:complexType>
 
@@ -154,22 +163,6 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="occurence" type="xs:int"/>
-      <xs:element name="relativeIndex" type="xs:int"/>
-      <xs:element name="variantIndex" type="xs:int"/>
-      <xs:element name="previousStepVariant" type="stepIdentification" minOccurs="0" xmlns=""/>
-      <xs:element name="nextStepVariant" type="stepIdentification" minOccurs="0" xmlns=""/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="stepIdentification">
-    <xs:sequence>
-      <xs:element name="useCaseName" type="xs:string" minOccurs="0"/>
-      <xs:element name="scenarioName" type="xs:string" minOccurs="0"/>
-      <xs:element name="pageName" type="xs:string" minOccurs="0"/>
-      <xs:element name="index" type="xs:int"/>
-      <xs:element name="occurence" type="xs:int"/>
-      <xs:element name="relativeIndex" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -218,6 +211,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element ref="labels" minOccurs="0" xmlns=""/>
     </xs:sequence>
   </xs:complexType>
 
@@ -294,5 +288,12 @@
       <xs:element name="children" type="objectTreeNode" nillable="true" minOccurs="0" maxOccurs="unbounded" xmlns=""/>
     </xs:sequence>
   </xs:complexType>
+
+  <xs:simpleType name="status">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SUCCESS"/>
+      <xs:enumeration value="FAILED"/>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
 

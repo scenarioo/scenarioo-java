@@ -45,6 +45,7 @@ public class Scenario implements Serializable {
 	private String description;
 	private String status = "";
 	private Details details = new Details();
+	private Labels labels;
 	
 	@Deprecated
 	private ScenarioCalculatedData calculatedData;
@@ -143,6 +144,24 @@ public class Scenario implements Serializable {
 	@Deprecated
 	public void setCalculatedData(final ScenarioCalculatedData calculatedData) {
 		this.calculatedData = calculatedData;
+	}
+
+	/**
+	 * 
+	 * @return all labels of this object. Never null.
+	 */
+	public Labels getLabels() {
+		if(labels == null) {
+			labels = new Labels();
+		}
+		return labels;
+	}
+	
+	/**
+	 * (optional) Allows to assign multiple labels to a scenarioo object.
+	 */
+	public void setLabels(Labels labels) {
+		this.labels = labels;
 	}
 	
 }

@@ -45,6 +45,7 @@ public class UseCase implements Serializable {
 	private String description;
 	private String status;
 	private Details details = new Details();
+	private Labels labels;
 	
 	public UseCase() {
 	}
@@ -127,6 +128,24 @@ public class UseCase implements Serializable {
 	 */
 	public void addDetail(final String key, final Object value) {
 		details.addDetail(key, value);
+	}
+	
+	/**
+	 * 
+	 * @return all labels of this object. Never null.
+	 */
+	public Labels getLabels() {
+		if(labels == null) {
+			labels = new Labels();
+		}
+		return labels;
+	}
+	
+	/**
+	 * (optional) Allows to assign multiple labels to a scenarioo object.
+	 */
+	public void setLabels(Labels labels) {
+		this.labels = labels;
 	}
 	
 }
