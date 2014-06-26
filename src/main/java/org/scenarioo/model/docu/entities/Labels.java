@@ -53,4 +53,22 @@ public class Labels {
 		}
 		return labels;
 	}
+	
+	/**
+	 * Convenience method for JSON mapping. Use {@link #toSet()} instead.
+	 */
+	@Deprecated
+	public Set<String> getLabels() {
+		// TODO We should introduce DTO objects in the server
+		return toSet();
+	}
+	
+	/**
+	 * Convenience method for JSON mapping. Use {@link #set(Set)}
+	 */
+	@Deprecated
+	public void setLabels(Set<String> labels) {
+		// TODO We should introduce DTO objects in the server
+		set(labels);
+	}
 }
