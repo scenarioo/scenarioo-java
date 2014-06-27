@@ -10,7 +10,7 @@ package org.scenarioo.model.docu.entities;
 public enum Status {
 	
 	/**
-	 * Status for successfully succeeded and tested without an errors.
+	 * Status for successfully succeeded and tested without errors.
 	 */
 	SUCCESS("success"),
 	
