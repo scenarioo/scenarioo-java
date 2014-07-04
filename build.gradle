@@ -45,6 +45,10 @@ dependencies {
     testCompile 'junit:junit:4.11'
 }
 
+/*
+ * Required for build to run with Java 8
+ */
+test.scanForTestClasses = false
 
 task sourceJar(type: Jar) { from sourceSets.main.allJava }
 
