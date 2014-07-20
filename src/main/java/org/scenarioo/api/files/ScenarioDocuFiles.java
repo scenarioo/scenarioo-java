@@ -47,7 +47,7 @@ public class ScenarioDocuFiles {
 	
 	private static NumberFormat THREE_DIGIT_NUM_FORMAT = createNumberFormatWithMinimumIntegerDigits(3);
 	
-	private File rootDirectory;
+	private final File rootDirectory;
 	
 	public ScenarioDocuFiles(final File rootDirectory) {
 		this.rootDirectory = rootDirectory;
@@ -144,6 +144,10 @@ public class ScenarioDocuFiles {
 				DIRECTORY_NAME_SCENARIO_SCREENSHOTS);
 	}
 	
+	/**
+	 * @return A {@link File} object pointing to the PNG file of the step screenshot. The method does not care whether
+	 *         the file actually exists.
+	 */
 	public File getScreenshotFile(final String branchName, final String buildName,
 			final String useCaseName, final String scenarioName, final int stepIndex) {
 		return new File(getScreenshotsDirectory(branchName, buildName, useCaseName, scenarioName),

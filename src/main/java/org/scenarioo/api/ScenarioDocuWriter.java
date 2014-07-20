@@ -23,7 +23,7 @@
 package org.scenarioo.api;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -32,7 +32,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.FileUtils;
 import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
@@ -198,7 +198,12 @@ public class ScenarioDocuWriter {
 	
 	/**
 	 * Save Screenshot as a PNG file in usual file for step.
+	 * 
+	 * @param imageBase64Encoded
+	 *            Base64 encoded PNG image in a byte array.
+	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #savePngScreenshot} instead.
 	 */
+	@Deprecated()
 	public void saveScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
 			final byte[] imageBase64Encoded) {
 		executeAsyncWrite(new Runnable() {
@@ -206,17 +211,11 @@ public class ScenarioDocuWriter {
 			public void run() {
 				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, usecaseName,
 						scenarioName, stepIndex);
-				File screenshotsDir = getScreenshotsDirectory(usecaseName, scenarioName);
-				FileOutputStream fos = null;
-				createDirectoryIfNotYetExists(screenshotsDir);
+				final byte[] decodedScreenshot = Base64.decodeBase64(imageBase64Encoded);
 				try {
-					final byte[] decodedScreenshot = Base64.decodeBase64(imageBase64Encoded);
-					fos = new FileOutputStream(screenshotFile);
-					fos.write(decodedScreenshot);
-				} catch (Exception e) {
+					FileUtils.writeByteArrayToFile(screenshotFile, decodedScreenshot);
+				} catch (IOException e) {
 					throw new RuntimeException("Could not write image: " + screenshotFile.getAbsolutePath(), e);
-				} finally {
-					IOUtils.closeQuietly(fos);
 				}
 			}
 		});
@@ -224,10 +223,37 @@ public class ScenarioDocuWriter {
 	
 	/**
 	 * Save Screenshot as a PNG file in usual file for step.
+	 * 
+	 * @param imageBase64Encoded
+	 *            Base64 encoded PNG image in a String.
+	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #savePngScreenshot} instead.
 	 */
+	@Deprecated
 	public void saveScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
 			final String imageBase64Encoded) {
 		saveScreenshot(usecaseName, scenarioName, stepIndex, imageBase64Encoded.getBytes());
+	}
+	
+	/**
+	 * Saves the provided PNG image as a PNG file into the correct folder.
+	 * 
+	 * @param pngScreenshot
+	 *            Screenshot in PNG format.
+	 */
+	public void savePngScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
+			final byte[] pngScreenshot) {
+		executeAsyncWrite(new Runnable() {
+			@Override
+			public void run() {
+				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, usecaseName,
+						scenarioName, stepIndex);
+				try {
+					FileUtils.writeByteArrayToFile(screenshotFile, pngScreenshot);
+				} catch (IOException e) {
+					throw new RuntimeException("Could not write image: " + screenshotFile.getAbsolutePath(), e);
+				}
+			}
+		});
 	}
 	
 	/**
