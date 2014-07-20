@@ -45,6 +45,7 @@ dependencies {
     testCompile 'junit:junit:4.11'
 }
 
+
 task sourceJar(type: Jar) { from sourceSets.main.allJava }
 
 publishing {

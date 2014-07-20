@@ -23,6 +23,7 @@
 package org.scenarioo.api;
 
 import static org.junit.Assert.*;
+import static org.scenarioo.api.TestConstants.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,13 +54,6 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
  * Some smoke tests for the Scenarioo generator API.
  */
 public class ScenarioDocuWriterAndReaderTest {
-	
-	private static final File TEST_ROOT_DIRECTORY = new File("tmpScenarioDocuUnitTestFiles");
-	private static final String TEST_BRANCH_NAME = "testBranch";
-	private static final String TEST_BUILD_NAME = "testBuild";
-	private static final String TEST_CASE_NAME = "testCase";
-	private static final String TEST_SCENARIO_NAME = "testScenario";
-	private static int TEST_STEP_INDEX = 1;
 	
 	private static final String TEST_DETAILS_VERSION_KEY = "version";
 	
