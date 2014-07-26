@@ -25,15 +25,14 @@ package org.scenarioo.api.util.xml;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
@@ -44,7 +43,9 @@ import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
  * Streaming of all ScenarioDocu entities to XML and back from input streams or to output streams.
  */
 public class ScenarioDocuXMLUtil {
-	
+
+    private static Map<String, JAXBContext> jaxbContextCache = new HashMap<String, JAXBContext>();
+
 	private static final Class<?>[] SUPPORTED_COLLECTION_CLASSES = new Class<?>[] { HashMap.class, ArrayList.class };
 	
 	private static final Class<?>[] SUPPORTED_GENERIC_CLASSES = new Class<?>[] { ObjectDescription.class,
@@ -74,12 +75,27 @@ public class ScenarioDocuXMLUtil {
 	}
 	
 	public static JAXBContext createJAXBContext(Class<?>... classesToBind) throws JAXBException {
+        String key = getKeyFromClassesArray(classesToBind);
+        JAXBContext cachedJaxbContext = jaxbContextCache.get(key);
+        if(cachedJaxbContext != null) {
+            return cachedJaxbContext;
+        }
 		classesToBind = appendClasses(classesToBind, SUPPORTED_COLLECTION_CLASSES);
 		classesToBind = appendClasses(classesToBind, SUPPORTED_GENERIC_CLASSES);
-		return JAXBContext.newInstance(classesToBind);
+        JAXBContext jaxbContext = JAXBContext.newInstance(classesToBind);
+        jaxbContextCache.put(key, jaxbContext);
+        return jaxbContext;
 	}
-	
-	private static Class<?>[] appendClasses(Class<?>[] classesToBind, final Class<?>... additionalClasses) {
+
+    private static String getKeyFromClassesArray(Class<?>[] classesToBind) {
+        List<String> keys = new ArrayList<String>();
+        for (Class<?> aClass : classesToBind) {
+            keys.add(aClass.getCanonicalName());
+        }
+        return StringUtils.join(keys, ",");
+    }
+
+    private static Class<?>[] appendClasses(Class<?>[] classesToBind, final Class<?>... additionalClasses) {
 		int index = classesToBind.length;
 		classesToBind = Arrays.copyOf(classesToBind, classesToBind.length + additionalClasses.length);
 		for (Class<?> additionalClass : additionalClasses) {
