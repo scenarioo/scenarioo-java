@@ -41,7 +41,7 @@ public class SaveScreenshotTest {
 	
 	@Test
 	public void savePngScreenshot() {
-		writer.savePngScreenshot(TEST_CASE_NAME, TEST_SCENARIO_NAME, TEST_STEP_INDEX, imageAsByteArray);
+		writer.saveScreenshotAsPng(TEST_CASE_NAME, TEST_SCENARIO_NAME, TEST_STEP_INDEX, imageAsByteArray);
 		writer.flush();
 		
 		assertStoredFileContentEqualsOriginalImage();
