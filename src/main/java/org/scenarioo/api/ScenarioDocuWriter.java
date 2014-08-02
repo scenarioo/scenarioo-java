@@ -201,7 +201,7 @@ public class ScenarioDocuWriter {
 	 * 
 	 * @param imageBase64Encoded
 	 *            Base64 encoded PNG image in a byte array.
-	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #savePngScreenshot} instead.
+	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #saveScreenshotAsPng} instead.
 	 */
 	@Deprecated()
 	public void saveScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
@@ -226,7 +226,7 @@ public class ScenarioDocuWriter {
 	 * 
 	 * @param imageBase64Encoded
 	 *            Base64 encoded PNG image in a String.
-	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #savePngScreenshot} instead.
+	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #saveScreenshotAsPng} instead.
 	 */
 	@Deprecated
 	public void saveScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
@@ -235,12 +235,22 @@ public class ScenarioDocuWriter {
 	}
 	
 	/**
+	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #saveScreenshotAsPng} instead.
+	 */
+	
+	@Deprecated
+	public void savePngScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
+			final byte[] pngScreenshot) {
+		saveScreenshotAsPng(usecaseName, scenarioName, stepIndex, pngScreenshot);
+	}
+	
+	/**
 	 * Saves the provided PNG image as a PNG file into the correct folder.
 	 * 
 	 * @param pngScreenshot
 	 *            Screenshot in PNG format.
 	 */
-	public void savePngScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
+	public void saveScreenshotAsPng(final String usecaseName, final String scenarioName, final int stepIndex,
 			final byte[] pngScreenshot) {
 		executeAsyncWrite(new Runnable() {
 			@Override
