@@ -41,6 +41,7 @@ public class StepDescription implements Serializable {
 	private String title = "";
 	private String status = "";
 	private String screenshotFileName;
+	private Labels labels;
 	
 	private final Details details = new Details();
 	
@@ -122,6 +123,24 @@ public class StepDescription implements Serializable {
 	 */
 	public void addDetails(final String key, final Object value) {
 		details.addDetail(key, value);
+	}
+	
+	/**
+	 * 
+	 * @return all labels of this object. Never null.
+	 */
+	public Labels getLabels() {
+		if (labels == null) {
+			labels = new Labels();
+		}
+		return labels;
+	}
+	
+	/**
+	 * (optional) Allows to assign multiple labels to a scenarioo object.
+	 */
+	public void setLabels(final Labels labels) {
+		this.labels = labels;
 	}
 	
 }

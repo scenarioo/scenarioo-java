@@ -42,7 +42,6 @@ public class Step implements Serializable {
 	private StepDescription stepDescription;
 	private StepHtml html;
 	private StepMetadata metadata = new StepMetadata();
-	private Labels labels;
 	
 	public Page getPage() {
 		return page;
@@ -90,24 +89,6 @@ public class Step implements Serializable {
 	 */
 	public void setMetadata(final StepMetadata metadata) {
 		this.metadata = metadata;
-	}
-
-	/**
-	 * 
-	 * @return all labels of this object. Never null.
-	 */
-	public Labels getLabels() {
-		if(labels == null) {
-			labels = new Labels();
-		}
-		return labels;
-	}
-	
-	/**
-	 * (optional) Allows to assign multiple labels to a scenarioo object.
-	 */
-	public void setLabels(Labels labels) {
-		this.labels = labels;
 	}
 	
 }
