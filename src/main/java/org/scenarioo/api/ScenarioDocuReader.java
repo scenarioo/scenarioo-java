@@ -23,14 +23,11 @@
 package org.scenarioo.api;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.api.files.ScenarioDocuFiles;
-import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
-import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -63,15 +60,14 @@ public class ScenarioDocuReader {
 		return ScenarioDocuXMLFileUtil.unmarshal(Build.class, file);
 	}
 	
-	public List<BuildLink> loadBuilds(final String branchName) {
+	/**
+	 * This method was changed in in Version 2.0 of the API to return a list of ObjectFromDirectory&lt;Build&gt; instead
+	 * of a list of BuildLinks. This was done because BuildLinks belongs to the Server now and is not part of the API
+	 * anymore.
+	 */
+	public List<ObjectFromDirectory<Build>> loadBuilds(final String branchName) {
 		List<File> buildFiles = docuFiles.getBuildFiles(branchName);
-		List<BuildLink> result = new ArrayList<BuildLink>();
-		for (ObjectFromDirectory<Build> build : ScenarioDocuXMLFileUtil.unmarshalListOfFilesWithDirNames(buildFiles,
-				Build.class)) {
-			BuildLink link = new BuildLink(build.getObject(), FilesUtil.decodeName(build.getDirectoryName()));
-			result.add(link);
-		}
-		return result;
+		return ScenarioDocuXMLFileUtil.unmarshalListOfFilesWithDirNames(buildFiles, Build.class);
 	}
 	
 	public List<UseCase> loadUsecases(final String branchName, final String buildName) {
@@ -112,7 +108,6 @@ public class ScenarioDocuReader {
 	 */
 	public File getScreenshotFile(final String branchName, final String buildName, final String useCaseName,
 			final String scenarioName, final String imageName) {
-		return new File(docuFiles.getScreenshotsDirectory(branchName, buildName, useCaseName, scenarioName),
-				imageName);
+		return new File(docuFiles.getScreenshotsDirectory(branchName, buildName, useCaseName, scenarioName), imageName);
 	}
 }
