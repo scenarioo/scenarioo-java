@@ -139,7 +139,6 @@
       <xs:element ref="stepDescription" minOccurs="0" xmlns=""/>
       <xs:element name="html" type="stepHtml" minOccurs="0" xmlns=""/>
       <xs:element name="metadata" type="stepMetadata" minOccurs="0" xmlns=""/>
-      <xs:element ref="labels" minOccurs="0" xmlns=""/>
     </xs:sequence>
   </xs:complexType>
 
@@ -149,6 +148,7 @@
       <xs:element name="title" type="xs:string" minOccurs="0"/>
       <xs:element name="status" type="xs:string" minOccurs="0"/>
       <xs:element name="screenshotFileName" type="xs:string" minOccurs="0"/>
+      <xs:element ref="labels" minOccurs="0" xmlns=""/>
       <xs:element name="details">
         <xs:complexType>
           <xs:sequence>
