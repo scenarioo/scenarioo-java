@@ -196,9 +196,7 @@ public class ScenarioDocuWriter {
 	}
 	
 	/**
-	 * Saves the provided PNG image as a PNG file into the correct default file.
-	 * 
-	 * This method saves the image as a PNG file under the default location for the provided step.
+	 * Save the provided PNG image as a PNG file into the correct default file location for a step.
 	 * 
 	 * In case you want to use another image format (e.g. JPEG) or just want to define the image file names for your
 	 * scenarios differently, you can do this by using {@link StepDescription#setScreenshotFileName} and saving the
