@@ -31,7 +31,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
@@ -197,55 +196,13 @@ public class ScenarioDocuWriter {
 	}
 	
 	/**
-	 * Save Screenshot as a PNG file in usual file for step.
+	 * Saves the provided PNG image as a PNG file into the correct default file.
 	 * 
-	 * @param imageBase64Encoded
-	 *            Base64 encoded PNG image in a byte array.
-	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #saveScreenshotAsPng} instead.
-	 */
-	@Deprecated()
-	public void saveScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
-			final byte[] imageBase64Encoded) {
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
-				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, usecaseName,
-						scenarioName, stepIndex);
-				final byte[] decodedScreenshot = Base64.decodeBase64(imageBase64Encoded);
-				try {
-					FileUtils.writeByteArrayToFile(screenshotFile, decodedScreenshot);
-				} catch (IOException e) {
-					throw new RuntimeException("Could not write image: " + screenshotFile.getAbsolutePath(), e);
-				}
-			}
-		});
-	}
-	
-	/**
-	 * Save Screenshot as a PNG file in usual file for step.
+	 * This method saves the image as a PNG file under the default location for the provided step.
 	 * 
-	 * @param imageBase64Encoded
-	 *            Base64 encoded PNG image in a String.
-	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #saveScreenshotAsPng} instead.
-	 */
-	@Deprecated
-	public void saveScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
-			final String imageBase64Encoded) {
-		saveScreenshot(usecaseName, scenarioName, stepIndex, imageBase64Encoded.getBytes());
-	}
-	
-	/**
-	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #saveScreenshotAsPng} instead.
-	 */
-	
-	@Deprecated
-	public void savePngScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
-			final byte[] pngScreenshot) {
-		saveScreenshotAsPng(usecaseName, scenarioName, stepIndex, pngScreenshot);
-	}
-	
-	/**
-	 * Saves the provided PNG image as a PNG file into the correct folder.
+	 * In case you want to use another image format (e.g. JPEG) or just want to define the image file names for your
+	 * scenarios differently, you can do this by using {@link StepDescription#setScreenshotFileName} and saving the
+	 * picture on your own, as explained in the documentation of the mentioned method.
 	 * 
 	 * @param pngScreenshot
 	 *            Screenshot in PNG format.

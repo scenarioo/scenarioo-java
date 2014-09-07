@@ -5,7 +5,6 @@ import static org.scenarioo.api.TestConstants.*;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,8 +15,6 @@ public class SaveScreenshotTest {
 	
 	private static final String pngFileName = "/scenarioo-icon-unittest.png";
 	private static byte[] imageAsByteArray;
-	private static byte[] imageAsBase64EncodedByteArray;
-	private static String imageAsBase64EncodedString;
 	
 	private ScenarioDocuWriter writer;
 	
@@ -26,8 +23,6 @@ public class SaveScreenshotTest {
 		try {
 			imageAsByteArray = FileUtils.readFileToByteArray(new File(SaveScreenshotTest.class.getResource(pngFileName)
 					.getFile()));
-			imageAsBase64EncodedByteArray = Base64.encodeBase64(imageAsByteArray);
-			imageAsBase64EncodedString = new String(imageAsBase64EncodedByteArray);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,24 +37,6 @@ public class SaveScreenshotTest {
 	@Test
 	public void savePngScreenshot() {
 		writer.saveScreenshotAsPng(TEST_CASE_NAME, TEST_SCENARIO_NAME, TEST_STEP_INDEX, imageAsByteArray);
-		writer.flush();
-		
-		assertStoredFileContentEqualsOriginalImage();
-	}
-	
-	@Test
-	@SuppressWarnings("deprecation")
-	public void saveScreenshotBase64EncodedByteArray() {
-		writer.saveScreenshot(TEST_CASE_NAME, TEST_SCENARIO_NAME, TEST_STEP_INDEX, imageAsBase64EncodedByteArray);
-		writer.flush();
-		
-		assertStoredFileContentEqualsOriginalImage();
-	}
-	
-	@Test
-	@SuppressWarnings("deprecation")
-	public void saveScreenshotBase64EncodedString() {
-		writer.saveScreenshot(TEST_CASE_NAME, TEST_SCENARIO_NAME, TEST_STEP_INDEX, imageAsBase64EncodedString);
 		writer.flush();
 		
 		assertStoredFileContentEqualsOriginalImage();
