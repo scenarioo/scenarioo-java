@@ -11,8 +11,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.api.rules.CharacterChecker;
 
-import com.google.common.base.Preconditions;
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Labels {
@@ -53,7 +51,9 @@ public class Labels {
 	}
 	
 	private void checkLabels(final Set<String> labels) {
-		Preconditions.checkNotNull(labels, "Labels must not be null.");
+		if (labels == null) {
+			throw new NullPointerException("Labels must not be null.");
+		}
 		for (String label : labels) {
 			CharacterChecker.checkLabel(label);
 		}

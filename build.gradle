@@ -42,7 +42,6 @@ dependencies {
     compile 'commons-io:commons-io:1.3.2'
     compile 'commons-codec:commons-codec:1.2'
     compile 'log4j:log4j:1.2.17'
-    compile 'com.google.guava:guava-base:r03'
     testCompile 'junit:junit:4.11'
 }
 
