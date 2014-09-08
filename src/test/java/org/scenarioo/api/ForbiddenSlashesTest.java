@@ -246,7 +246,7 @@ public class ForbiddenSlashesTest {
 		Step step = getStepWithPageName(LEGAL_NAME);
 		step.setStepDescription(getStepDescription(ILLEGAL_NAME, LEGAL_NAME));
 		return step;
-	};
+	}
 	
 	private StepDescription getStepDescription(final String objectType, final String objectName) {
 		StepDescription stepDescription = new StepDescription();
