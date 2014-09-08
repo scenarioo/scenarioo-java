@@ -21,8 +21,6 @@
 
   <xs:element name="scenario" type="scenario" xmlns=""/>
 
-  <xs:element name="scenarioCalculatedData" type="scenarioCalculatedData" xmlns=""/>
-
   <xs:element name="step" type="step" xmlns=""/>
 
   <xs:element name="stepDescription" type="stepDescription" xmlns=""/>
@@ -122,14 +120,6 @@
         </xs:complexType>
       </xs:element>
       <xs:element ref="labels" minOccurs="0" xmlns=""/>
-      <xs:element name="calculatedData" type="scenarioCalculatedData" minOccurs="0" xmlns=""/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="scenarioCalculatedData">
-    <xs:sequence>
-      <xs:element name="numberOfPages" type="xs:int"/>
-      <xs:element name="numberOfSteps" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
