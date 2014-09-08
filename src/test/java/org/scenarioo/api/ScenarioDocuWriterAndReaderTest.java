@@ -198,7 +198,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		stepDescription.getLabels().set(createLabels());
 		step.setStepDescription(stepDescription);
 		step.setHtml(new StepHtml("<html>just some page text</html>"));
-		Page page = new Page("customer/overview.jsp");
+		Page page = new Page("customer_overview.jsp");
 		page.getLabels().set(createLabels());
 		step.setPage(page);
 		StepMetadata stepMetadata = new StepMetadata();

@@ -37,6 +37,8 @@ import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
 import org.scenarioo.api.files.ScenarioDocuFiles;
+import org.scenarioo.api.rules.CharacterChecker;
+import org.scenarioo.api.rules.DetailsChecker;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
@@ -76,8 +78,9 @@ public class ScenarioDocuWriter {
 	 * @param buildName
 	 *            name of the build (concrete identifier like revision and date) for which we are generating content.
 	 */
-	public ScenarioDocuWriter(final File destinationRootDirectory, final String branchName,
-			final String buildName) {
+	public ScenarioDocuWriter(final File destinationRootDirectory, final String branchName, final String buildName) {
+		CharacterChecker.checkIdentifier(branchName);
+		CharacterChecker.checkIdentifier(buildName);
 		docuFiles = new ScenarioDocuFiles(destinationRootDirectory);
 		this.branchName = branchName;
 		this.buildName = buildName;
@@ -123,6 +126,7 @@ public class ScenarioDocuWriter {
 	 *            the use case description to write
 	 */
 	public void saveUseCase(final UseCase useCase) {
+		CharacterChecker.checkIdentifier(useCase.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
@@ -139,6 +143,8 @@ public class ScenarioDocuWriter {
 	}
 	
 	public void saveScenario(final String useCaseName, final Scenario scenario) {
+		CharacterChecker.checkIdentifier(useCaseName);
+		CharacterChecker.checkIdentifier(scenario.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
@@ -155,7 +161,12 @@ public class ScenarioDocuWriter {
 		saveStep(useCase.getName(), scenario.getName(), step);
 	}
 	
+	/**
+	 * The page property of the step is optional, but it is recommended to use it. Page names are a central part of
+	 * Scenarioo.
+	 */
 	public void saveStep(final String useCaseName, final String scenarioName, final Step step) {
+		checkSaveStepPreconditions(useCaseName, scenarioName, step);
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
@@ -167,6 +178,20 @@ public class ScenarioDocuWriter {
 				ScenarioDocuXMLFileUtil.marshal(step, destStepFile);
 			}
 		});
+	}
+
+	private void checkSaveStepPreconditions(final String useCaseName, final String scenarioName, final Step step) {
+		CharacterChecker.checkIdentifier(useCaseName);
+		CharacterChecker.checkIdentifier(scenarioName);
+		if (step.getPage() != null) {
+			CharacterChecker.checkIdentifier(step.getPage().getName());
+		}
+		if (step.getMetadata() != null) {
+			DetailsChecker.checkIdentifiers(step.getMetadata().getDetails());
+		}
+		if (step.getStepDescription() != null) {
+			DetailsChecker.checkIdentifiers(step.getStepDescription().getDetails());
+		}
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -329,8 +354,7 @@ public class ScenarioDocuWriter {
 			public void run() {
 				try {
 					writeTask.run();
-				}
-				catch (RuntimeException e) {
+				} catch (RuntimeException e) {
 					caughtExceptions.add(e);
 				}
 			}
@@ -342,12 +366,8 @@ public class ScenarioDocuWriter {
 	 * start to block further executions as soon as more than the configured write tasks are waiting for execution.
 	 */
 	private static ExecutorService newAsyncWriteExecutor() {
-		return new ThreadPoolExecutor(
-				1,
-				1,
-				60L,
-				TimeUnit.SECONDS,
-				new LinkedBlockingQueue<Runnable>(ScenarioDocuGeneratorConfiguration.INSTANCE.getAsyncWriteBufferSize()));
+		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(
+				ScenarioDocuGeneratorConfiguration.INSTANCE.getAsyncWriteBufferSize()));
 	}
 	
 }
