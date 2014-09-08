@@ -47,9 +47,6 @@ public class Scenario implements Serializable {
 	private Details details = new Details();
 	private Labels labels;
 	
-	@Deprecated
-	private ScenarioCalculatedData calculatedData;
-	
 	public Scenario() {
 		this("", "");
 	}
@@ -131,27 +128,11 @@ public class Scenario implements Serializable {
 	}
 	
 	/**
-	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
-	 */
-	@Deprecated
-	public ScenarioCalculatedData getCalculatedData() {
-		return calculatedData;
-	}
-	
-	/**
-	 * Only for internal use, has no effect when setting it manually, will be removed in next API version.
-	 */
-	@Deprecated
-	public void setCalculatedData(final ScenarioCalculatedData calculatedData) {
-		this.calculatedData = calculatedData;
-	}
-
-	/**
 	 * 
 	 * @return all labels of this object. Never null.
 	 */
 	public Labels getLabels() {
-		if(labels == null) {
+		if (labels == null) {
 			labels = new Labels();
 		}
 		return labels;
@@ -160,7 +141,7 @@ public class Scenario implements Serializable {
 	/**
 	 * (optional) Allows to assign multiple labels to a scenarioo object.
 	 */
-	public void setLabels(Labels labels) {
+	public void setLabels(final Labels labels) {
 		this.labels = labels;
 	}
 	
