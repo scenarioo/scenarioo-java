@@ -6,52 +6,62 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.junit.Test;
+import org.scenarioo.api.exception.IllegalCharacterException;
 
 public class LabelsTest {
 	
 	@Test
-	public void addChaining() {
-		Labels labels = new Labels();
-		labels.add("test-1").add("test-2");
-		
-		assertEquals(2, labels.toSet().size());
+	public void singleLabelsCanBeAddedInAChainedFashion() {
+		Labels labels = new Labels().addLabel("test-1").addLabel("test-2");
+		assertEquals(2, labels.getLabels().size());
 	}
 	
 	@Test
-	public void set() {
+	public void aSetOfLabelCanBeSetAtOnce() {
 		Labels labels = new Labels();
 		Set<String> labelsToSet = new LinkedHashSet<String>();
 		labelsToSet.add("valid");
 		labelsToSet.add("valid 2");
 		
-		labels.set(labelsToSet);
+		labels.setLabels(labelsToSet);
 		
-		assertEquals(2, labels.toSet().size());
+		assertEquals(2, labels.getLabels().size());
 	}
 	
 	@Test
-	public void validation() {
-		assertTrue(Labels.isValidLabel("test-1"));
-		assertTrue(Labels.isValidLabel("test 1"));
-		assertTrue(Labels.isValidLabel("tEst_1"));
-		
-		assertFalse(Labels.isValidLabel("test.1"));
-		assertFalse(Labels.isValidLabel("test_1 è"));
-		assertFalse(Labels.isValidLabel("t,est"));
+	public void ifAnInvalidSingleLabelIsAdded_anExceptionIsThrown() {
+		try {
+			Labels labels = new Labels();
+			labels.addLabel("test-1").addLabel("test.2");
+			fail();
+		} catch (IllegalCharacterException e) {
+			assertEquals("Label test.2 contains illegal characters.", e.getMessage());
+		}
 	}
 	
-	@Test(expected=RuntimeException.class)
-	public void immediateValidationForAdd() {
-		Labels labels = new Labels();
-		labels.add("test-1").add("test.2");
+	@Test
+	public void ifASetOfLabelsContainingInvalidCharactersIsSet_anExceptionIsThrown() {
+		try {
+			Labels labels = new Labels();
+			Set<String> labelsToSet = new LinkedHashSet<String>();
+			labelsToSet.add("valid");
+			labelsToSet.add(".invalid");
+			labels.setLabels(labelsToSet);
+			fail();
+		} catch (IllegalCharacterException e) {
+			assertEquals("Label .invalid contains illegal characters.", e.getMessage());
+		}
 	}
 	
-	@Test(expected=RuntimeException.class)
-	public void immediateValidationForSet() {
-		Labels labels = new Labels();
-		Set<String> labelsToSet = new LinkedHashSet<String>();
-		labelsToSet.add("valid");
-		labelsToSet.add(".invalid");
-		labels.set(labelsToSet);
+	@Test
+	public void ifANullSetOfLabelsIsSet_anExceptionIsThrown() {
+		try {
+			Labels labels = new Labels();
+			labels.setLabels(null);
+			fail();
+		} catch (NullPointerException e) {
+			assertEquals("Labels must not be null.", e.getMessage());
+		}
 	}
+	
 }

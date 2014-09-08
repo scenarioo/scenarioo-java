@@ -283,7 +283,7 @@ public class ForbiddenSlashesTest {
 	}
 	
 	private void assertException(final IllegalCharacterException e) {
-		assertEquals("identifier " + ILLEGAL_NAME + " contains illegal characters", e.getMessage());
+		assertEquals("Identifier " + ILLEGAL_NAME + " contains illegal characters.", e.getMessage());
 	}
 	
 	private static void deleteDirectory(final File testRootDirectory) {

@@ -28,7 +28,7 @@ public class DetailsCheckerTest {
 			DetailsChecker.checkIdentifiers(getDetailsWithInvalidObjectType());
 			fail();
 		} catch (IllegalCharacterException e) {
-			assertEquals("identifier /illegal contains illegal characters", e.getMessage());
+			assertEquals("Identifier /illegal contains illegal characters.", e.getMessage());
 		}
 	}
 	
@@ -38,7 +38,7 @@ public class DetailsCheckerTest {
 			DetailsChecker.checkIdentifiers(getDetailsWithInvalidObjectName());
 			fail();
 		} catch (IllegalCharacterException e) {
-			assertEquals("identifier /illegal contains illegal characters", e.getMessage());
+			assertEquals("Identifier /illegal contains illegal characters.", e.getMessage());
 		}
 	}
 	

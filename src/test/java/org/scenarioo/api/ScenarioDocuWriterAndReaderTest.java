@@ -143,7 +143,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		usecase.setDescription("this is a typical use case with a decription");
 		usecase.setStatus("success");
 		usecase.getDetails().addDetail("webtestName", "UseCaseWebTest");
-		usecase.getLabels().set(createLabels());
+		usecase.getLabels().setLabels(createLabels());
 		
 		// WHEN: the usecase was saved.
 		writer.saveUseCase(usecase);
@@ -156,7 +156,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("expected case state", usecase.getStatus(), usecaseFromFile.getStatus());
 		assertEquals("expected details properties", usecase.getDetails().getProperties(), usecaseFromFile.getDetails()
 				.getProperties());
-		assertEquals("expected labels", createLabels(), usecaseFromFile.getLabels().toSet());
+		assertEquals("expected labels", createLabels(), usecaseFromFile.getLabels().getLabels());
 	}
 	
 	@Test
@@ -168,7 +168,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		scenario.setDescription("this is a typical scenario with a decription");
 		scenario.setStatus("success");
 		scenario.getDetails().addDetail("userRole", "customer");
-		scenario.getLabels().set(createLabels());
+		scenario.getLabels().setLabels(createLabels());
 		
 		// WHEN: the scenario was saved.
 		writer.saveScenario(TEST_CASE_NAME, scenario);
@@ -182,7 +182,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("expected scenario state", scenario.getStatus(), scenarioFromFile.getStatus());
 		assertEquals("expected scenario details properties", scenario.getDetails().getProperties(), scenarioFromFile
 				.getDetails().getProperties());
-		assertEquals("expected labels", createLabels(), scenarioFromFile.getLabels().toSet());
+		assertEquals("expected labels", createLabels(), scenarioFromFile.getLabels().getLabels());
 		
 	}
 	
@@ -195,11 +195,11 @@ public class ScenarioDocuWriterAndReaderTest {
 		stepDescription.setIndex(TEST_STEP_INDEX);
 		stepDescription.setTitle("Test Step");
 		stepDescription.setStatus("success");
-		stepDescription.getLabels().set(createLabels());
+		stepDescription.getLabels().setLabels(createLabels());
 		step.setStepDescription(stepDescription);
 		step.setHtml(new StepHtml("<html>just some page text</html>"));
 		Page page = new Page("customer_overview.jsp");
-		page.getLabels().set(createLabels());
+		page.getLabels().setLabels(createLabels());
 		step.setPage(page);
 		StepMetadata stepMetadata = new StepMetadata();
 		stepMetadata.setVisibleText("just some page text");
@@ -221,11 +221,11 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("expected step html", step.getHtml().getHtmlSource(), stepFromFile.getHtml().getHtmlSource());
 		Page pageFromFile = stepFromFile.getPage();
 		assertEquals("expected step page name", step.getPage().getName(), pageFromFile.getName());
-		assertEquals("expected page labels", createLabels(), pageFromFile.getLabels().toSet());
+		assertEquals("expected page labels", createLabels(), pageFromFile.getLabels().getLabels());
 		
 		assertEquals("expected step metadata details properties", step.getMetadata().getDetails().getProperties(),
 				stepFromFile.getMetadata().getDetails().getProperties());
-		assertEquals("expected labels", createLabels(), stepFromFile.getStepDescription().getLabels().toSet());
+		assertEquals("expected labels", createLabels(), stepFromFile.getStepDescription().getLabels().getLabels());
 	}
 	
 	/**
