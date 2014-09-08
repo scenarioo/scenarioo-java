@@ -96,15 +96,16 @@ public class StepDescription implements Serializable {
 	
 	/**
 	 * Usualy this field is set for you by scenarioo on saving a step automatically, therefore you do not have to set it
-	 * manually. Just use {@link ScenarioDocuWriter#saveScreenshot} to save your image as PNG with usual default
+	 * manually. Just use {@link ScenarioDocuWriter#saveScreenshotAsPng} to save your image as PNG with usual default
 	 * filename and format.
 	 * 
 	 * You can set a different screenshot file name here, if you like to use a different file format, than proposed by
 	 * the API (which is PNG). In this case you have to ensure the following:
 	 * <ul>
-	 * <li>Only set the file name here, without any path, this is defined by Scenarioo conventions</li>
-	 * <li>make sure that the filename is unique for current step inside this scenario</li>
-	 * <li>save the file on your own under the passed name inside following directoy:
+	 * <li>Only set the file name here, without any path (the path is fixed and defined by Scenarioo conventions)</li>
+	 * <li>Make sure that the filename is unique for current step inside this scenario (e.g. something like
+	 * "{stepIndex}.jpg")</li>
+	 * <li>Save the file on your own in your preferred format under the passed name in following directory:
 	 * {@link ScenarioDocuWriter#getScreenshotsDirectory(String, String)}</li>
 	 * </ul>
 	 */
