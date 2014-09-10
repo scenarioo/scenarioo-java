@@ -89,7 +89,6 @@ public class StepDescription implements Serializable {
 		this.status = status;
 	}
 	
-	@Deprecated
 	public String getScreenshotFileName() {
 		return screenshotFileName;
 	}
