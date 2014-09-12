@@ -7,8 +7,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scenarioo.api.exception.IllegalCharacterException;
 import org.scenarioo.model.docu.entities.Page;
@@ -19,6 +19,7 @@ import org.scenarioo.model.docu.entities.StepMetadata;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 
 /**
  * <p>
@@ -41,19 +42,21 @@ public class ForbiddenSlashesTest {
 	private static final String ILLEGAL_NAME = "/illegal";
 	private static final String LEGAL_NAME = "legal";
 	
-	private final File dataDirectory = new File("tmp");
-	private ScenarioDocuWriter scenarioDocuWriter;
+	private static final File dataDirectory = new File("tmp");
+	private static ScenarioDocuWriter scenarioDocuWriter;
+	private static ScenarioDocuReader scenarioDocuReader;
 	
-	@Before
-	public void setupTest() {
+	@BeforeClass
+	public static void beforeClass() {
 		if (!dataDirectory.exists()) {
 			dataDirectory.mkdirs();
 		}
 		scenarioDocuWriter = new ScenarioDocuWriter(dataDirectory, LEGAL_NAME, LEGAL_NAME);
+		scenarioDocuReader = new ScenarioDocuReader(dataDirectory);
 	}
 	
-	@After
-	public void cleanup() {
+	@AfterClass
+	public static void cleanup() {
 		deleteDirectory(TEST_ROOT_DIRECTORY);
 	}
 	
@@ -179,37 +182,58 @@ public class ForbiddenSlashesTest {
 	
 	@Test
 	public void readingAUseCase_withAnIllegalBranchName_resultsInAnException() {
-		// TODO [#321]
+		try {
+			scenarioDocuReader.loadUsecase(ILLEGAL_NAME, LEGAL_NAME, LEGAL_NAME);
+			fail();
+		} catch (IllegalCharacterException e) {
+			assertException(e);
+		}
 	}
 	
 	@Test
 	public void readingAUseCase_withAnIllegalBuildName_resultsInAnException() {
-		// TODO [#321]
+		try {
+			scenarioDocuReader.loadUsecase(LEGAL_NAME, ILLEGAL_NAME, LEGAL_NAME);
+			fail();
+		} catch (IllegalCharacterException e) {
+			assertException(e);
+		}
 	}
 	
 	@Test
 	public void readingAUseCase_withAnIllegalUseCaseName_resultsInAnException() {
-		// TODO [#321]
+		try {
+			scenarioDocuReader.loadUsecase(LEGAL_NAME, LEGAL_NAME, ILLEGAL_NAME);
+			fail();
+		} catch (IllegalCharacterException e) {
+			assertException(e);
+		}
 	}
 	
 	@Test
 	public void readingAScenario_withAnIllegalScenarioName_resultsInAnException() {
-		// TODO [#321]
+		try {
+			scenarioDocuReader.loadScenario(LEGAL_NAME, LEGAL_NAME, LEGAL_NAME, ILLEGAL_NAME);
+			fail();
+		} catch (IllegalCharacterException e) {
+			assertException(e);
+		}
 	}
 	
 	@Test
-	public void readingAStep_withAnIllegalPageName_worksAndSanitizesThePageName() {
-		// TODO [#321]
+	public void readingAStep_withAnIllegalPageName_works() {
+		// The server takes care of these illegal page names and sanitizes them
+		// TODO [#331] Implement this test
 	}
 	
 	@Test
-	public void readingAStep_withAnIllegalObjectType_resultsInAnException() {
-		// TODO [#321]
+	public void readingAStep_withAnIllegalObjectType_isAllowedButDiscouraged() {
+		// TODO [#330] Maybe we should also sanitize object names and object types as we do it for page names
 	}
 	
 	@Test
-	public void readingAStep_withAnIllegalObjectName_resultsInAnException() {
-		// TODO [#321]
+	public void readingAStep_withAnIllegalObjectName_isAllowedButDiscouraged() {
+		// TODO [#330] Maybe we should also sanitize object names and object types as we do it for page names
 	}
 	
 	private Scenario getScenarioWithName(final String scenarioName) {
@@ -274,11 +298,17 @@ public class ForbiddenSlashesTest {
 	
 	private Details getDetailsWithObject(final String objectType, final String objectName) {
 		Details details = new Details();
-		details.addDetail("test", getObjectDescription(objectType, objectName));
+		details.addDetail("test", getObjectTreeNode(objectType, objectName));
 		return details;
 	}
 	
-	private Object getObjectDescription(final String objectType, final String objectName) {
+	private ObjectTreeNode<ObjectDescription> getObjectTreeNode(final String objectType, final String objectName) {
+		ObjectTreeNode<ObjectDescription> node = new ObjectTreeNode<ObjectDescription>();
+		node.setItem(getObjectDescription(objectType, objectName));
+		return node;
+	}
+	
+	private ObjectDescription getObjectDescription(final String objectType, final String objectName) {
 		return new ObjectDescription(objectType, objectName);
 	}
 	

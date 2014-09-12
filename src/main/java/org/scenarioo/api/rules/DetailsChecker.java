@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 
 /**
  * Uses the {@link CharacterChecker} to recursively check all identifiers in a {@link Details} tree.
@@ -20,11 +21,17 @@ public class DetailsChecker {
 		Map<String, Object> properties = details.getProperties();
 		for (Entry<String, Object> entry : properties.entrySet()) {
 			Object value = entry.getValue();
-			if (value instanceof ObjectDescription) {
-				checkIdentifiers((ObjectDescription) value);
-			} else if (value instanceof ObjectReference) {
-				checkIdentifiers((ObjectReference) value);
-			}
+			checkIdentifiers(value);
+		}
+	}
+	
+	private static void checkIdentifiers(final Object value) {
+		if (value instanceof ObjectDescription) {
+			checkIdentifiers((ObjectDescription) value);
+		} else if (value instanceof ObjectReference) {
+			checkIdentifiers((ObjectReference) value);
+		} else if (value instanceof ObjectTreeNode) {
+			checkIdentifiers((ObjectTreeNode<?>) value);
 		}
 	}
 	
@@ -37,6 +44,21 @@ public class DetailsChecker {
 		CharacterChecker.checkIdentifier(objectDescription.getType());
 		CharacterChecker.checkIdentifier(objectDescription.getName());
 		checkIdentifiers(objectDescription.getDetails());
+	}
+	
+	private static void checkIdentifiers(final ObjectTreeNode<?> objectTreeNode) {
+		checkIdentifiers(objectTreeNode.getItem());
+		checkIdentifiers(objectTreeNode.getDetails());
+		checkChildNodes(objectTreeNode);
+	}
+	
+	private static void checkChildNodes(final ObjectTreeNode<?> objectTreeNode) {
+		if (objectTreeNode.getChildren() == null) {
+			return;
+		}
+		for (ObjectTreeNode<Object> childNode : objectTreeNode.getChildren()) {
+			checkIdentifiers(childNode);
+		}
 	}
 	
 }

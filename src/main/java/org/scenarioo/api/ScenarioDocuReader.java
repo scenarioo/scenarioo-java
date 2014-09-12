@@ -22,6 +22,8 @@
 
 package org.scenarioo.api;
 
+import static org.scenarioo.api.rules.CharacterChecker.*;
+
 import java.io.File;
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class ScenarioDocuReader {
 	}
 	
 	public Branch loadBranch(final String branchName) {
-		File file = docuFiles.getBranchFile(branchName);
+		File file = docuFiles.getBranchFile(checkIdentifier(branchName));
 		return ScenarioDocuXMLFileUtil.unmarshal(Branch.class, file);
 	}
 	
@@ -56,7 +58,7 @@ public class ScenarioDocuReader {
 	}
 	
 	public Build loadBuild(final String branchName, final String buildName) {
-		File file = docuFiles.getBuildFile(branchName, buildName);
+		File file = docuFiles.getBuildFile(checkIdentifier(branchName), checkIdentifier(buildName));
 		return ScenarioDocuXMLFileUtil.unmarshal(Build.class, file);
 	}
 	
@@ -66,40 +68,45 @@ public class ScenarioDocuReader {
 	 * anymore.
 	 */
 	public List<ObjectFromDirectory<Build>> loadBuilds(final String branchName) {
-		List<File> buildFiles = docuFiles.getBuildFiles(branchName);
+		List<File> buildFiles = docuFiles.getBuildFiles(checkIdentifier(branchName));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFilesWithDirNames(buildFiles, Build.class);
 	}
 	
 	public List<UseCase> loadUsecases(final String branchName, final String buildName) {
-		List<File> files = docuFiles.getUseCaseFiles(branchName, buildName);
+		List<File> files = docuFiles.getUseCaseFiles(checkIdentifier(branchName), checkIdentifier(buildName));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(UseCase.class, files);
 	}
 	
 	public UseCase loadUsecase(final String branchName, final String buildName, final String useCaseName) {
-		File file = docuFiles.getUseCaseFile(branchName, buildName, useCaseName);
+		File file = docuFiles.getUseCaseFile(checkIdentifier(branchName), checkIdentifier(buildName),
+				checkIdentifier(useCaseName));
 		return ScenarioDocuXMLFileUtil.unmarshal(UseCase.class, file);
 	}
 	
 	public List<Scenario> loadScenarios(final String branchName, final String buildName, final String useCaseName) {
-		List<File> files = docuFiles.getScenarioFiles(branchName, buildName, useCaseName);
+		List<File> files = docuFiles.getScenarioFiles(checkIdentifier(branchName), checkIdentifier(buildName),
+				checkIdentifier(useCaseName));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Scenario.class, files);
 	}
 	
 	public Scenario loadScenario(final String branchName, final String buildName, final String useCaseName,
 			final String scenarioName) {
-		File file = docuFiles.getScenarioFile(branchName, buildName, useCaseName, scenarioName);
+		File file = docuFiles.getScenarioFile(checkIdentifier(branchName), checkIdentifier(buildName),
+				checkIdentifier(useCaseName), checkIdentifier(scenarioName));
 		return ScenarioDocuXMLFileUtil.unmarshal(Scenario.class, file);
 	}
 	
 	public List<Step> loadSteps(final String branchName, final String buildName, final String useCaseName,
 			final String scenarioName) {
-		List<File> files = docuFiles.getStepFiles(branchName, buildName, useCaseName, scenarioName);
+		List<File> files = docuFiles.getStepFiles(checkIdentifier(branchName), checkIdentifier(buildName),
+				checkIdentifier(useCaseName), checkIdentifier(scenarioName));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Step.class, files);
 	}
 	
 	public Step loadStep(final String branchName, final String buildName, final String useCaseName,
 			final String scenarioName, final int stepIndex) {
-		File file = docuFiles.getStepFile(branchName, buildName, useCaseName, scenarioName, stepIndex);
+		File file = docuFiles.getStepFile(checkIdentifier(branchName), checkIdentifier(buildName),
+				checkIdentifier(useCaseName), checkIdentifier(scenarioName), stepIndex);
 		return ScenarioDocuXMLFileUtil.unmarshal(Step.class, file);
 	}
 	
@@ -108,6 +115,8 @@ public class ScenarioDocuReader {
 	 */
 	public File getScreenshotFile(final String branchName, final String buildName, final String useCaseName,
 			final String scenarioName, final String imageName) {
-		return new File(docuFiles.getScreenshotsDirectory(branchName, buildName, useCaseName, scenarioName), imageName);
+		return new File(docuFiles.getScreenshotsDirectory(checkIdentifier(branchName), checkIdentifier(buildName),
+				checkIdentifier(useCaseName), checkIdentifier(scenarioName)), imageName);
 	}
+	
 }

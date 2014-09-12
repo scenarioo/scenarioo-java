@@ -38,6 +38,12 @@ public class CharacterCheckerTest {
 	}
 	
 	@Test
+	public void checkIdentifier_forValidIdentifiers_returnsTheIdentifier() {
+		String identifier = "valid";
+		assertEquals(identifier, CharacterChecker.checkIdentifier(identifier));
+	}
+	
+	@Test
 	public void checkLabel_aNullLabel_resultsInAnException() {
 		try {
 			CharacterChecker.checkLabel(null);
@@ -70,6 +76,12 @@ public class CharacterCheckerTest {
 		} catch (IllegalCharacterException e) {
 			assertEquals("Label äuäää contains illegal characters.", e.getMessage());
 		}
+	}
+	
+	@Test
+	public void checkLabel_forValidLabels_returnsTheLabel() {
+		String label = "valid";
+		assertEquals(label, CharacterChecker.checkLabel(label));
 	}
 	
 }
