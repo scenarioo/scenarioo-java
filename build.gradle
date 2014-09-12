@@ -24,7 +24,7 @@ import javax.security.auth.login.ConfigurationSpi;
 
 group = 'org.scenarioo'
 artifactId = 'scenarioo-java'
-version = '2.0.0-SNAPSHOT'
+version = '2.0.0-RC1'
 
 apply plugin: 'eclipse'
 apply plugin: 'java'
