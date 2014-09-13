@@ -117,16 +117,23 @@ public class StepDescription implements Serializable {
 	}
 	
 	/**
-	 * Add any application specific detail informations about this step as key-value-pairs.
+	 * Add application specific details as key-value-data-items.
 	 * 
-	 * See {@link Details} for more informations about what values are supported here.
+	 * See {@link Details} for what can be used as values.
 	 */
-	public void addDetails(final String key, final Object value) {
-		details.addDetail(key, value);
+	public Details addDetail(final String key, final Object value) {
+		return details.addDetail(key, value);
 	}
 	
 	/**
-	 * 
+	 * renamed to {@link #addDetail(String, Object)}, will be removed in next version.
+	 */
+	@Deprecated
+	public void addDetails(final String key, final Object value) {
+		addDetail(key, value);
+	}
+	
+	/**
 	 * @return all labels of this object. Never null.
 	 */
 	public Labels getLabels() {
@@ -141,6 +148,16 @@ public class StepDescription implements Serializable {
 	 */
 	public void setLabels(final Labels labels) {
 		this.labels = labels;
+	}
+	
+	/**
+	 * (optional) Add a label.
+	 * 
+	 * Can be chained for adding multiple labels, as folows:
+	 * <code>step.addLabel("first label").addLabel("second label");</code>
+	 */
+	public Labels addLabel(final String label) {
+		return labels.addLabel(label);
 	}
 	
 }

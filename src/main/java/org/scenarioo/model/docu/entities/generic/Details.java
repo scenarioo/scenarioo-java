@@ -67,13 +67,14 @@ public class Details implements Map<String, Object>, Serializable {
 	 * 
 	 * See class description of {@link Details} about possible types to use as values.
 	 */
-	public void addDetail(final String key, final Object value) {
+	public Details addDetail(final String key, final Object value) {
 		if (value != null) {
 			properties.put(key, value);
 		}
 		else {
 			properties.remove(key);
 		}
+		return this;
 	}
 	
 	public Object getDetail(final String key) {
