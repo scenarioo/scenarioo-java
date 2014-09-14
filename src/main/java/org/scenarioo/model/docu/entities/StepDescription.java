@@ -41,8 +41,8 @@ public class StepDescription implements Serializable, Labelable, Detailable {
 	private String title = "";
 	private String status = "";
 	private String screenshotFileName;
-	private final Labels labels = new Labels();
 	
+	private final Labels labels = new Labels();
 	private final Details details = new Details();
 	
 	public int getIndex() {

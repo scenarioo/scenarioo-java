@@ -40,8 +40,9 @@ public class Page implements Serializable, Labelable, Detailable {
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
+	
 	private final Details details = new Details();
-	private Labels labels = new Labels();
+	private final Labels labels = new Labels();
 	
 	public Page() {
 		this.name = "";
@@ -83,13 +84,6 @@ public class Page implements Serializable, Labelable, Detailable {
 	@Override
 	public Labels addLabel(final String label) {
 		return labels.addLabel(label);
-	}
-	
-	/**
-	 * (optional) Allows to assign multiple labels to a scenarioo object.
-	 */
-	public void setLabels(final Labels labels) {
-		this.labels = labels;
 	}
 	
 	@Override

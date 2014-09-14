@@ -44,8 +44,9 @@ public class Scenario implements Serializable, Labelable, Detailable {
 	private String name;
 	private String description;
 	private String status = "";
-	private Details details = new Details();
-	private Labels labels = new Labels();
+	
+	private final Details details = new Details();
+	private final Labels labels = new Labels();
 	
 	public Scenario() {
 		this("", "");
@@ -110,15 +111,6 @@ public class Scenario implements Serializable, Labelable, Detailable {
 		return details;
 	}
 	
-	/**
-	 * (optional) Additional application specific details with additional metadata informations.
-	 * 
-	 * See {@link Details}
-	 */
-	public void setDetails(final Details details) {
-		this.details = details;
-	}
-	
 	@Override
 	public Details addDetail(final String key, final Object value) {
 		return details.addDetail(key, value);
@@ -132,13 +124,6 @@ public class Scenario implements Serializable, Labelable, Detailable {
 	@Override
 	public Labels addLabel(final String label) {
 		return labels.addLabel(label);
-	}
-	
-	/**
-	 * (optional) Allows to assign multiple labels to a scenarioo object.
-	 */
-	public void setLabels(final Labels labels) {
-		this.labels = labels;
 	}
 	
 }
