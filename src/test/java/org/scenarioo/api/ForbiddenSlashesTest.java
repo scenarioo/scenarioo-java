@@ -274,7 +274,7 @@ public class ForbiddenSlashesTest {
 	
 	private StepDescription getStepDescription(final String objectType, final String objectName) {
 		StepDescription stepDescription = new StepDescription();
-		stepDescription.addDetails("test", getObjectDescription(objectType, objectName));
+		stepDescription.addDetail("test", getObjectDescription(objectType, objectName));
 		return stepDescription;
 	}
 	
@@ -292,12 +292,11 @@ public class ForbiddenSlashesTest {
 	
 	private StepMetadata getStepMetadata(final String objectType, final String ObjectName) {
 		StepMetadata stepMetadata = new StepMetadata();
-		stepMetadata.setDetails(getDetailsWithObject(objectType, ObjectName));
+		addDetailsWithObject(stepMetadata.getDetails(), objectType, ObjectName);
 		return stepMetadata;
 	}
 	
-	private Details getDetailsWithObject(final String objectType, final String objectName) {
-		Details details = new Details();
+	private Details addDetailsWithObject(final Details details, final String objectType, final String objectName) {
 		details.addDetail("test", getObjectTreeNode(objectType, objectName));
 		return details;
 	}
