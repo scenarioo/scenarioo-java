@@ -31,9 +31,20 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.entities.Detailable;
+
+/**
+ * Representation of application specific tree structures of additional informations in the documentation. A tree node
+ * may contain other generic objects as item, additional key value properties in the details of the node, and children
+ * (nodes again).
+ * 
+ * @param <T>
+ *            the type of the node's content item (must be a type supported by Scenarioo, could be one of String,
+ *            Integer, ObjectReference or ObjectDescription).
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ObjectTreeNode<T> implements Serializable {
+public class ObjectTreeNode<T> implements Serializable, Detailable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -54,12 +65,22 @@ public class ObjectTreeNode<T> implements Serializable {
 		return item;
 	}
 	
-	public void setItem(T item) {
+	public void setItem(final T item) {
 		this.item = item;
 	}
 	
+	@Override
 	public Details getDetails() {
 		return details;
+	}
+	
+	/**
+	 * Add application specific key value details directly to the current node (this is different than the details on
+	 * the contained item, because the same item could be referenced in different nodes having different details).
+	 */
+	@Override
+	public Details addDetail(final String key, final Object value) {
+		return details.addDetail(key, value);
 	}
 	
 	/**
@@ -79,14 +100,6 @@ public class ObjectTreeNode<T> implements Serializable {
 	 */
 	public void addChild(final ObjectTreeNode<?> child) {
 		children.add(child);
-	}
-	
-	/**
-	 * Add a detail directly to the current node (this is different than the details on the contained item, because the
-	 * same item could be referenced in different nodes having different details).
-	 */
-	public void addDetail(final String key, final Object value) {
-		details.addDetail(key, value);
 	}
 	
 	public void addChildren(final List<ObjectTreeNode<Object>> children) {

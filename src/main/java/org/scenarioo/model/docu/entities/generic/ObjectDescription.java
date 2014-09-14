@@ -28,6 +28,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.entities.Detailable;
+
 /**
  * Description of an application specific object to store in the documentation.
  * 
@@ -35,13 +37,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ObjectDescription implements Serializable {
+public class ObjectDescription implements Serializable, Detailable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
 	private String type;
-	private Details details = new Details();
+	private final Details details = new Details();
 	
 	public ObjectDescription() {
 	}
@@ -67,16 +69,14 @@ public class ObjectDescription implements Serializable {
 		this.type = type;
 	}
 	
+	@Override
 	public Details getDetails() {
 		return details;
 	}
 	
-	public void setDetails(final Details details) {
-		this.details = details;
-	}
-	
-	public void addDetail(final String key, final Object value) {
-		details.put(key, value);
+	@Override
+	public Details addDetail(final String key, final Object value) {
+		return details.addDetail(key, value);
 	}
 	
 	@Override
