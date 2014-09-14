@@ -129,14 +129,6 @@ public class StepDescription implements Serializable, Labelable, Detailable {
 		this.details = details;
 	}
 	
-	/**
-	 * renamed to {@link #addDetail(String, Object)}, will be removed in next version.
-	 */
-	@Deprecated
-	public void addDetails(final String key, final Object value) {
-		addDetail(key, value);
-	}
-	
 	@Override
 	public Labels getLabels() {
 		return labels;
