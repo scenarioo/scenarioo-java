@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 /**
@@ -41,8 +42,8 @@ public class Page implements Serializable, Labelable, Detailable {
 	
 	private String name;
 	
-	private final Details details = new Details();
-	private final Labels labels = new Labels();
+	private Details details = new Details();
+	private Labels labels = new Labels();
 	
 	public Page() {
 		this.name = "";
@@ -77,6 +78,12 @@ public class Page implements Serializable, Labelable, Detailable {
 	}
 	
 	@Override
+	public void setDetails(final Details details) {
+		Preconditions.checkNotNull(details, "Details not allowed to set to null");
+		this.details = details;
+	}
+	
+	@Override
 	public Labels getLabels() {
 		return labels;
 	}
@@ -84,6 +91,12 @@ public class Page implements Serializable, Labelable, Detailable {
 	@Override
 	public Labels addLabel(final String label) {
 		return labels.addLabel(label);
+	}
+	
+	@Override
+	public void setLabels(final Labels labels) {
+		Preconditions.checkNotNull(labels, "Labels not allowed to set to null");
+		this.labels = labels;
 	}
 	
 	@Override

@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 @XmlRootElement
@@ -42,8 +43,8 @@ public class StepDescription implements Serializable, Labelable, Detailable {
 	private String status = "";
 	private String screenshotFileName;
 	
-	private final Labels labels = new Labels();
-	private final Details details = new Details();
+	private Labels labels = new Labels();
+	private Details details = new Details();
 	
 	public int getIndex() {
 		return index;
@@ -122,6 +123,12 @@ public class StepDescription implements Serializable, Labelable, Detailable {
 		return details.addDetail(key, value);
 	}
 	
+	@Override
+	public void setDetails(final Details details) {
+		Preconditions.checkNotNull(details, "Details not allowed to set to null");
+		this.details = details;
+	}
+	
 	/**
 	 * renamed to {@link #addDetail(String, Object)}, will be removed in next version.
 	 */
@@ -131,13 +138,19 @@ public class StepDescription implements Serializable, Labelable, Detailable {
 	}
 	
 	@Override
+	public Labels getLabels() {
+		return labels;
+	}
+	
+	@Override
 	public Labels addLabel(final String label) {
 		return labels.addLabel(label);
 	}
 	
 	@Override
-	public Labels getLabels() {
-		return labels;
+	public void setLabels(final Labels labels) {
+		Preconditions.checkNotNull(labels, "Labels not allowed to set to null");
+		this.labels = labels;
 	}
 	
 }

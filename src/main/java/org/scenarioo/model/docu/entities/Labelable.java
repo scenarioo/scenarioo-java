@@ -8,7 +8,7 @@ package org.scenarioo.model.docu.entities;
 public interface Labelable {
 	
 	/**
-	 * Add a label to this object.
+	 * (optional) Add a label to this object.
 	 * 
 	 * @param label
 	 *            a unique string that identifies this label
@@ -23,5 +23,15 @@ public interface Labelable {
 	 * @return the set of labels, never null!
 	 */
 	public Labels getLabels();
+	
+	/**
+	 * (optional) Can be used to replace the whole labels object (which is not allowed to be null).
+	 * 
+	 * We recommend to use the {@link #addLabel} method directly instead to add labels.
+	 * 
+	 * @param labels
+	 *            the labels to set (never null!)
+	 */
+	public void setLabels(final Labels labels);
 	
 }

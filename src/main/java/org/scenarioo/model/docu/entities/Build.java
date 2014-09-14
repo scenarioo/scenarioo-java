@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 /**
@@ -46,7 +47,7 @@ public class Build implements Serializable, Detailable {
 	private Date date;
 	private String status;
 	
-	private final Details details = new Details();
+	private Details details = new Details();
 	
 	public Build() {
 	}
@@ -126,6 +127,12 @@ public class Build implements Serializable, Detailable {
 	@Override
 	public Details addDetail(final String key, final Object value) {
 		return details.addDetail(key, value);
+	}
+	
+	@Override
+	public void setDetails(final Details details) {
+		Preconditions.checkNotNull(details, "Details not allowed to set to null");
+		this.details = details;
 	}
 	
 }

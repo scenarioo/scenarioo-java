@@ -11,7 +11,7 @@ import org.scenarioo.model.docu.entities.generic.Details;
 public interface Detailable {
 	
 	/**
-	 * Add application specific details as key-value-data-items.
+	 * (optional) Add application specific details as key-value-data-items.
 	 * 
 	 * See {@link Details} for what can be used as values.
 	 */
@@ -23,5 +23,15 @@ public interface Detailable {
 	 * @return the details, never null!
 	 */
 	public Details getDetails();
+	
+	/**
+	 * (optional) Can be used to replace the whole details object (which is not allowed to be null).
+	 * 
+	 * We recommend to use the {@link #addDetail} method directly instead to add detail items.
+	 * 
+	 * @param details
+	 *            the details to set (never null!)
+	 */
+	public void setDetails(final Details details);
 	
 }
