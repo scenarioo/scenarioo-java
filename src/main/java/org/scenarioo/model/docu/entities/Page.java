@@ -35,13 +35,13 @@ import org.scenarioo.model.docu.entities.generic.Details;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Page implements Serializable {
+public class Page implements Serializable, Labelable, Detailable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-	private Details details = new Details();
-	private Labels labels;
+	private final Details details = new Details();
+	private Labels labels = new Labels();
 	
 	public Page() {
 		this.name = "";
@@ -65,26 +65,31 @@ public class Page implements Serializable {
 		this.name = name;
 	}
 	
+	@Override
 	public Details getDetails() {
 		return details;
 	}
 	
-	/**
-	 * Additional application specific details with additional metadata informations.
-	 * 
-	 * See {@link Details}
-	 */
-	public void setDetails(final Details details) {
-		this.details = details;
+	@Override
+	public Details addDetail(final String key, final Object value) {
+		return details.addDetail(key, value);
+	}
+	
+	@Override
+	public Labels getLabels() {
+		return labels;
+	}
+	
+	@Override
+	public Labels addLabel(final String label) {
+		return labels.addLabel(label);
 	}
 	
 	/**
-	 * Add application specific details as key-value-data-items.
-	 * 
-	 * See {@link Details} for what can be used as values.
+	 * (optional) Allows to assign multiple labels to a scenarioo object.
 	 */
-	public void addDetail(final String key, final Object value) {
-		details.addDetail(key, value);
+	public void setLabels(final Labels labels) {
+		this.labels = labels;
 	}
 	
 	@Override
@@ -115,24 +120,6 @@ public class Page implements Serializable {
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * 
-	 * @return all labels of this object. Never null.
-	 */
-	public Labels getLabels() {
-		if(labels == null) {
-			labels = new Labels();
-		}
-		return labels;
-	}
-	
-	/**
-	 * (optional) Allows to assign multiple labels to a scenarioo object.
-	 */
-	public void setLabels(Labels labels) {
-		this.labels = labels;
 	}
 	
 }

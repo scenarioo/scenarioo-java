@@ -1,6 +1,8 @@
 package org.scenarioo.model.docu.entities;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -13,7 +15,7 @@ import org.scenarioo.api.rules.CharacterChecker;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Labels {
+public class Labels implements Set<String> {
 	
 	@XmlElement(name = "label")
 	private Set<String> labels = new LinkedHashSet<String>();
@@ -57,6 +59,81 @@ public class Labels {
 		for (String label : labels) {
 			CharacterChecker.checkLabel(label);
 		}
+	}
+	
+	@Override
+	public int size() {
+		return labels.size();
+	}
+	
+	@Override
+	public boolean isEmpty() {
+		return labels.isEmpty();
+	}
+	
+	@Override
+	public boolean contains(final Object o) {
+		return labels.contains(o);
+	}
+	
+	@Override
+	public Iterator<String> iterator() {
+		return labels.iterator();
+	}
+	
+	@Override
+	public Object[] toArray() {
+		return labels.toArray();
+	}
+	
+	@Override
+	public <T> T[] toArray(final T[] a) {
+		return labels.toArray(a);
+	}
+	
+	@Override
+	public boolean add(final String e) {
+		return labels.add(e);
+	}
+	
+	@Override
+	public boolean remove(final Object o) {
+		return labels.remove(o);
+	}
+	
+	@Override
+	public boolean containsAll(final Collection<?> c) {
+		return labels.containsAll(c);
+	}
+	
+	@Override
+	public boolean addAll(final Collection<? extends String> c) {
+		return labels.addAll(c);
+	}
+	
+	@Override
+	public boolean retainAll(final Collection<?> c) {
+		return labels.retainAll(c);
+	}
+	
+	@Override
+	public boolean removeAll(final Collection<?> c) {
+		return labels.removeAll(c);
+	}
+	
+	@Override
+	public void clear() {
+		labels.clear();
+	}
+	
+	@Override
+	public boolean equals(final Object o) {
+		return labels.equals(o);
+	}
+	
+	@Override
+	public int hashCode() {
+		return labels.hashCode();
 	}
 	
 }

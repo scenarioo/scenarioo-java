@@ -36,13 +36,13 @@ import org.scenarioo.model.docu.entities.generic.Details;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class StepMetadata implements Serializable {
+public class StepMetadata implements Serializable, Detailable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String visibleText;
 	
-	private Details details = new Details();
+	private final Details details = new Details();
 	
 	public String getVisibleText() {
 		return visibleText;
@@ -59,26 +59,14 @@ public class StepMetadata implements Serializable {
 		this.visibleText = visibleText;
 	}
 	
+	@Override
 	public Details getDetails() {
 		return details;
 	}
 	
-	/**
-	 * Additional application specific details with additional metadata informations.
-	 * 
-	 * See {@link Details}
-	 */
-	public void setDetails(final Details details) {
-		this.details = details;
-	}
-	
-	/**
-	 * Add application specific details as key-value-data-items.
-	 * 
-	 * See {@link Details} for what can be used as values.
-	 */
-	public void addDetail(final String key, final Object value) {
-		details.put(key, value);
+	@Override
+	public Details addDetail(final String key, final Object value) {
+		return details.addDetail(key, value);
 	}
 	
 }

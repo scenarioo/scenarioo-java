@@ -33,7 +33,7 @@ import org.scenarioo.model.docu.entities.generic.Details;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class StepDescription implements Serializable {
+public class StepDescription implements Serializable, Labelable, Detailable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -41,7 +41,7 @@ public class StepDescription implements Serializable {
 	private String title = "";
 	private String status = "";
 	private String screenshotFileName;
-	private Labels labels;
+	private final Labels labels = new Labels();
 	
 	private final Details details = new Details();
 	
@@ -112,15 +112,12 @@ public class StepDescription implements Serializable {
 		this.screenshotFileName = screenshotFileName;
 	}
 	
+	@Override
 	public Details getDetails() {
 		return details;
 	}
 	
-	/**
-	 * Add application specific details as key-value-data-items.
-	 * 
-	 * See {@link Details} for what can be used as values.
-	 */
+	@Override
 	public Details addDetail(final String key, final Object value) {
 		return details.addDetail(key, value);
 	}
@@ -133,31 +130,14 @@ public class StepDescription implements Serializable {
 		addDetail(key, value);
 	}
 	
-	/**
-	 * @return all labels of this object. Never null.
-	 */
-	public Labels getLabels() {
-		if (labels == null) {
-			labels = new Labels();
-		}
-		return labels;
-	}
-	
-	/**
-	 * (optional) Allows to assign multiple labels to a scenarioo object.
-	 */
-	public void setLabels(final Labels labels) {
-		this.labels = labels;
-	}
-	
-	/**
-	 * (optional) Add a label.
-	 * 
-	 * Can be chained for adding multiple labels, as folows:
-	 * <code>step.addLabel("first label").addLabel("second label");</code>
-	 */
+	@Override
 	public Labels addLabel(final String label) {
 		return labels.addLabel(label);
+	}
+	
+	@Override
+	public Labels getLabels() {
+		return labels;
 	}
 	
 }

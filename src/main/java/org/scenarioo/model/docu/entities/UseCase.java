@@ -37,7 +37,7 @@ import org.scenarioo.model.docu.entities.generic.Details;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class UseCase implements Serializable {
+public class UseCase implements Serializable, Labelable, Detailable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -45,7 +45,7 @@ public class UseCase implements Serializable {
 	private String description;
 	private String status;
 	private Details details = new Details();
-	private Labels labels;
+	private Labels labels = new Labels();
 	
 	public UseCase() {
 	}
@@ -108,6 +108,7 @@ public class UseCase implements Serializable {
 		this.status = status;
 	}
 	
+	@Override
 	public Details getDetails() {
 		return details;
 	}
@@ -121,30 +122,26 @@ public class UseCase implements Serializable {
 		this.details = details;
 	}
 	
-	/**
-	 * Add application specific details as key-value-data-items.
-	 * 
-	 * See {@link Details} for what can be used as values.
-	 */
-	public void addDetail(final String key, final Object value) {
-		details.addDetail(key, value);
+	@Override
+	public Details addDetail(final String key, final Object value) {
+		return details.addDetail(key, value);
 	}
 	
-	/**
-	 * 
-	 * @return all labels of this object. Never null.
-	 */
+	@Override
 	public Labels getLabels() {
-		if(labels == null) {
-			labels = new Labels();
-		}
 		return labels;
+	}
+	
+	@Override
+	public Labels addLabel(final String label) {
+		return labels.addLabel(label);
 	}
 	
 	/**
 	 * (optional) Allows to assign multiple labels to a scenarioo object.
 	 */
-	public void setLabels(Labels labels) {
+	public void setLabels(final Labels labels) {
+		
 		this.labels = labels;
 	}
 	
