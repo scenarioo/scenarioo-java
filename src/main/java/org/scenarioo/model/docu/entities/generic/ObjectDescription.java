@@ -40,8 +40,6 @@ import org.scenarioo.model.docu.entities.Detailable;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObjectDescription implements Serializable, Detailable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private String name;
 	private String type;
 	private Details details = new Details();

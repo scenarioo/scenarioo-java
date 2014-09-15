@@ -39,8 +39,6 @@ import org.scenarioo.model.docu.entities.generic.Details;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepMetadata implements Serializable, Detailable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private String visibleText;
 	
 	private Details details = new Details();

@@ -24,8 +24,6 @@ package org.scenarioo.api.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 	
-	private static final long serialVersionUID = -8246746281046270932L;
-	
 	private final String resource;
 	
 	public ResourceNotFoundException(final String resource, final Throwable throwable) {

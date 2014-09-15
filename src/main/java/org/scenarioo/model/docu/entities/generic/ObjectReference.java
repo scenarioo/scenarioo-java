@@ -32,8 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObjectReference implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private String name;
 	private String type;
 	
@@ -49,7 +47,7 @@ public class ObjectReference implements Serializable {
 		return name;
 	}
 	
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 	
@@ -57,7 +55,7 @@ public class ObjectReference implements Serializable {
 		return type;
 	}
 	
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
 	}
 	
@@ -71,7 +69,7 @@ public class ObjectReference implements Serializable {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

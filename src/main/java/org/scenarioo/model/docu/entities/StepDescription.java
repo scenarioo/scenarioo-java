@@ -36,8 +36,6 @@ import org.scenarioo.model.docu.entities.generic.Details;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepDescription implements Serializable, Labelable, Detailable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private int index = 0;
 	private String title = "";
 	private String status = "";

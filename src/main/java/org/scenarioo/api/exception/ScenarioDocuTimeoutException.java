@@ -20,15 +20,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.api.exception;
 
 /**
  * Exception that occurs when generating and writing docu content files takes too long.
  */
 public class ScenarioDocuTimeoutException extends RuntimeException {
-	
-	private static final long serialVersionUID = 1L;
 	
 	public ScenarioDocuTimeoutException(final String message) {
 		super(message);
@@ -37,4 +34,5 @@ public class ScenarioDocuTimeoutException extends RuntimeException {
 	public ScenarioDocuTimeoutException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
+	
 }

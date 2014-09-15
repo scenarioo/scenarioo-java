@@ -43,8 +43,6 @@ import org.scenarioo.model.docu.entities.generic.Details;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Branch implements Serializable, Detailable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private String name;
 	private String description;
 	

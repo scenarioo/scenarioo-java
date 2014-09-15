@@ -38,8 +38,6 @@ import org.scenarioo.model.docu.entities.generic.Details;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Page implements Serializable, Labelable, Detailable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private String name;
 	
 	private Details details = new Details();

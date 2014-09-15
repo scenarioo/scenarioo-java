@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.api.exception;
 
 import java.io.IOException;
@@ -30,13 +29,10 @@ import java.util.List;
 
 public class ScenarioDocuSaveException extends RuntimeException {
 	
-	private static final long serialVersionUID = 1L;
-	
 	List<RuntimeException> causingExceptions;
 	
 	public ScenarioDocuSaveException(final List<RuntimeException> causingExceptions) {
-		super(
-				"Could not save all files in ScenarioDocuGenerator (see attached causing exceptions).");
+		super("Could not save all files in ScenarioDocuGenerator (see attached causing exceptions).");
 		this.causingExceptions = causingExceptions;
 	}
 	

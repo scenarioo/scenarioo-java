@@ -38,8 +38,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObjectList<T> implements List<T>, Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private List<T> items = new ArrayList<T>();
 	
 	public ObjectList() {
@@ -57,7 +55,7 @@ public class ObjectList<T> implements List<T>, Serializable {
 		return items;
 	}
 	
-	public void setItems(List<T> items) {
+	public void setItems(final List<T> items) {
 		this.items = items;
 	}
 	
@@ -186,7 +184,7 @@ public class ObjectList<T> implements List<T>, Serializable {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

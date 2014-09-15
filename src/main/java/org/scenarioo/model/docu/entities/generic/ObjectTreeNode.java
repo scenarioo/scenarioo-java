@@ -47,8 +47,6 @@ import org.scenarioo.model.docu.entities.Detailable;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObjectTreeNode<T> implements Serializable, Detailable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private T item;
 	
 	private Details details = new Details();
