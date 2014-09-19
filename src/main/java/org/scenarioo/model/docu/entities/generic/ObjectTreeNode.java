@@ -24,7 +24,6 @@ package org.scenarioo.model.docu.entities.generic;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -97,7 +96,7 @@ public class ObjectTreeNode<T> implements Serializable, Detailable {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <C> List<ObjectTreeNode<C>> getChildren() {
-		return Collections.unmodifiableList((List) children);
+		return (List) children;
 	}
 	
 	/**
