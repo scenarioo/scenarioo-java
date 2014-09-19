@@ -7,6 +7,8 @@
 
   <xs:element name="details" type="details" xmlns=""/>
 
+  <xs:element name="labels" type="labels" xmlns=""/>
+
   <xs:element name="objectDescription" type="objectDescription" xmlns=""/>
 
   <xs:element name="objectList" type="objectList" xmlns=""/>
@@ -18,8 +20,6 @@
   <xs:element name="page" type="page" xmlns=""/>
 
   <xs:element name="scenario" type="scenario" xmlns=""/>
-
-  <xs:element name="scenarioCalculatedData" type="scenarioCalculatedData" xmlns=""/>
 
   <xs:element name="step" type="step" xmlns=""/>
 
@@ -73,6 +73,12 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="labels">
+    <xs:sequence>
+      <xs:element name="label" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="page">
     <xs:sequence>
       <xs:element name="name" type="xs:string" minOccurs="0"/>
@@ -90,6 +96,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element ref="labels" minOccurs="0" xmlns=""/>
     </xs:sequence>
   </xs:complexType>
 
@@ -112,14 +119,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="calculatedData" type="scenarioCalculatedData" minOccurs="0" xmlns=""/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="scenarioCalculatedData">
-    <xs:sequence>
-      <xs:element name="numberOfPages" type="xs:int"/>
-      <xs:element name="numberOfSteps" type="xs:int"/>
+      <xs:element ref="labels" minOccurs="0" xmlns=""/>
     </xs:sequence>
   </xs:complexType>
 
@@ -138,6 +138,7 @@
       <xs:element name="title" type="xs:string" minOccurs="0"/>
       <xs:element name="status" type="xs:string" minOccurs="0"/>
       <xs:element name="screenshotFileName" type="xs:string" minOccurs="0"/>
+      <xs:element ref="labels" minOccurs="0" xmlns=""/>
       <xs:element name="details">
         <xs:complexType>
           <xs:sequence>
@@ -200,6 +201,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element ref="labels" minOccurs="0" xmlns=""/>
     </xs:sequence>
   </xs:complexType>
 

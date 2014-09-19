@@ -22,6 +22,8 @@
 
 package org.scenarioo.api;
 
+import static org.scenarioo.api.rules.CharacterChecker.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,12 +33,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
 import org.scenarioo.api.files.ScenarioDocuFiles;
+import org.scenarioo.api.rules.CharacterChecker;
+import org.scenarioo.api.rules.DetailsChecker;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
@@ -76,8 +79,9 @@ public class ScenarioDocuWriter {
 	 * @param buildName
 	 *            name of the build (concrete identifier like revision and date) for which we are generating content.
 	 */
-	public ScenarioDocuWriter(final File destinationRootDirectory, final String branchName,
-			final String buildName) {
+	public ScenarioDocuWriter(final File destinationRootDirectory, final String branchName, final String buildName) {
+		checkIdentifier(branchName);
+		checkIdentifier(buildName);
 		docuFiles = new ScenarioDocuFiles(destinationRootDirectory);
 		this.branchName = branchName;
 		this.buildName = buildName;
@@ -91,6 +95,7 @@ public class ScenarioDocuWriter {
 	 *            the branch description to write.
 	 */
 	public void saveBranchDescription(final Branch branch) {
+		checkIdentifier(branch.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
@@ -107,6 +112,7 @@ public class ScenarioDocuWriter {
 	 *            the build description to write
 	 */
 	public void saveBuildDescription(final Build build) {
+		checkIdentifier(build.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
@@ -123,6 +129,7 @@ public class ScenarioDocuWriter {
 	 *            the use case description to write
 	 */
 	public void saveUseCase(final UseCase useCase) {
+		checkIdentifier(useCase.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
@@ -139,6 +146,8 @@ public class ScenarioDocuWriter {
 	}
 	
 	public void saveScenario(final String useCaseName, final Scenario scenario) {
+		checkIdentifier(useCaseName);
+		checkIdentifier(scenario.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
@@ -155,13 +164,18 @@ public class ScenarioDocuWriter {
 		saveStep(useCase.getName(), scenario.getName(), step);
 	}
 	
+	/**
+	 * The page property of the step is optional, but it is recommended to use it. Page names are a central part of
+	 * Scenarioo.
+	 */
 	public void saveStep(final String useCaseName, final String scenarioName, final Step step) {
+		checkSaveStepPreconditions(useCaseName, scenarioName, step);
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
 				File destStepsDir = getScenarioStepsDirectory(useCaseName, scenarioName);
 				createDirectoryIfNotYetExists(destStepsDir);
-				calculateDeprecatedScreenshotFileNameIfNotSetWorkaround(useCaseName, scenarioName, step);
+				calculateScreenshotFileNameIfNotSetWorkaround(useCaseName, scenarioName, step);
 				File destStepFile = docuFiles.getStepFile(branchName, buildName, useCaseName, scenarioName, step
 						.getStepDescription().getIndex());
 				ScenarioDocuXMLFileUtil.marshal(step, destStepFile);
@@ -169,10 +183,22 @@ public class ScenarioDocuWriter {
 		});
 	}
 	
-	@SuppressWarnings("deprecation")
-	private void calculateDeprecatedScreenshotFileNameIfNotSetWorkaround(final String useCaseName,
-			final String scenarioName, final Step step) {
-		// Calculate the screenshot file name (will later be removed from data format anyway):
+	private void checkSaveStepPreconditions(final String useCaseName, final String scenarioName, final Step step) {
+		CharacterChecker.checkIdentifier(useCaseName);
+		CharacterChecker.checkIdentifier(scenarioName);
+		if (step.getPage() != null) {
+			CharacterChecker.checkIdentifier(step.getPage().getName());
+		}
+		if (step.getMetadata() != null) {
+			DetailsChecker.checkIdentifiers(step.getMetadata().getDetails());
+		}
+		if (step.getStepDescription() != null) {
+			DetailsChecker.checkIdentifiers(step.getStepDescription().getDetails());
+		}
+	}
+	
+	private void calculateScreenshotFileNameIfNotSetWorkaround(final String useCaseName, final String scenarioName,
+			final Step step) {
 		StepDescription stepDescription = step.getStepDescription();
 		if (stepDescription != null && stepDescription.getScreenshotFileName() == null) {
 			File imageFile = docuFiles.getScreenshotFile(branchName, buildName, useCaseName, scenarioName,
@@ -186,76 +212,36 @@ public class ScenarioDocuWriter {
 	 * the following directory for a scenario.
 	 */
 	public File getScreenshotsDirectory(final String usecaseName, final String scenarioName) {
-		return docuFiles.getScreenshotsDirectory(branchName, buildName, usecaseName, scenarioName);
+		return docuFiles.getScreenshotsDirectory(branchName, buildName, checkIdentifier(usecaseName),
+				checkIdentifier(scenarioName));
 	}
 	
 	/**
 	 * Get the file name of the file where the screenshot of a step is stored.
 	 */
 	public File getScreenshotFile(final String usecaseName, final String scenarioName, final int stepIndex) {
-		return docuFiles.getScreenshotFile(branchName, buildName, usecaseName, scenarioName, stepIndex);
+		return docuFiles.getScreenshotFile(branchName, buildName, checkIdentifier(usecaseName),
+				checkIdentifier(scenarioName), stepIndex);
 	}
 	
 	/**
-	 * Save Screenshot as a PNG file in usual file for step.
+	 * Save the provided PNG image as a PNG file into the correct default file location for a step.
 	 * 
-	 * @param imageBase64Encoded
-	 *            Base64 encoded PNG image in a byte array.
-	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #saveScreenshotAsPng} instead.
-	 */
-	@Deprecated()
-	public void saveScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
-			final byte[] imageBase64Encoded) {
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
-				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, usecaseName,
-						scenarioName, stepIndex);
-				final byte[] decodedScreenshot = Base64.decodeBase64(imageBase64Encoded);
-				try {
-					FileUtils.writeByteArrayToFile(screenshotFile, decodedScreenshot);
-				} catch (IOException e) {
-					throw new RuntimeException("Could not write image: " + screenshotFile.getAbsolutePath(), e);
-				}
-			}
-		});
-	}
-	
-	/**
-	 * Save Screenshot as a PNG file in usual file for step.
-	 * 
-	 * @param imageBase64Encoded
-	 *            Base64 encoded PNG image in a String.
-	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #saveScreenshotAsPng} instead.
-	 */
-	@Deprecated
-	public void saveScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
-			final String imageBase64Encoded) {
-		saveScreenshot(usecaseName, scenarioName, stepIndex, imageBase64Encoded.getBytes());
-	}
-	
-	/**
-	 * @deprecated Will be removed in version 2.0 of the API. Use {@link #saveScreenshotAsPng} instead.
-	 */
-	
-	@Deprecated
-	public void savePngScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
-			final byte[] pngScreenshot) {
-		saveScreenshotAsPng(usecaseName, scenarioName, stepIndex, pngScreenshot);
-	}
-	
-	/**
-	 * Saves the provided PNG image as a PNG file into the correct folder.
+	 * In case you want to use another image format (e.g. JPEG) or just want to define the image file names for your
+	 * scenarios differently, you can do this by using {@link StepDescription#setScreenshotFileName} and saving the
+	 * picture on your own, as explained in the documentation of the mentioned method.
 	 * 
 	 * @param pngScreenshot
 	 *            Screenshot in PNG format.
 	 */
-	public void saveScreenshotAsPng(final String usecaseName, final String scenarioName, final int stepIndex,
+	public void saveScreenshotAsPng(final String useCaseName, final String scenarioName, final int stepIndex,
 			final byte[] pngScreenshot) {
+		checkIdentifier(useCaseName);
+		checkIdentifier(scenarioName);
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, usecaseName,
+				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, useCaseName,
 						scenarioName, stepIndex);
 				try {
 					FileUtils.writeByteArrayToFile(screenshotFile, pngScreenshot);
@@ -329,8 +315,7 @@ public class ScenarioDocuWriter {
 			public void run() {
 				try {
 					writeTask.run();
-				}
-				catch (RuntimeException e) {
+				} catch (RuntimeException e) {
 					caughtExceptions.add(e);
 				}
 			}
@@ -342,12 +327,8 @@ public class ScenarioDocuWriter {
 	 * start to block further executions as soon as more than the configured write tasks are waiting for execution.
 	 */
 	private static ExecutorService newAsyncWriteExecutor() {
-		return new ThreadPoolExecutor(
-				1,
-				1,
-				60L,
-				TimeUnit.SECONDS,
-				new LinkedBlockingQueue<Runnable>(ScenarioDocuGeneratorConfiguration.INSTANCE.getAsyncWriteBufferSize()));
+		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(
+				ScenarioDocuGeneratorConfiguration.INSTANCE.getAsyncWriteBufferSize()));
 	}
 	
 }

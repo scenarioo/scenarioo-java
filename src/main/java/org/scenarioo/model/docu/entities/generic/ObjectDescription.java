@@ -28,6 +28,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.api.rules.Preconditions;
+import org.scenarioo.model.docu.entities.Detailable;
+
 /**
  * Description of an application specific object to store in the documentation.
  * 
@@ -35,9 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ObjectDescription implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class ObjectDescription implements Serializable, Detailable {
 	
 	private String name;
 	private String type;
@@ -67,16 +68,20 @@ public class ObjectDescription implements Serializable {
 		this.type = type;
 	}
 	
+	@Override
 	public Details getDetails() {
 		return details;
 	}
 	
-	public void setDetails(final Details details) {
-		this.details = details;
+	@Override
+	public Details addDetail(final String key, final Object value) {
+		return details.addDetail(key, value);
 	}
 	
-	public void addDetail(final String key, final Object value) {
-		details.put(key, value);
+	@Override
+	public void setDetails(final Details details) {
+		Preconditions.checkNotNull(details, "Details not allowed to set to null");
+		this.details = details;
 	}
 	
 	@Override

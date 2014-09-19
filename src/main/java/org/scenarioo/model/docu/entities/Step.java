@@ -36,8 +36,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Step implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private Page page;
 	private StepDescription stepDescription;
 	private StepHtml html;

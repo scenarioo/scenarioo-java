@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 /**
@@ -37,14 +38,13 @@ import org.scenarioo.model.docu.entities.generic.Details;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Build implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class Build implements Serializable, Detailable {
 	
 	private String name;
 	private String revision;
 	private Date date;
 	private String status;
+	
 	private Details details = new Details();
 	
 	public Build() {
@@ -117,26 +117,20 @@ public class Build implements Serializable {
 		this.status = status;
 	}
 	
+	@Override
 	public Details getDetails() {
 		return details;
 	}
 	
-	/**
-	 * Additional application specific details with additional metadata informations.
-	 * 
-	 * See {@link Details}
-	 */
-	public void setDetails(final Details details) {
-		this.details = details;
+	@Override
+	public Details addDetail(final String key, final Object value) {
+		return details.addDetail(key, value);
 	}
 	
-	/**
-	 * Add application specific details as key-value-data-items.
-	 * 
-	 * See {@link Details} for what can be used as values.
-	 */
-	public void addDetail(final String key, final Object value) {
-		details.addDetail(key, value);
+	@Override
+	public void setDetails(final Details details) {
+		Preconditions.checkNotNull(details, "Details not allowed to set to null");
+		this.details = details;
 	}
 	
 }

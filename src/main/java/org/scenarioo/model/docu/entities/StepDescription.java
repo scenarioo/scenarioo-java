@@ -29,20 +29,20 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class StepDescription implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class StepDescription implements Serializable, Labelable, Detailable {
 	
 	private int index = 0;
 	private String title = "";
 	private String status = "";
 	private String screenshotFileName;
 	
-	private final Details details = new Details();
+	private Labels labels = new Labels();
+	private Details details = new Details();
 	
 	public int getIndex() {
 		return index;
@@ -88,22 +88,22 @@ public class StepDescription implements Serializable {
 		this.status = status;
 	}
 	
-	@Deprecated
 	public String getScreenshotFileName() {
 		return screenshotFileName;
 	}
 	
 	/**
 	 * Usualy this field is set for you by scenarioo on saving a step automatically, therefore you do not have to set it
-	 * manually. Just use {@link ScenarioDocuWriter#saveScreenshot} to save your image as PNG with usual default
+	 * manually. Just use {@link ScenarioDocuWriter#saveScreenshotAsPng} to save your image as PNG with usual default
 	 * filename and format.
 	 * 
 	 * You can set a different screenshot file name here, if you like to use a different file format, than proposed by
 	 * the API (which is PNG). In this case you have to ensure the following:
 	 * <ul>
-	 * <li>Only set the file name here, without any path, this is defined by Scenarioo conventions</li>
-	 * <li>make sure that the filename is unique for current step inside this scenario</li>
-	 * <li>save the file on your own under the passed name inside following directoy:
+	 * <li>Only set the file name here, without any path (the path is fixed and defined by Scenarioo conventions)</li>
+	 * <li>Make sure that the filename is unique for current step inside this scenario (e.g. something like
+	 * "{stepIndex}.jpg")</li>
+	 * <li>Save the file on your own in your preferred format under the passed name in following directory:
 	 * {@link ScenarioDocuWriter#getScreenshotsDirectory(String, String)}</li>
 	 * </ul>
 	 */
@@ -111,17 +111,36 @@ public class StepDescription implements Serializable {
 		this.screenshotFileName = screenshotFileName;
 	}
 	
+	@Override
 	public Details getDetails() {
 		return details;
 	}
 	
-	/**
-	 * Add any application specific detail informations about this step as key-value-pairs.
-	 * 
-	 * See {@link Details} for more informations about what values are supported here.
-	 */
-	public void addDetails(final String key, final Object value) {
-		details.addDetail(key, value);
+	@Override
+	public Details addDetail(final String key, final Object value) {
+		return details.addDetail(key, value);
+	}
+	
+	@Override
+	public void setDetails(final Details details) {
+		Preconditions.checkNotNull(details, "Details not allowed to set to null");
+		this.details = details;
+	}
+	
+	@Override
+	public Labels getLabels() {
+		return labels;
+	}
+	
+	@Override
+	public Labels addLabel(final String label) {
+		return labels.addLabel(label);
+	}
+	
+	@Override
+	public void setLabels(final Labels labels) {
+		Preconditions.checkNotNull(labels, "Labels not allowed to set to null");
+		this.labels = labels;
 	}
 	
 }
