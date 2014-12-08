@@ -53,8 +53,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Details implements Map<String, Object>, Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private final Map<String, Object> properties = new LinkedHashMap<String, Object>();
 	
 	public Map<String, Object> getProperties() {
@@ -70,8 +68,7 @@ public class Details implements Map<String, Object>, Serializable {
 	public Details addDetail(final String key, final Object value) {
 		if (value != null) {
 			properties.put(key, value);
-		}
-		else {
+		} else {
 			properties.remove(key);
 		}
 		return this;

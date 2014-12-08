@@ -3,10 +3,10 @@ package org.scenarioo.model.docu.entities;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 /**
- * Scenarioo documentation object that may be detailed by adding applications specific key value properties to its
+ * Scenarioo documentation object that may be enriched by adding applications specific key value properties to its
  * details content.
  * 
- * See {@link Details} for documentation what can be used as values for details properties.
+ * See {@link Details} for documentation about what can be used as values for details properties.
  */
 public interface Detailable {
 	
@@ -20,7 +20,7 @@ public interface Detailable {
 	/**
 	 * Get the key value map containing all the application specific details properties.
 	 * 
-	 * @return the details, never null!
+	 * @return The details, never null!
 	 */
 	public Details getDetails();
 	
@@ -30,7 +30,7 @@ public interface Detailable {
 	 * We recommend to use the {@link #addDetail} method directly instead to add detail items.
 	 * 
 	 * @param details
-	 *            the details to set (never null!)
+	 *            The details to set (never null!)
 	 */
 	public void setDetails(final Details details);
 	
