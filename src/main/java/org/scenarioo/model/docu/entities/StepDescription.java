@@ -78,7 +78,7 @@ public class StepDescription implements Serializable, Labelable, Detailable {
 	 * See also {@link #setStatus(String)} for setting additional application-specific states.
 	 */
 	public void setStatus(final Status status) {
-		setStatus(status.getKeyword());
+		setStatus(Status.toKeywordNullSafe(status));
 	}
 	
 	/**

@@ -29,4 +29,12 @@ public enum Status {
 		return keyword;
 	}
 	
+	public static String toKeywordNullSafe(final Status status) {
+		if (status == null) {
+			return null;
+		}
+		else {
+			return status.getKeyword();
+		}
+	}
 }
