@@ -6,8 +6,8 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules, according 
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules, according
  * to the GNU General Public License with "Classpath" exception as provided
  * in the LICENSE file that accompanied this code.
  * 
@@ -39,6 +39,9 @@ import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.ScreenAnnotation;
+import org.scenarioo.model.docu.entities.ScreenAnnotationClickAction;
+import org.scenarioo.model.docu.entities.ScreenAnnotationStyle;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.StepHtml;
@@ -185,10 +188,47 @@ public class ScenarioDocuWriterAndReaderTest {
 		
 	}
 	
+	/**
+	 * This test is to test that nothing is required to set somehow, that is not mandatory for saving and loading a step
+	 * correctly.
+	 */
 	@Test
-	public void write_and_read_step() {
+	public void write_and_read_step_minimal() {
+
+		// GIVEN: a typical step with only minimal required fields beeing set
+		Step step = new Step();
+		StepDescription stepDescription = new StepDescription();
+		stepDescription.setIndex(TEST_STEP_INDEX);
+		stepDescription.setScreenshotFileName("001.png");
+		step.setStepDescription(stepDescription);
+
+		// WHEN: the step was saved.
+		writer.saveStep(TEST_CASE_NAME, TEST_SCENARIO_NAME, step);
+		writer.flush();
+
+		// THEN: the step can be loaded successfully and correctly
+		Step stepFromFile = reader.loadStep(TEST_BRANCH_NAME, TEST_BUILD_NAME, TEST_CASE_NAME, TEST_SCENARIO_NAME,
+				TEST_STEP_INDEX);
+		assertEquals("expected step index", TEST_STEP_INDEX, stepFromFile.getStepDescription().getIndex());
+		assertEquals("expected empty step title", "", stepFromFile.getStepDescription().getTitle());
+		assertEquals("expected no status", "", stepFromFile.getStepDescription().getStatus());
+		assertEquals("expected no step step description details properties", 0, stepFromFile.getStepDescription()
+				.getDetails()
+				.getProperties().size());
+		assertEquals("expected no step metadata details properties", 0, stepFromFile.getMetadata().getDetails()
+				.getProperties().size());
+		assertEquals("expected no labels", 0, stepFromFile.getStepDescription().getLabels().size());
+		assertNull("expected no page", stepFromFile.getPage());
+
+	}
+
+	/**
+	 * This test tests also all optional fields of a step, that they can be set and are loaded again properly.
+	 */
+	@Test
+	public void write_and_read_step_with_major_optional_fields() {
 		
-		// GIVEN: a typical step
+		// GIVEN: a typical step with all major optional fields also beeing set
 		Step step = new Step();
 		StepDescription stepDescription = new StepDescription();
 		stepDescription.setIndex(TEST_STEP_INDEX);
@@ -216,18 +256,49 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("expected step name", TEST_STEP_INDEX, stepFromFile.getStepDescription().getIndex());
 		assertEquals("expected step desription", step.getStepDescription().getTitle(), stepFromFile
 				.getStepDescription().getTitle());
-		assertEquals("expected step state", step.getStepDescription().getStatus(), stepFromFile.getStepDescription()
+		assertEquals("expected step status", step.getStepDescription().getStatus(), stepFromFile.getStepDescription()
 				.getStatus());
+		assertEquals("expected step description details properties", step.getStepDescription().getDetails()
+				.getProperties(), stepFromFile.getStepDescription().getDetails().getProperties());
+		assertExpectedLabels(stepFromFile.getStepDescription().getLabels(), "label1", "label2");
 		assertEquals("expected step html", step.getHtml().getHtmlSource(), stepFromFile.getHtml().getHtmlSource());
 		Page pageFromFile = stepFromFile.getPage();
 		assertEquals("expected step page name", step.getPage().getName(), pageFromFile.getName());
 		assertExpectedLabels(pageFromFile.getLabels(), "page-label1", "page-label2");
-		
+		assertEquals("expected step visible text", "just some page text", stepFromFile.getMetadata().getVisibleText());
 		assertEquals("expected step metadata details properties", step.getMetadata().getDetails().getProperties(),
 				stepFromFile.getMetadata().getDetails().getProperties());
-		assertExpectedLabels(stepFromFile.getStepDescription().getLabels(), "label1", "label2");
+
 	}
-	
+
+	/**
+	 * Test adding screen annotations to a step (which is optional too)
+	 */
+	@Test
+	public void write_and_read_step_with_screen_annotations() {
+
+		// GIVEN: a typical step with only minimal required fields beeing set and two screen annotations
+		Step step = new Step();
+		StepDescription stepDescription = new StepDescription();
+		stepDescription.setIndex(TEST_STEP_INDEX);
+		stepDescription.setScreenshotFileName("001.png");
+		step.setStepDescription(stepDescription);
+		step.addScreenAnnotation(createMinimalScreenAnnotation());
+		step.addScreenAnnotation(createFullScreenAnnotation());
+
+		// WHEN: the step was saved.
+		writer.saveStep(TEST_CASE_NAME, TEST_SCENARIO_NAME, step);
+		writer.flush();
+
+		// THEN: the step can be loaded successfully and correctly
+		Step stepFromFile = reader.loadStep(TEST_BRANCH_NAME, TEST_BUILD_NAME, TEST_CASE_NAME, TEST_SCENARIO_NAME,
+				TEST_STEP_INDEX);
+		assertEquals("expected number of screen annotations", 2, stepFromFile.getScreenAnnotations().size());
+		assertMinimalScreenAnnotation(stepFromFile.getScreenAnnotations().get(0));
+		assertFullScreenAnnotation(stepFromFile.getScreenAnnotations().get(1));
+
+	}
+
 	/**
 	 * Tests writing and reading of a scenario docu file containing some basic collections that need to be supported.
 	 */
@@ -294,6 +365,53 @@ public class ScenarioDocuWriterAndReaderTest {
 		
 	}
 	
+	/**
+	 * Create a screen annotation with only the required fields set.
+	 */
+	private ScreenAnnotation createMinimalScreenAnnotation() {
+		return new ScreenAnnotation(100, 150, 90, 10);
+	}
+
+	private void assertMinimalScreenAnnotation(final ScreenAnnotation screenAnnotation) {
+		assertEquals("Expected x coordinate", 100, screenAnnotation.getRegion().getX());
+		assertEquals("Expected y coordinate", 150, screenAnnotation.getRegion().getY());
+		assertEquals("Expected width", 90, screenAnnotation.getRegion().getWidth());
+		assertEquals("Expected height", 10, screenAnnotation.getRegion().getHeight());
+		assertEquals("Expected no text", "", screenAnnotation.getText());
+		assertEquals("Expected no description", "", screenAnnotation.getDescription());
+		assertNull("Expected no style", screenAnnotation.getStyle());
+		assertNull("Expected no click action", screenAnnotation.getClickAction());
+		assertNull("Expected no click action url", screenAnnotation.getClickActionUrl());
+		assertEquals("Expected no details", 0, screenAnnotation.getDetails().size());
+	}
+
+	/**
+	 * Create a screen annotation with all the fields set.
+	 */
+	private ScreenAnnotation createFullScreenAnnotation() {
+		ScreenAnnotation screenAnnotation = new ScreenAnnotation(200, 150, 90, 20);
+		screenAnnotation.setText("just a text");
+		screenAnnotation.setDescription("just a description");
+		screenAnnotation.setStyle(ScreenAnnotationStyle.click);
+		screenAnnotation.setClickAction(ScreenAnnotationClickAction.toUrl);
+		screenAnnotation.setClickActionUrl("http://just-an-url.com");
+		screenAnnotation.addDetail("just a detail", "just a value");
+		return screenAnnotation;
+	}
+
+	private void assertFullScreenAnnotation(final ScreenAnnotation screenAnnotation) {
+		assertEquals("Expected x coordinate", 200, screenAnnotation.getRegion().getX());
+		assertEquals("Expected y coordinate", 150, screenAnnotation.getRegion().getY());
+		assertEquals("Expected width", 90, screenAnnotation.getRegion().getWidth());
+		assertEquals("Expected height", 20, screenAnnotation.getRegion().getHeight());
+		assertEquals("Expected text", "just a text", screenAnnotation.getText());
+		assertEquals("Expected description", "just a description", screenAnnotation.getDescription());
+		assertEquals("Expected style", ScreenAnnotationStyle.click, screenAnnotation.getStyle());
+		assertEquals("Expected clickAction", ScreenAnnotationClickAction.toUrl, screenAnnotation.getClickAction());
+		assertEquals("Expected clickActionUrl", "http://just-an-url.com", screenAnnotation.getClickActionUrl());
+		assertEquals("Expected details", 1, screenAnnotation.getDetails().size());
+	}
+
 	private Step createBigDataStepForLoadTestAsyncWriting(final int index) {
 		
 		Step step = new Step();

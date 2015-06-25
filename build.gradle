@@ -24,11 +24,12 @@ import javax.security.auth.login.ConfigurationSpi;
 
 group = 'org.scenarioo'
 artifactId = 'scenarioo-java'
-version = '2.0.1-SNAPSHOT'
+version = '2.0.2-SNAPSHOT'
 
 apply plugin: 'eclipse'
 apply plugin: 'java'
 apply plugin: 'maven-publish'
+apply plugin: 'maven'
 
 sourceCompatibility=1.6
 targetCompatibility=1.6

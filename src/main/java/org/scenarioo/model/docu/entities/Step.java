@@ -6,8 +6,8 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules, according 
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules, according
  * to the GNU General Public License with "Classpath" exception as provided
  * in the LICENSE file that accompanied this code.
  * 
@@ -23,9 +23,13 @@
 package org.scenarioo.model.docu.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -41,6 +45,10 @@ public class Step implements Serializable {
 	private StepHtml html;
 	private StepMetadata metadata = new StepMetadata();
 	
+	@XmlElement(name = "screenAnnotation")
+	@XmlElementWrapper(name = "screenAnnotations")
+	private List<ScreenAnnotation> screenAnnotations = new ArrayList<ScreenAnnotation>();
+
 	public Page getPage() {
 		return page;
 	}
@@ -89,4 +97,21 @@ public class Step implements Serializable {
 		this.metadata = metadata;
 	}
 	
+	/**
+	 * Add a screen annotation to visualy mark a rectangular region inside the current step's screenshot with additional
+	 * information (e.g. about the event that triggers the next step or other additional information).
+	 */
+	final
+	public void addScreenAnnotation(final ScreenAnnotation screenAnnotation) {
+		this.screenAnnotations.add(screenAnnotation);
+	}
+	
+	public List<ScreenAnnotation> getScreenAnnotations() {
+		return screenAnnotations;
+	}
+
+	public void setScreenAnnotations(final List<ScreenAnnotation> screenAnnotations) {
+		this.screenAnnotations = screenAnnotations;
+	}
+
 }
