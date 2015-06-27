@@ -85,7 +85,7 @@ public class ScenarioDocuWriterAndReaderTest {
 	
 	private static void deleteDirectory(final File testRootDirectory) {
 		try {
-			FileUtils.deleteDirectory(TEST_ROOT_DIRECTORY);
+			FileUtils.deleteDirectory(testRootDirectory);
 		} catch (IOException e) {
 			throw new RuntimeException("Could not delete test data directory", e);
 		}
