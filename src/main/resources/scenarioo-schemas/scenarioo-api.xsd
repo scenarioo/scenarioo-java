@@ -129,28 +129,11 @@
 
   <xs:complexType name="screenAnnotation">
     <xs:sequence>
-      <xs:element name="region" type="screenRegion" minOccurs="0" xmlns=""/>
+      <xs:element name="region" type="screenRegion" xmlns=""/>
       <xs:element name="style" type="screenAnnotationStyle" minOccurs="0" xmlns=""/>
       <xs:element name="text" type="xs:string" minOccurs="0"/>
       <xs:element name="description" type="xs:string" minOccurs="0"/>
-      <xs:element ref="details" minOccurs="0" xmlns=""/>
-      <xs:element name="clickAction" type="screenAnnotationClickAction" minOccurs="0" xmlns=""/>
-      <xs:element name="clickActionUrl" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="screenRegion">
-    <xs:sequence>
-      <xs:element name="x" type="xs:int"/>
-      <xs:element name="y" type="xs:int"/>
-      <xs:element name="width" type="xs:int"/>
-      <xs:element name="height" type="xs:int"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="details">
-    <xs:sequence>
-      <xs:element name="properties">
+      <xs:element name="details">
         <xs:complexType>
           <xs:sequence>
             <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
@@ -164,6 +147,17 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="clickAction" type="screenAnnotationClickAction" minOccurs="0" xmlns=""/>
+      <xs:element name="clickActionUrl" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="screenRegion">
+    <xs:sequence>
+      <xs:element name="x" type="xs:int"/>
+      <xs:element name="y" type="xs:int"/>
+      <xs:element name="width" type="xs:int"/>
+      <xs:element name="height" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -256,6 +250,25 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="details">
+    <xs:sequence>
+      <xs:element name="properties">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="objectDescription">
     <xs:sequence>
       <xs:element name="name" type="xs:string" minOccurs="0"/>
@@ -321,7 +334,7 @@
       <xs:enumeration value="warn"/>
       <xs:enumeration value="info"/>
       <xs:enumeration value="highlight"/>
-      <xs:enumeration value="neutral"/>
+      <xs:enumeration value="default"/>
     </xs:restriction>
   </xs:simpleType>
 
