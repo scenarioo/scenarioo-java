@@ -22,10 +22,11 @@ public enum ScreenAnnotationStyle {
 	KEYBOARD,
 	
 	/**
-	 * Style to mark a field as beeing validated successfully (e.g. when content of a text box is validated)
+	 * Style to mark a field or ui element as having the expected content or state because it was inspected by the test
+	 * (e.g. when content of a text box is inspected for containing the expected content)
 	 */
-	@XmlEnumValue(value = "validate")
-	VALIDATE,
+	@XmlEnumValue(value = "expected")
+	EXPECTED,
 	
 	/**
 	 * Style to visualize that the user entered a different URL inside the browser navigation bar
