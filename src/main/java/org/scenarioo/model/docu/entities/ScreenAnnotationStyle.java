@@ -1,5 +1,7 @@
 package org.scenarioo.model.docu.entities;
 
+import javax.xml.bind.annotation.XmlEnumValue;
+
 /**
  * Predefined styles that can be used with screen annotations.
  * 
@@ -10,47 +12,56 @@ public enum ScreenAnnotationStyle {
 	/**
 	 * Style to visualize a click event, when the user clicked on an element to select something
 	 */
-	click,
+	@XmlEnumValue(value = "click")
+	CLICK,
 	
 	/**
 	 * Style to visualize a keyboard event, when the user typed something inside an element
 	 */
-	keyboard,
+	@XmlEnumValue(value = "keyboard")
+	KEYBOARD,
 	
 	/**
 	 * Style to mark a field as beeing validated successfully (e.g. when content of a text box is validated)
 	 */
-	validate,
+	@XmlEnumValue(value = "validate")
+	VALIDATE,
 	
 	/**
 	 * Style to visualize that the user entered a different URL inside the browser navigation bar
 	 */
-	navigateToUrl,
+	@XmlEnumValue(value = "navigateToUrl")
+	NAVIGATE_TO_URL,
 	
 	/**
 	 * Generic error style:
 	 * For any annotation that marks something unexpected (e.g. a validation that failed or an event that failed or an exception that occured)
 	 */
-	error,
+	@XmlEnumValue(value = "error")
+	ERROR,
 	
 	/**
 	 * Generic warning style, for arbitrary warning annotations
 	 */
-	warn,
+	@XmlEnumValue(value = "warn")
+	WARN,
 	
 	/**
 	 * Generic info style: for any additional information message on the screen (e.g. useful for captions, subtitles and other informations)
 	 */
-	info,
+	@XmlEnumValue(value = "info")
+	INFO,
 		
 	/**
 	 * Generic highlight style to highlight special regions in the UI that are important in this step
 	 */
-	highlight,
+	@XmlEnumValue(value = "highlight")
+	HIGHLIGHT,
 	
 	/**
 	 * Generic default style that has no special meanings. This style is the most soft style in no special color (grayed out). This style is useful to simply attach additional informations to specific UI elements (e.g. like dropdown items in a dropdown selection box).
 	 */
-	neutral;
+	@XmlEnumValue(value = "default")
+	DEFAULT;
 	
 }

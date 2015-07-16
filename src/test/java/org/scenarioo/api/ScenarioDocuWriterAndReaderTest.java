@@ -379,7 +379,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("Expected height", 10, screenAnnotation.getRegion().getHeight());
 		assertEquals("Expected no text", "", screenAnnotation.getText());
 		assertEquals("Expected no description", "", screenAnnotation.getDescription());
-		assertNull("Expected no style", screenAnnotation.getStyle());
+		assertEquals("Expected default style", screenAnnotation.getStyle(), ScreenAnnotationStyle.DEFAULT);
 		assertNull("Expected no click action", screenAnnotation.getClickAction());
 		assertNull("Expected no click action url", screenAnnotation.getClickActionUrl());
 		assertEquals("Expected no details", 0, screenAnnotation.getDetails().size());
@@ -392,8 +392,8 @@ public class ScenarioDocuWriterAndReaderTest {
 		ScreenAnnotation screenAnnotation = new ScreenAnnotation(200, 150, 90, 20);
 		screenAnnotation.setText("just a text");
 		screenAnnotation.setDescription("just a description");
-		screenAnnotation.setStyle(ScreenAnnotationStyle.click);
-		screenAnnotation.setClickAction(ScreenAnnotationClickAction.toUrl);
+		screenAnnotation.setStyle(ScreenAnnotationStyle.CLICK);
+		screenAnnotation.setClickAction(ScreenAnnotationClickAction.TO_URL);
 		screenAnnotation.setClickActionUrl("http://just-an-url.com");
 		screenAnnotation.addDetail("just a detail", "just a value");
 		return screenAnnotation;
@@ -406,8 +406,8 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("Expected height", 20, screenAnnotation.getRegion().getHeight());
 		assertEquals("Expected text", "just a text", screenAnnotation.getText());
 		assertEquals("Expected description", "just a description", screenAnnotation.getDescription());
-		assertEquals("Expected style", ScreenAnnotationStyle.click, screenAnnotation.getStyle());
-		assertEquals("Expected clickAction", ScreenAnnotationClickAction.toUrl, screenAnnotation.getClickAction());
+		assertEquals("Expected style", ScreenAnnotationStyle.CLICK, screenAnnotation.getStyle());
+		assertEquals("Expected clickAction", ScreenAnnotationClickAction.TO_URL, screenAnnotation.getClickAction());
 		assertEquals("Expected clickActionUrl", "http://just-an-url.com", screenAnnotation.getClickActionUrl());
 		assertEquals("Expected details", 1, screenAnnotation.getDetails().size());
 	}

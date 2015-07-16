@@ -33,18 +33,15 @@ import org.scenarioo.model.docu.entities.generic.Details;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ScreenAnnotation implements Detailable {
 
-	@XmlElement(nillable = false)
+	@XmlElement(required = true)
 	private ScreenRegion region;
 
-	private ScreenAnnotationStyle style = null;
+	private ScreenAnnotationStyle style = ScreenAnnotationStyle.DEFAULT;
 
-	@XmlElement(nillable = false)
 	private String text = "";
 
-	@XmlElement(nillable = false)
 	private String description = "";
 
-	@XmlElement(nillable = false)
 	private Details details = new Details();
 
 	private ScreenAnnotationClickAction clickAction = null;
