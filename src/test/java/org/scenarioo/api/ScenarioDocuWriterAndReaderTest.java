@@ -406,7 +406,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("Expected width", 90, screenAnnotation.getRegion().getWidth());
 		assertEquals("Expected height", 20, screenAnnotation.getRegion().getHeight());
 		assertEquals("Expected screen text", "just a text", screenAnnotation.getScreenText());
-		assertEquals("Expected title", "just a text", screenAnnotation.getTitle());
+		assertEquals("Expected title", "title", screenAnnotation.getTitle());
 		assertEquals("Expected description", "just a description", screenAnnotation.getDescription());
 		assertEquals("Expected style", ScreenAnnotationStyle.CLICK, screenAnnotation.getStyle());
 		assertEquals("Expected clickAction", ScreenAnnotationClickAction.TO_URL, screenAnnotation.getClickAction());
