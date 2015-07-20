@@ -1,5 +1,6 @@
 package org.scenarioo.model.docu.entities;
 
+import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
 /**
@@ -7,6 +8,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
  * 
  * A style defines in what style the annotated screen region is highlighted.
  */
+@XmlEnum
 public enum ScreenAnnotationStyle {
 	
 	/**
@@ -64,5 +66,5 @@ public enum ScreenAnnotationStyle {
 	 */
 	@XmlEnumValue(value = "default")
 	DEFAULT;
-	
+
 }

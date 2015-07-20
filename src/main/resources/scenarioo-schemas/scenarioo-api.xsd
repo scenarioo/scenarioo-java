@@ -131,7 +131,8 @@
     <xs:sequence>
       <xs:element name="region" type="screenRegion" xmlns=""/>
       <xs:element name="style" type="screenAnnotationStyle" minOccurs="0" xmlns=""/>
-      <xs:element name="text" type="xs:string" minOccurs="0"/>
+      <xs:element name="screenText" type="xs:string" minOccurs="0"/>
+      <xs:element name="title" type="xs:string" minOccurs="0"/>
       <xs:element name="description" type="xs:string" minOccurs="0"/>
       <xs:element name="details">
         <xs:complexType>
@@ -328,7 +329,7 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="click"/>
       <xs:enumeration value="keyboard"/>
-      <xs:enumeration value="validate"/>
+      <xs:enumeration value="expected"/>
       <xs:enumeration value="navigateToUrl"/>
       <xs:enumeration value="error"/>
       <xs:enumeration value="warn"/>

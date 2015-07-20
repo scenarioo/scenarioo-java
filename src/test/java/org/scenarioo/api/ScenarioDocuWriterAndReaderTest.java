@@ -377,7 +377,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("Expected y coordinate", 150, screenAnnotation.getRegion().getY());
 		assertEquals("Expected width", 90, screenAnnotation.getRegion().getWidth());
 		assertEquals("Expected height", 10, screenAnnotation.getRegion().getHeight());
-		assertEquals("Expected no text", "", screenAnnotation.getText());
+		assertEquals("Expected no text", "", screenAnnotation.getScreenText());
 		assertEquals("Expected no description", "", screenAnnotation.getDescription());
 		assertEquals("Expected default style", screenAnnotation.getStyle(), ScreenAnnotationStyle.DEFAULT);
 		assertNull("Expected no click action", screenAnnotation.getClickAction());
@@ -390,7 +390,8 @@ public class ScenarioDocuWriterAndReaderTest {
 	 */
 	private ScreenAnnotation createFullScreenAnnotation() {
 		ScreenAnnotation screenAnnotation = new ScreenAnnotation(200, 150, 90, 20);
-		screenAnnotation.setText("just a text");
+		screenAnnotation.setScreenText("just a text");
+		screenAnnotation.setTitle("title");
 		screenAnnotation.setDescription("just a description");
 		screenAnnotation.setStyle(ScreenAnnotationStyle.CLICK);
 		screenAnnotation.setClickAction(ScreenAnnotationClickAction.TO_URL);
@@ -404,7 +405,8 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("Expected y coordinate", 150, screenAnnotation.getRegion().getY());
 		assertEquals("Expected width", 90, screenAnnotation.getRegion().getWidth());
 		assertEquals("Expected height", 20, screenAnnotation.getRegion().getHeight());
-		assertEquals("Expected text", "just a text", screenAnnotation.getText());
+		assertEquals("Expected screen text", "just a text", screenAnnotation.getScreenText());
+		assertEquals("Expected title", "just a text", screenAnnotation.getTitle());
 		assertEquals("Expected description", "just a description", screenAnnotation.getDescription());
 		assertEquals("Expected style", ScreenAnnotationStyle.CLICK, screenAnnotation.getStyle());
 		assertEquals("Expected clickAction", ScreenAnnotationClickAction.TO_URL, screenAnnotation.getClickAction());

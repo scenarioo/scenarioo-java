@@ -38,7 +38,9 @@ public class ScreenAnnotation implements Detailable {
 
 	private ScreenAnnotationStyle style = ScreenAnnotationStyle.DEFAULT;
 
-	private String text = "";
+	private String screenText = "";
+
+	private String title = "";
 
 	private String description = "";
 
@@ -108,8 +110,8 @@ public class ScreenAnnotation implements Detailable {
 		this.style = style;
 	}
 
-	public String getText() {
-		return text;
+	public String getScreenText() {
+		return screenText;
 	}
 
 	/**
@@ -117,8 +119,20 @@ public class ScreenAnnotation implements Detailable {
 	 * longer texts).
 	 * Too long texts might be truncated inside the screenshot view in the documentation.
 	 */
-	public void setText(final String text) {
-		this.text = text;
+	public void setScreenText(final String text) {
+		this.screenText = text;
+	}
+
+	/**
+	 * (optional) Set a separate title text, that is only displayed inside the popup window (and not on the screen).
+	 * This text is displayed instead of 'screenText' inside the popup.
+	 */
+	public void setTitle(final String title) {
+		this.title = title;
+	}
+
+	public String getTitle() {
+		return title;
 	}
 
 	public String getDescription() {
