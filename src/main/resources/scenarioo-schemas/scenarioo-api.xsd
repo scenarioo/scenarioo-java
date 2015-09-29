@@ -150,6 +150,7 @@
       </xs:element>
       <xs:element name="clickAction" type="screenAnnotationClickAction" minOccurs="0" xmlns=""/>
       <xs:element name="clickActionUrl" type="xs:string" minOccurs="0"/>
+      <xs:element name="clickActionText" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 

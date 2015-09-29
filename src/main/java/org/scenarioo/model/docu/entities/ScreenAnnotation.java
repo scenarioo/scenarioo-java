@@ -50,6 +50,8 @@ public class ScreenAnnotation implements Detailable {
 
 	private String clickActionUrl = null;
 
+	private String clickActionText = null;
+
 	/**
 	 * Default constructor, only for use by JAXB.
 	 */
@@ -169,6 +171,17 @@ public class ScreenAnnotation implements Detailable {
 	 */
 	public void setClickActionUrl(final String clickActionUrl) {
 		this.clickActionUrl = clickActionUrl;
+	}
+
+	public String getClickActionText() {
+		return clickActionText;
+	}
+
+	/**
+	 * (optional) Text to display for the click action (for link in popup and as a tooltip on the annotation)
+	 */
+	public void setClickActionText(final String clickActionText) {
+		this.clickActionText = clickActionText;
 	}
 
 	@Override

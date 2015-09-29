@@ -382,6 +382,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("Expected default style", screenAnnotation.getStyle(), ScreenAnnotationStyle.DEFAULT);
 		assertNull("Expected no click action", screenAnnotation.getClickAction());
 		assertNull("Expected no click action url", screenAnnotation.getClickActionUrl());
+		assertNull("Expected no click action text", screenAnnotation.getClickActionText());
 		assertEquals("Expected no details", 0, screenAnnotation.getDetails().size());
 	}
 
@@ -396,6 +397,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		screenAnnotation.setStyle(ScreenAnnotationStyle.CLICK);
 		screenAnnotation.setClickAction(ScreenAnnotationClickAction.TO_URL);
 		screenAnnotation.setClickActionUrl("http://just-an-url.com");
+		screenAnnotation.setClickActionText("just a click action text");
 		screenAnnotation.addDetail("just a detail", "just a value");
 		return screenAnnotation;
 	}
@@ -411,6 +413,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		assertEquals("Expected style", ScreenAnnotationStyle.CLICK, screenAnnotation.getStyle());
 		assertEquals("Expected clickAction", ScreenAnnotationClickAction.TO_URL, screenAnnotation.getClickAction());
 		assertEquals("Expected clickActionUrl", "http://just-an-url.com", screenAnnotation.getClickActionUrl());
+		assertEquals("Expected clickActionText", "just a click action text", screenAnnotation.getClickActionText());
 		assertEquals("Expected details", 1, screenAnnotation.getDetails().size());
 	}
 
