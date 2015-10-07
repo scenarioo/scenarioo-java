@@ -30,27 +30,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.scenarioo.model.docu.entities.Detailable;
 import org.scenarioo.model.docu.entities.generic.Details;
 
+/**
+ * {@link ScreenAnnotation}s are used to visually mark regions of an image. This feature can e.g. be used to mark the
+ * region where a click happens in the web tests.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ScreenAnnotation implements Detailable {
 
 	@XmlElement(required = true)
 	private ScreenRegion region;
-
 	private ScreenAnnotationStyle style = ScreenAnnotationStyle.DEFAULT;
-
 	private String screenText = "";
-
 	private String title = "";
-
 	private String description = "";
-
 	private Details details = new Details();
-
 	private ScreenAnnotationClickAction clickAction = null;
-
 	private String clickActionUrl = null;
-
 	private String clickActionText = null;
 
 	/**
@@ -60,46 +56,45 @@ public class ScreenAnnotation implements Detailable {
 	}
 
 	/**
-	 * Constructor.
-	 * 
 	 * @param x
-	 *            distance in pixels from left inside the screenshot
+	 *            distance from left end of the screenshot in pixels
 	 * @param y
-	 *            distance in pixels from top inside the screenshot
+	 *            distance from top end of the screenshot in pixels
 	 * @param width
-	 *            width in pixels inside he screenshot
+	 *            width of the region in pixels
 	 * @param height
-	 *            height in pixels inside he screenshot
+	 *            height of the region in pixels
 	 */
 	public ScreenAnnotation(final int x, final int y, final int width, final int height) {
 		this.region = new ScreenRegion(x, y, width, height);
+	}
+
+	public ScreenRegion getRegion() {
+		return region;
 	}
 
 	/**
 	 * Set the rectangular region inside the screenshot to highlight and put an annotation on
 	 * 
 	 * @param x
-	 *            distance in pixels from left inside the screenshot
+	 *            distance from left end of the screenshot in pixels
 	 * @param y
-	 *            distance in pixels from top inside the screenshot
+	 *            distance from top end of the screenshot in pixels
 	 * @param width
-	 *            width in pixels inside he screenshot
+	 *            width of the region in pixels
 	 * @param height
-	 *            height in pixels inside he screenshot
+	 *            height of the region in pixels
 	 */
 	public void setRegion(final int x, final int y, final int width, final int height) {
 		setRegion(new ScreenRegion(x, y, width, height));
 	}
 
 	/**
-	 * Set the rectangular region inside the screenshot to highlight and put an annotation on
+	 * Set the rectangular region inside the screenshot to highlight and put an annotation on.
+	 * This property is mandatory.
 	 */
 	public void setRegion(final ScreenRegion region) {
 		this.region = region;
-	}
-
-	public ScreenRegion getRegion() {
-		return region;
 	}
 
 	public ScreenAnnotationStyle getStyle() {
@@ -107,7 +102,7 @@ public class ScreenAnnotation implements Detailable {
 	}
 
 	/**
-	 * (optional) Set the visual style of the annotation (if not set, the same style as 'neutral' will be used).
+	 * (optional) Set the visual style of the annotation (if not set, the same DEFAULT style will be used).
 	 */
 	public void setStyle(final ScreenAnnotationStyle style) {
 		this.style = style;
@@ -118,24 +113,25 @@ public class ScreenAnnotation implements Detailable {
 	}
 
 	/**
-	 * (optional) Set the text to display inside the screen on the annotation (should be short, use description for
-	 * longer texts).
-	 * Too long texts might be truncated inside the screenshot view in the documentation.
+	 * (optional) Set the text to display inside the annotation on the screenshot
+	 * (should be short, use description for longer texts).
+	 * Long texts will be truncated if they do not fit inside the annotation.
+	 * The full text will be shown in the popup of the annotation, but only if the "title" is not set.
 	 */
 	public void setScreenText(final String text) {
 		this.screenText = text;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
 	/**
 	 * (optional) Set a separate title text, that is only displayed inside the popup window (and not on the screen).
-	 * This text is displayed instead of 'screenText' inside the popup.
+	 * If set, this text is displayed instead of "screenText" inside the popup.
 	 */
 	public void setTitle(final String title) {
 		this.title = title;
-	}
-
-	public String getTitle() {
-		return title;
 	}
 
 	public String getDescription() {
@@ -143,9 +139,8 @@ public class ScreenAnnotation implements Detailable {
 	}
 
 	/**
-	 * (optional) Set a longer textual description for this annotation, this annotation is displayed below the shorter
-	 * 'text'
-	 * inside an info popup that can be opened on the annotation.
+	 * (optional) Set a longer textual description for this annotation. This description is displayed below the shorter
+	 * 'text' inside an info popup that can be opened on the annotation.
 	 */
 	public void setDescription(final String description) {
 		this.description = description;
@@ -156,7 +151,8 @@ public class ScreenAnnotation implements Detailable {
 	}
 
 	/**
-	 * (optional) Set a click action to define what happens, when the annotation is clicked on.
+	 * (optional) Set a click action to define what happens, when the annotation is clicked on. If no click action ist
+	 * set, the info popup with additional information about the annotation opens.
 	 */
 	public void setClickAction(final ScreenAnnotationClickAction clickAction) {
 		this.clickAction = clickAction;
@@ -167,8 +163,8 @@ public class ScreenAnnotation implements Detailable {
 	}
 
 	/**
-	 * (optional, but mandatory in case that clickAction is {@link ScreenAnnotationClickAction#toUrl})
-	 * The URL to browse to when the annotation is clicked on. The URL will be opened in a separate browser tab.
+	 * (optional, but mandatory in case that clickAction is {@link ScreenAnnotationClickAction#TO_URL})
+	 * The URL that is opened in a new tab or window when the annotation is clicked on.
 	 */
 	public void setClickActionUrl(final String clickActionUrl) {
 		this.clickActionUrl = clickActionUrl;
@@ -180,15 +176,10 @@ public class ScreenAnnotation implements Detailable {
 
 	/**
 	 * (optional) Text to display for the click action (for link in popup and as a tooltip on the annotation)
+	 * If it is not set, a meaningful default is used.
 	 */
 	public void setClickActionText(final String clickActionText) {
 		this.clickActionText = clickActionText;
-	}
-
-	@Override
-	public Details addDetail(final String key, final Object value) {
-		details.put(key, value);
-		return details;
 	}
 
 	@Override
@@ -199,6 +190,12 @@ public class ScreenAnnotation implements Detailable {
 	@Override
 	public void setDetails(final Details details) {
 		this.details = details;
+	}
+
+	@Override
+	public Details addDetail(final String key, final Object value) {
+		details.put(key, value);
+		return details;
 	}
 
 }

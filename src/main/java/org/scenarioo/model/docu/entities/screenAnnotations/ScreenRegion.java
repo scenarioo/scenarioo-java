@@ -20,16 +20,14 @@ public class ScreenRegion {
 	}
 
 	/**
-	 * Constructor
-	 * 
 	 * @param x
-	 *            distance in pixels from left inside the screenshot
+	 *            distance from left end of the screenshot in pixels
 	 * @param y
-	 *            distance in pixels from top inside the screenshot
+	 *            distance from top end of the screenshot in pixels
 	 * @param width
-	 *            width in pixels inside he screenshot
+	 *            width of the region in pixels
 	 * @param height
-	 *            height in pixels inside he screenshot
+	 *            height of the region in pixels
 	 */
 	public ScreenRegion(final int x, final int y, final int width, final int height) {
 		super();
