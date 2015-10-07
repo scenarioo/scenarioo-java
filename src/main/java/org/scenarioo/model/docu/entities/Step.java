@@ -32,6 +32,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenAnnotation;
+
 /**
  * Contains all the data collected from a webtest for one step of one scenario/webtest (except for the step image, which
  * has to be stored separately).

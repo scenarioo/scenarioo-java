@@ -1,4 +1,4 @@
-package org.scenarioo.model.docu.entities;
+package org.scenarioo.model.docu.entities.screenAnnotations;
 
 import javax.xml.bind.annotation.XmlEnum;
 

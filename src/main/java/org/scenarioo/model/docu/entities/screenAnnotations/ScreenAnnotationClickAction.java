@@ -1,4 +1,4 @@
-package org.scenarioo.model.docu.entities;
+package org.scenarioo.model.docu.entities.screenAnnotations;
 
 
 public enum ScreenAnnotationClickAction {
