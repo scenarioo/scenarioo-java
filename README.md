@@ -2,6 +2,7 @@
 
 Scenarioo Writer API for Java to generate Scenarioo Documentations - http://www.scenarioo.org
 
+For documentation please refer to the [wiki](https://github.com/scenarioo/scenarioo-java/wiki).
 
 ## Build the Java Writer API
 
