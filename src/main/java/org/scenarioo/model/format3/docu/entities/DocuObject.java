@@ -44,6 +44,9 @@ public class DocuObject implements Serializable {
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<DocuObject> items = new ArrayList<DocuObject>();
 
+	protected DocuObject() {
+	}
+
 	public DocuObject(String labelKey) {
 		this(labelKey, null, null, null);
 	}

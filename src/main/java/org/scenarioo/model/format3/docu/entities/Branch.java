@@ -37,30 +37,27 @@ import java.util.List;
  * use the branch as a structuring element to document different applications or modules.
  */
 public class Branch implements Serializable {
+
 	private String id;
-	private String name;
+
+	private String name = "";
+
 	private String description;
 
-	private List<DocuObject> properties = new ArrayList<DocuObject>();
-	private List<DocuObject> items = new ArrayList<DocuObject>();
+	private Properties properties = new Properties();
 
 	public Branch() {
-		this(null, "", "");
 	}
 
 	public Branch(final String name) {
-		this(null, name, "");
+		this.name = name;
 	}
 
 	public Branch(final String name, final String description) {
-		this(null, name, description);
-	}
-
-	public Branch(final String id, final String name, final String description) {
-		this.id = (id == null) ? this.inferId(name) : id;
 		this.name = name;
 		this.description = description;
 	}
+
 
 	private String inferId(final String name) {
 		// TODO: infer intelligent id; make static; refactor out of this class
@@ -97,19 +94,11 @@ public class Branch implements Serializable {
 		this.description = description;
 	}
 
-	public List<DocuObject> getItems() {
-		return items;
-	}
-
-	public void setItems(List<DocuObject> items) {
-		this.items = items;
-	}
-
-	public List<DocuObject> getProperties() {
+	public Properties getProperties() {
 		return properties;
 	}
 
-	public void setProperties(List<DocuObject> properties) {
+	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}
 }
