@@ -22,9 +22,10 @@
  *
  */
 
-package org.scenarioo.org.scenarioo.model.format3.docu.entities;
+package org.scenarioo.model.format3.docu.entities;
 
-import org.scenarioo.org.scenarioo.model.format3.docu.entities.screenAnnotation.ScreenAnnotation;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.scenarioo.model.format3.docu.entities.screenAnnotation.ScreenAnnotation;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,11 +45,19 @@ public class Step implements Serializable {
 	private Page page;
 	private String visibleText;
 
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<String> labels = new ArrayList<String>();
 
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<DocuObject> properties = new ArrayList<DocuObject>();
+
+	// TODO: check if something like this is possible to easily serialize and deserialize:
+	// private Map<String, DocuObject> properties2 = new LinkedHashMap<>();
+
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<DocuObject> propertyGroups = new ArrayList<DocuObject>();
 
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<ScreenAnnotation> screenAnnotations = new ArrayList<ScreenAnnotation>();
 
 	public Page getPage() {

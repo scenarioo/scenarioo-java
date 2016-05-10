@@ -22,19 +22,32 @@
  *
  */
 
-package org.scenarioo.org.scenarioo.model.format3.docu.entities.screenAnnotation;
+package org.scenarioo.model.format3.docu.entities;
 
-public enum ScreenAnnotationClickAction {
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import org.junit.Test;
 
-	/**
-	 * Let the user navigate to the next step when he clicks on the annotation.
-	 */
-	TO_NEXT_STEP,
+public class EntitySerializationTest {
 
-	/**
-	 * Let the user navigate to a URL specified in property 'clickActionUrl' when he clicks on the annotation.
-	 * 
-	 * The URL will be opened in a separate browser tab.
-	 */
-	TO_URL;
+	@Test
+	public void serializeBasicEntities() throws JsonProcessingException {
+
+		Step step = new Step();
+		DocuObject property = new DocuObject("super");
+		step.getProperties().add(property);
+
+
+
+		org.scenarioo.model.docu.entities.Build build = new org.scenarioo.model.docu.entities.Build();
+
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		String json = mapper.writeValueAsString(step);
+
+		System.out.println(json);
+	}
 }

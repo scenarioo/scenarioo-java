@@ -22,7 +22,9 @@
  *
  */
 
-package org.scenarioo.org.scenarioo.model.format3.docu.entities;
+package org.scenarioo.model.format3.docu.entities;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,7 +37,11 @@ public class DocuObject implements Serializable {
 	private String value;
 	private String id;
 	private String type;
+
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<DocuObject> properties = new ArrayList<DocuObject>();
+
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<DocuObject> items = new ArrayList<DocuObject>();
 
 	public DocuObject(String labelKey) {
@@ -54,7 +60,6 @@ public class DocuObject implements Serializable {
 		this.labelKey = labelKey;
 		this.value = value;
 		this.type = type;
-		// TODO: infer if null
 		this.id = id;
 	}
 

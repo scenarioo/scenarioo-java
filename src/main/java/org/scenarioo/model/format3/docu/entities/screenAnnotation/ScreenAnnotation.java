@@ -22,9 +22,9 @@
  *
  */
 
-package org.scenarioo.org.scenarioo.model.format3.docu.entities.screenAnnotation;
+package org.scenarioo.model.format3.docu.entities.screenAnnotation;
 
-import org.scenarioo.org.scenarioo.model.format3.docu.entities.DocuObject;
+import org.scenarioo.model.format3.docu.entities.DocuObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;

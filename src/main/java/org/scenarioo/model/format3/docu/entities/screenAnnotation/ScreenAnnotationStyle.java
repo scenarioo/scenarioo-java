@@ -22,7 +22,7 @@
  *
  */
 
-package org.scenarioo.org.scenarioo.model.format3.docu.entities.screenAnnotation;
+package org.scenarioo.model.format3.docu.entities.screenAnnotation;
 
 /**
  * Predefined styles that can be used with screen annotations.

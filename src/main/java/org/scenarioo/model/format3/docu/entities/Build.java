@@ -22,34 +22,33 @@
  *
  */
 
-package org.scenarioo.org.scenarioo.model.format3.docu.entities;
+package org.scenarioo.model.format3.docu.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
- * Informations to store and display for one test scenario (one webtest).
- * <p/>
- * It is important that each scenario gets a unique 'name' inside its belonging usecase.
+ * Simple description for a documentation build. Simply contains most important properties of a build, like when it was
+ * generated and whether all tests succeeded and what revision of the software was built and documented.
  */
-public class Scenario implements Serializable {
+public class Build implements Serializable {
 
 	private String id;
 	private String name;
 	private String description;
+	private String revision;
+	private Date date;
 	private String status;
-	private List<String> labels = new ArrayList<String>();
 
 	private List<DocuObject> properties = new ArrayList<DocuObject>();
 
-	public Scenario() {
-		this("", "");
+	public Build() {
 	}
 
-	public Scenario(final String name, final String description) {
+	public Build(final String name) {
 		this.name = name;
-		this.description = description;
 	}
 
 	public String getName() {
@@ -57,24 +56,39 @@ public class Scenario implements Serializable {
 	}
 
 	/**
-	 * A unique name for this scenario inside the {@link UseCase} it belongs to.
+	 * A unique name for this build.
 	 * <p/>
-	 * Make sure to use descriptive names that stay stable as much as possible, such that you can compare scenarios
-	 * between different builds.
+	 * Name of a build defines its key under which aou can access it and especially defines the directory in the
+	 * filepath where this build is stored. Apart from that the name for a build is not important.
+	 * <p/>
+	 * Name is not displayed in the web application user interface, there the revision and date as the unique label of a
+	 * build is displayed.
 	 */
 	public void setName(final String name) {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getRevision() {
+		return revision;
 	}
 
 	/**
-	 * (optional but recommended) More detailed description for current scenario (additionally to descriptive name).
+	 * This is a unique identifier (usually a number) to identify which version in your version control system was
+	 * built.
 	 */
-	public void setDescription(final String description) {
-		this.description = description;
+	public void setRevision(final String revision) {
+		this.revision = revision;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	/**
+	 * The date and time when this documentation build was built.
+	 */
+	public void setDate(final Date date) {
+		this.date = date;
 	}
 
 	public String getStatus() {
@@ -82,7 +96,7 @@ public class Scenario implements Serializable {
 	}
 
 	/**
-	 * Set status of current step.
+	 * Set status of current build.
 	 * <p/>
 	 * See also {@link #setStatus(String)} for setting additional application-specific states.
 	 */
@@ -91,10 +105,10 @@ public class Scenario implements Serializable {
 	}
 
 	/**
-	 * Status of the scenario (did this test fail or succeed?). <br/>
+	 * (optional) Status of the whole build: did all tests for this build succeed or not?<br/>
 	 * Usual values are "success" or "failed".<br/>
-	 * But you can use application specific additional values, like "not implemented", "unknown" etc. where it makes
-	 * sense. Those additional values will be displayed in warning-style by the scenarioo webapplication.
+	 * But you can use application specific additional value where it makes sense. Those additional values will be
+	 * displayed in warning-style by the scenarioo webapplication.
 	 */
 	public void setStatus(final String status) {
 		this.status = status;
@@ -108,12 +122,12 @@ public class Scenario implements Serializable {
 		this.id = id;
 	}
 
-	public List<String> getLabels() {
-		return labels;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setLabels(List<String> labels) {
-		this.labels = labels;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public List<DocuObject> getProperties() {

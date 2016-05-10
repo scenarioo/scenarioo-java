@@ -22,7 +22,7 @@
  *
  */
 
-package org.scenarioo.org.scenarioo.model.format3.docu.entities;
+package org.scenarioo.model.format3.docu.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;

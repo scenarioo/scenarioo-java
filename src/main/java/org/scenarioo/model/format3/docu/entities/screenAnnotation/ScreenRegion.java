@@ -22,7 +22,7 @@
  *
  */
 
-package org.scenarioo.org.scenarioo.model.format3.docu.entities.screenAnnotation;
+package org.scenarioo.model.format3.docu.entities.screenAnnotation;
 
 public class ScreenRegion {
 
