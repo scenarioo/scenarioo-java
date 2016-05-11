@@ -1,13 +1,22 @@
 # scenarioo-java
 
-Scenarioo Writer API for Java to generate Scenarioo Documentations - http://www.scenarioo.org
+Version: 3.0
 
-For documentation please refer to the [wiki](https://github.com/scenarioo/scenarioo-java/wiki).
+Scenarioo Writer Library for Java to generate Scenarioo Documentation out of your Java Tests.
+ 
+The generated documentation files can be browsed with the comfortable [Scenarioo Viewer](https://github.com/scenarioo/scenarioo) by all your stakeholders and involved roles in your project.
+ 
+More general information about Scenarioo see on our webpage: 
+http://www.scenarioo.org
 
-## Build the Java Writer API
 
-The following command builds the API and also deploys it into the local Maven repository. The deployment is important in order to have the Scenarioo Viewer use the latest snapshot version of the Writer. Furthermore this command also generates an XSD file that documents the structure of the API classes.
+## Usage Documentation
 
-```
-./gradlew clean build test install
-```
+Please consider our documentation for how to use `scenarioo-java` in your tests:
+[Documentation](documentation/README.md)
+
+## Informations for Developers
+
+Please consider our special developer readme;
+[Developer Readme](developer.readme.md)
+
