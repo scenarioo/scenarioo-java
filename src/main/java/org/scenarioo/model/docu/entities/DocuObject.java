@@ -22,24 +22,20 @@
  *
  */
 
-package org.scenarioo.model.format3.docu.entities;
+package org.scenarioo.model.docu.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.scenarioo.model.docu.entities.base.ScenariooEntity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class DocuObject implements Serializable {
+public class DocuObject extends ScenariooEntity<DocuObject> implements Serializable {
 
 	private String labelKey;
 	private String value;
-	private String id;
 	private String type;
-
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
-	private List<DocuObject> properties = new ArrayList<DocuObject>();
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<DocuObject> items = new ArrayList<DocuObject>();
@@ -47,74 +43,49 @@ public class DocuObject implements Serializable {
 	protected DocuObject() {
 	}
 
-	public DocuObject(String labelKey) {
-		this(labelKey, null, null, null);
-	}
-
-	public DocuObject(String labelKey, String value) {
-		this(labelKey, value, null, null);
-	}
-
-	public DocuObject(String labelKey, String value, String type) {
-		this(labelKey, value, type, null);
-	}
-
-	public DocuObject(String labelKey, String value, String type, String id) {
-		this.labelKey = labelKey;
+	public DocuObject(String value) {
 		this.value = value;
-		this.type = type;
-		this.id = id;
 	}
 
 	public String getLabelKey() {
 		return labelKey;
 	}
 
-	public void setLabelKey(String labelKey) {
+	public DocuObject setLabelKey(String labelKey) {
 		this.labelKey = labelKey;
+		return current();
 	}
 
 	public String getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public DocuObject setValue(String value) {
 		this.value = value;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+		return current();
 	}
 
 	public String getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public DocuObject setType(String type) {
 		this.type = type;
-	}
-
-	public List<DocuObject> getProperties() {
-		return properties;
-	}
-
-	public void addProperty(DocuObject property) {
-		this.properties.add(property);
-	}
-
-	public void addProperties(Collection<DocuObject> properties) {
-		this.properties.addAll(properties);
+		return current();
 	}
 
 	public List<DocuObject> getItems() {
 		return items;
 	}
 
-	public void addItem(DocuObject item) {
-		this.items.add(item);
+	public DocuObject setItems(List<DocuObject> items) {
+		this.items = items;
+		return current();
 	}
+
+	public DocuObject addItem(DocuObject object) {
+		this.items.add(object);
+		return current();
+	}
+
 }

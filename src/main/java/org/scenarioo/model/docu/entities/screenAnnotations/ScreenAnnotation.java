@@ -1,6 +1,7 @@
-/* scenarioo-api
- * Copyright (C) 2014, scenarioo.org Development Team
- * 
+/*
+ * scenarioo-api
+ * Copyright (C) 2016, scenarioo.org Development Team
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -10,44 +11,38 @@
  * permission to link this library with independent modules, according
  * to the GNU General Public License with "Classpath" exception as provided
  * in the LICENSE file that accompanied this code.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 package org.scenarioo.model.docu.entities.screenAnnotations;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.scenarioo.model.docu.entities.base.ScenariooBaseObject;
 
-import org.scenarioo.model.docu.entities.Detailable;
-import org.scenarioo.model.docu.entities.generic.Details;
+import java.io.Serializable;
 
 /**
  * {@link ScreenAnnotation}s are used to visually mark regions of an image. This feature can e.g. be used to mark the
  * region where a click happens in the web tests.
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class ScreenAnnotation implements Detailable {
+public class ScreenAnnotation extends ScenariooBaseObject<ScreenAnnotation> implements Serializable {
 
-	@XmlElement(required = true)
 	private ScreenRegion region;
 	private ScreenAnnotationStyle style = ScreenAnnotationStyle.DEFAULT;
-	private String screenText = "";
-	private String title = "";
-	private String description = "";
-	private Details details = new Details();
-	private ScreenAnnotationClickAction clickAction = null;
-	private String clickActionUrl = null;
-	private String clickActionText = null;
+	private String screenText;
+	private String title;
+	private String description;
+	private ScreenAnnotationClickAction clickAction;
+	private String clickActionUrl;
+	private String clickActionText;
+
 
 	/**
 	 * Default constructor, only for use by JAXB.
@@ -180,22 +175,6 @@ public class ScreenAnnotation implements Detailable {
 	 */
 	public void setClickActionText(final String clickActionText) {
 		this.clickActionText = clickActionText;
-	}
-
-	@Override
-	public Details getDetails() {
-		return details;
-	}
-
-	@Override
-	public void setDetails(final Details details) {
-		this.details = details;
-	}
-
-	@Override
-	public Details addDetail(final String key, final Object value) {
-		details.put(key, value);
-		return details;
 	}
 
 }

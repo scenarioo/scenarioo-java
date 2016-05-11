@@ -1,22 +1,29 @@
-package org.scenarioo.model.docu.entities;
+package org.scenarioo.model.docu.entities.base;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.scenarioo.api.rules.CharacterChecker;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.*;
 
-import org.scenarioo.api.rules.CharacterChecker;
 
+/**
+ * Collection of labels.
+ *
+ * A label is a string to categorize objects. Their goal is an easy distinction of use cases, scenarios etc. in the UI.
+ *
+ * Each object should only have a small number of labels, ideally around 2 to 5.
+ * Comprehensive additional docu data should be added to the `properties` of an object as `DocuObject`.
+ *
+ * Labels can be visualized with colors, configurable in the UI.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Labels {
-	
+public class Labels implements Set<String> {
+
 	@XmlElement(name = "label")
 	private Set<String> labels = new LinkedHashSet<String>();
 	
@@ -132,5 +139,5 @@ public class Labels {
 		} else if (!labels.equals(other.labels)) return false;
 		return true;
 	}
-	
+
 }

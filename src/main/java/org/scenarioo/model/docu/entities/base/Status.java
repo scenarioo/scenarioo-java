@@ -22,19 +22,43 @@
  *
  */
 
-package org.scenarioo.model.format3.docu.entities.screenAnnotation;
+package org.scenarioo.model.docu.entities.base;
 
-public enum ScreenAnnotationClickAction {
-
+/**
+ * Those are the default status values that scenarioo knows and supports out of the box to set for all status fields in
+ * scenarioo.
+ * 
+ * But for all statuses there is also a more generic setter method where you can use any other application-specific
+ * status simply as a string. All such unknown states will be interpreted and displayed as a warning status.
+ */
+public enum Status {
+	
 	/**
-	 * Let the user navigate to the next step when he clicks on the annotation.
+	 * Status for successfully succeeded and tested without errors.
 	 */
-	TO_NEXT_STEP,
-
+	SUCCESS("success"),
+	
 	/**
-	 * Let the user navigate to a URL specified in property 'clickActionUrl' when he clicks on the annotation.
-	 * 
-	 * The URL will be opened in a separate browser tab.
+	 * Status for failed testing the corresponding step, scenario, use case or build.
 	 */
-	TO_URL;
+	FAILED("failed");
+	
+	Status(final String keyword) {
+		this.keyword = keyword;
+	}
+	
+	private String keyword;
+	
+	public String getKeyword() {
+		return keyword;
+	}
+	
+	public static String toKeywordNullSafe(final Status status) {
+		if (status == null) {
+			return null;
+		}
+		else {
+			return status.getKeyword();
+		}
+	}
 }
