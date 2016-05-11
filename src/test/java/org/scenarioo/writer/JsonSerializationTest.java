@@ -22,7 +22,7 @@
  *
  */
 
-package org.scenarioo.api.format3;
+package org.scenarioo.writer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,9 +30,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Assert;
 import org.junit.Test;
-import org.scenarioo.model.format3.docu.entities.Branch;
-import org.scenarioo.model.format3.docu.entities.Properties;
-import org.scenarioo.model.format3.docu.entities.Step;
+import org.scenarioo.model.docu.entities.Branch;
+import org.scenarioo.model.docu.entities.base.DocuObjectMap;
+import org.scenarioo.model.docu.entities.Step;
 
 import java.io.IOException;
 
@@ -43,15 +43,16 @@ public class JsonSerializationTest {
 
 	@Test
 	public void properties() throws IOException {
-		Properties properties = new Properties();
+		DocuObjectMap properties = new DocuObjectMap();
 		properties.add("aKey", "a value");
 		properties.add("anotherKey", "another value").setType("AType");
 
 		// Serialize
 		String json = toJson(properties);
+		System.out.println("Properties:\n" + json + "\n====\n");
 
 		// Deserialize
-		Properties propertiesResult = readJson(json, Properties.class);
+		DocuObjectMap propertiesResult = readJson(json, DocuObjectMap.class);
 		Assert.assertEquals("a value", propertiesResult.get("aKey").getValue());
 		Assert.assertEquals("another value", propertiesResult.get("anotherKey").getValue());
 		Assert.assertEquals("another value", propertiesResult.get("anotherKey").getValue());
@@ -68,15 +69,33 @@ public class JsonSerializationTest {
 
 		// Serialize
 		String json = toJson(branch);
-		System.out.println(json);
+		System.out.println("Branch:\n" + json + "\n====\n");
 
 		// Deserialize
 		Branch branchResult = readJson(json, Branch.class);
 		Assert.assertEquals("a generic object", branchResult.getProperties().get("aKey").getValue());
 		Assert.assertEquals("another object", branchResult.getProperties().get("anotherKey").getValue());
 		Assert.assertEquals("AType", branchResult.getProperties().get("anotherKey").getType());
-
+		Assert.assertEquals("empty properties on property object expected", 0, branchResult.getProperties().get("anotherKey").getProperties().size());
+		Assert.assertEquals("empty items on property object expected", 0, branchResult.getProperties().get("anotherKey").getItems().size());
 	}
+
+	@Test
+	public void step_minimal() throws IOException {
+
+		Step step = new Step();
+		step.setIndex(5);
+
+		// Serialize
+		String json = toJson(step);
+		System.out.println("Step minimal:\n" + json + "\n====\n");
+
+		// Deserialize
+		Step stepResult = readJson(json, Step.class);
+		Assert.assertEquals(5, stepResult.getIndex());
+		Assert.assertTrue(stepResult.getLabels().size() == 0);
+	}
+
 
 	@Test
 	public void step() throws IOException {
@@ -87,13 +106,14 @@ public class JsonSerializationTest {
 
 		// Serialize
 		String json = toJson(step);
-		System.out.println(json);
+		System.out.println("Step:\n" + json + "\n====\n");
 
 		// Deserialize
 		Step stepResult = readJson(json, Step.class);
 		Assert.assertEquals(5, stepResult.getIndex());
-		Assert.assertEquals("a label", stepResult.getLabels().get(0));
+		Assert.assertTrue(stepResult.getLabels().contains("a label"));
 	}
+
 
 	private <E> E readJson(String json, Class<E> entityClass) throws IOException {
 		ObjectMapper mapper = createJsonMapper();
