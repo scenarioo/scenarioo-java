@@ -27,23 +27,26 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import org.scenarioo.api.util.files.FilesUtil;
+import org.scenarioo.model.docu.format.IdentifierFormat;
 
 /**
  * Represents the file structure of the documentation.
  */
 public class ScenarioDocuFiles {
+
+	private static final String DIRECTORY_NAME_STEPS = "steps";
+
+	private static final String DIRECTORY_NAME_STEPS_HTML = "html";
+
+	private static final String DIRECTORY_NAME_STEPS_SCREENSHOTS = "screenshots";
 	
-	private static final String DIRECTORY_NAME_SCENARIO_SCREENSHOTS = "screenshots";
+	private static final String FILE_NAME_SCENARIO = "scenario.json";
 	
-	private static final String DIRECTORY_NAME_SCENARIO_STEPS = "steps";
+	private static final String FILE_NAME_CASE = "usecase.json";
 	
-	private static final String FILE_NAME_SCENARIO = "scenario.xml";
+	private static final String FILE_NAME_BUILD = "build.json";
 	
-	private static final String FILE_NAME_CASE = "usecase.xml";
-	
-	private static final String FILE_NAME_BUILD = "build.xml";
-	
-	private static final String FILE_NAME_BRANCH = "branch.xml";
+	private static final String FILE_NAME_BRANCH = "branch.json";
 	
 	private static NumberFormat THREE_DIGIT_NUM_FORMAT = createNumberFormatWithMinimumIntegerDigits(3);
 	
@@ -64,96 +67,119 @@ public class ScenarioDocuFiles {
 		return rootDirectory;
 	}
 	
-	public File getBranchDirectory(final String branchName) {
-		File branchDirectory = new File(rootDirectory, FilesUtil.encodeName(branchName));
+	public File getBranchDirectory(final String branchId) {
+		File branchDirectory = new File(rootDirectory, IdentifierFormat.sanitize(branchId));
 		return branchDirectory;
 	}
 	
-	public File getBranchFile(final String branchName) {
-		return new File(getBranchDirectory(branchName), FILE_NAME_BRANCH);
+	public File getBranchFile(final String branchId) {
+		return new File(getBranchDirectory(branchId), FILE_NAME_BRANCH);
 	}
 	
 	public List<File> getBranchFiles() {
 		return FilesUtil.getListOfFilesFromSubdirs(rootDirectory, FILE_NAME_BRANCH);
 	}
 	
-	public File getBuildDirectory(final String branchName, final String buildName) {
-		File buildDirectory = new File(getBranchDirectory(branchName), FilesUtil.encodeName(buildName));
+	public File getBuildDirectory(final String branchId, final String buildId) {
+		File buildDirectory = new File(getBranchDirectory(branchId), IdentifierFormat.sanitize(buildId));
 		return buildDirectory;
 	}
 	
-	public File getBuildFile(final String branchName, final String buildName) {
-		return new File(getBuildDirectory(branchName, buildName), FILE_NAME_BUILD);
+	public File getBuildFile(final String branchId, final String buildId) {
+		return new File(getBuildDirectory(branchId, buildId), FILE_NAME_BUILD);
 	}
 	
-	public List<File> getBuildFiles(final String branchName) {
-		return FilesUtil.getListOfFilesFromSubdirs(getBranchDirectory(branchName), FILE_NAME_BUILD);
+	public List<File> getBuildFiles(final String branchId) {
+		return FilesUtil.getListOfFilesFromSubdirs(getBranchDirectory(branchId), FILE_NAME_BUILD);
 	}
 	
-	public File getUseCaseDirectory(final String branchName, final String buildName, final String useCaseName) {
-		File branchDirectory = new File(getBuildDirectory(branchName, buildName), FilesUtil.encodeName(useCaseName));
+	public File getUseCaseDirectory(final String branchId, final String buildId, final String useCaseId) {
+		File branchDirectory = new File(getBuildDirectory(branchId, buildId), IdentifierFormat.sanitize(useCaseId));
 		return branchDirectory;
 	}
 	
-	public File getUseCaseFile(final String branchName, final String buildName, final String useCaseName) {
-		return new File(getUseCaseDirectory(branchName, buildName, useCaseName), FILE_NAME_CASE);
+	public File getUseCaseFile(final String branchId, final String buildId, final String useCaseId) {
+		return new File(getUseCaseDirectory(branchId, buildId, useCaseId), FILE_NAME_CASE);
 	}
 	
-	public List<File> getUseCaseFiles(final String branchName, final String buildName) {
-		return FilesUtil.getListOfFilesFromSubdirs(getBuildDirectory(branchName, buildName), FILE_NAME_CASE);
+	public List<File> getUseCaseFiles(final String branchId, final String buildId) {
+		return FilesUtil.getListOfFilesFromSubdirs(getBuildDirectory(branchId, buildId), FILE_NAME_CASE);
 	}
 	
-	public File getScenarioDirectory(final String branchName, final String buildName, final String useCaseName,
-			final String scenarioName) {
-		File branchDirectory = new File(getUseCaseDirectory(branchName, buildName, useCaseName),
-				FilesUtil.encodeName(scenarioName));
+	public File getScenarioDirectory(final String branchId, final String buildId, final String useCaseId,
+			final String scenarioId) {
+		File branchDirectory = new File(getUseCaseDirectory(branchId, buildId, useCaseId),
+				IdentifierFormat.sanitize(scenarioId));
 		return branchDirectory;
 	}
 	
-	public File getScenarioFile(final String branchName, final String buildName, final String useCaseName,
-			final String scenarioName) {
-		return new File(getScenarioDirectory(branchName, buildName, useCaseName, scenarioName), FILE_NAME_SCENARIO);
+	public File getScenarioFile(final String branchId, final String buildId, final String useCaseId,
+			final String scenarioId) {
+		return new File(getScenarioDirectory(branchId, buildId, useCaseId, scenarioId), FILE_NAME_SCENARIO);
 	}
 	
-	public List<File> getScenarioFiles(final String branchName, final String buildName, final String useCaseName) {
-		return FilesUtil.getListOfFilesFromSubdirs(getUseCaseDirectory(branchName, buildName, useCaseName),
+	public List<File> getScenarioFiles(final String branchId, final String buildId, final String useCaseId) {
+		return FilesUtil.getListOfFilesFromSubdirs(getUseCaseDirectory(branchId, buildId, useCaseId),
 				FILE_NAME_SCENARIO);
 	}
 	
-	public File getStepsDirectory(final String branchName, final String buildName, final String useCaseName,
-			final String scenarioName) {
-		File branchDirectory = new File(getScenarioDirectory(branchName, buildName, useCaseName, scenarioName),
-				DIRECTORY_NAME_SCENARIO_STEPS);
+	public File getStepsDirectory(final String branchId, final String buildId, final String useCaseId,
+			final String scenarioId) {
+		File branchDirectory = new File(getScenarioDirectory(branchId, buildId, useCaseId, scenarioId),
+				DIRECTORY_NAME_STEPS);
 		return branchDirectory;
 	}
 	
-	public File getStepFile(final String branchName, final String buildName, final String useCaseName,
-			final String scenarioName, final int stepIndex) {
-		return new File(getStepsDirectory(branchName, buildName, useCaseName, scenarioName),
+	public File getStepFile(final String branchId, final String buildId, final String useCaseId,
+			final String scenarioId, final int stepIndex) {
+		return new File(getStepsDirectory(branchId, buildId, useCaseId, scenarioId),
 				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".xml");
 	}
 	
-	public List<File> getStepFiles(final String branchName, final String buildName, final String useCaseName,
-			final String scenarioName) {
-		return FilesUtil.getListOfFiles(getStepsDirectory(branchName, buildName, useCaseName, scenarioName));
+	public List<File> getStepFiles(final String branchId, final String buildId, final String useCaseId,
+			final String scenarioId) {
+		return FilesUtil.getListOfFiles(getStepsDirectory(branchId, buildId, useCaseId, scenarioId));
 	}
 	
-	public File getScreenshotsDirectory(final String branchName, final String buildName,
-			final String useCaseName, final String scenarioName) {
-		return new File(getScenarioDirectory(branchName, buildName, useCaseName, scenarioName),
-				DIRECTORY_NAME_SCENARIO_SCREENSHOTS);
+	public File getScreenshotsDirectory(final String branchId, final String buildId,
+			final String useCaseId, final String scenarioId) {
+		return new File(getScenarioDirectory(branchId, buildId, useCaseId, scenarioId),
+				DIRECTORY_NAME_STEPS_SCREENSHOTS);
 	}
-	
+
+	public File getHtmlDirectory(final String branchId, final String buildId,
+										final String useCaseId, final String scenarioId) {
+		return new File(getScenarioDirectory(branchId, buildId, useCaseId, scenarioId),
+				DIRECTORY_NAME_STEPS_HTML);
+	}
+
 	/**
-	 * @return A {@link File} object pointing to the PNG file of the step screenshot. The method does not care whether
-	 *         the file actually exists.
+	 * @param fileFormatEnding the file format postfix ending (usually `.png` or `.jpg`)
+	 * @return A {@link File} object pointing to the image file of the step screenshot. The method does not care whether
+	 *         the file actually exists. That is where you have to store your image file of the screenshot belonging to this step.
 	 */
-	public File getScreenshotFile(final String branchName, final String buildName,
-			final String useCaseName, final String scenarioName, final int stepIndex) {
-		return new File(getScreenshotsDirectory(branchName, buildName, useCaseName, scenarioName),
-				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".png");
+	public File getScreenshotFile(final String branchId, final String buildId,
+			final String useCaseId, final String scenarioId, final int stepIndex, final String fileFormatEnding) {
+		return new File(getScreenshotsDirectory(branchId, buildId, useCaseId, scenarioId),
+				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + fileFormatEnding);
 	}
-	
+
+	public File getScreenshotFilePng(final String branchId, final String buildId,
+								  final String useCaseId, final String scenarioId, final int stepIndex) {
+		return getScreenshotFile(branchId, buildId, useCaseId, scenarioId, stepIndex, ".png");
+	}
+
+	public File getScreenshotFileJpg(final String branchId, final String buildId,
+									 final String useCaseId, final String scenarioId, final int stepIndex) {
+		return getScreenshotFile(branchId, buildId, useCaseId, scenarioId, stepIndex, ".jpeg");
+	}
+
+	public File getStepHtmlFile(final String branchId, final String buildId,
+									 final String useCaseId, final String scenarioId, final int stepIndex) {
+		return new File(getScreenshotsDirectory(branchId, buildId, useCaseId, scenarioId),
+				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".html");
+	}
+
 	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(
 			final int minimumIntegerDigits) {
 		final NumberFormat numberFormat = NumberFormat.getIntegerInstance();

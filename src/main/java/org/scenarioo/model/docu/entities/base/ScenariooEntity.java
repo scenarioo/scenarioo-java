@@ -1,5 +1,7 @@
 package org.scenarioo.model.docu.entities.base;
 
+import org.scenarioo.model.docu.format.IdentifierFormat;
+
 /**
  * Basic class for all identifiable scenarioo objects, that all have the abbility to add additional documentation informations as properties and have an id.
  *
@@ -14,7 +16,7 @@ public abstract class ScenariooEntity<EntityType extends ScenariooEntity> extend
     }
 
     public EntityType setId(String id) {
-        this.id = id;
+        this.id = IdentifierFormat.sanitize(id);
         return current();
     }
 

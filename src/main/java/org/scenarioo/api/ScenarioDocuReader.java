@@ -22,24 +22,23 @@
 
 package org.scenarioo.api;
 
-import static org.scenarioo.api.rules.CharacterChecker.*;
-
 import java.io.File;
 import java.util.List;
 
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.api.files.ScenarioDocuFiles;
-import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.writer.utils.JsonUtil;
 
 /**
- * Gives access to the geenrated scenario docu files in the filesystem.
+ * Gives access to the geenrated scenarioo docu files in the filesystem.
  */
 public class ScenarioDocuReader {
+	
 	
 	private final ScenarioDocuFiles docuFiles;
 	
@@ -47,19 +46,19 @@ public class ScenarioDocuReader {
 		this.docuFiles = new ScenarioDocuFiles(rootDirectory);
 	}
 	
-	public Branch loadBranch(final String branchName) {
-		File file = docuFiles.getBranchFile(checkIdentifier(branchName));
-		return ScenarioDocuXMLFileUtil.unmarshal(Branch.class, file);
+	public Branch loadBranch(final String branchId) {
+		File file = docuFiles.getBranchFile(branchId);
+		return JsonUtil.load(Branch.class, file);
 	}
 	
 	public List<Branch> loadBranches() {
 		List<File> branchFiles = docuFiles.getBranchFiles();
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Branch.class, branchFiles);
+		return JsonUtil.loadListOfFiles(branchFiles, Branch.class);
 	}
 	
-	public Build loadBuild(final String branchName, final String buildName) {
-		File file = docuFiles.getBuildFile(checkIdentifier(branchName), checkIdentifier(buildName));
-		return ScenarioDocuXMLFileUtil.unmarshal(Build.class, file);
+	public Build loadBuild(final String branchId, final String buildId) {
+		File file = docuFiles.getBuildFile(branchId, buildId);
+		return JsonUtil.load(Build.class, file);
 	}
 	
 	/**
@@ -67,56 +66,56 @@ public class ScenarioDocuReader {
 	 * of a list of BuildLinks. This was done because BuildLinks belongs to the Server now and is not part of the API
 	 * anymore.
 	 */
-	public List<ObjectFromDirectory<Build>> loadBuilds(final String branchName) {
-		List<File> buildFiles = docuFiles.getBuildFiles(checkIdentifier(branchName));
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFilesWithDirNames(buildFiles, Build.class);
+	public List<ObjectFromDirectory<Build>> loadBuilds(final String branchId) {
+		List<File> buildFiles = docuFiles.getBuildFiles(branchId);
+		return JsonUtil.loadListOfFilesWithDirNames(buildFiles, Build.class);
 	}
 	
-	public List<UseCase> loadUsecases(final String branchName, final String buildName) {
-		List<File> files = docuFiles.getUseCaseFiles(checkIdentifier(branchName), checkIdentifier(buildName));
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(UseCase.class, files);
+	public List<UseCase> loadUsecases(final String branchId, final String buildId) {
+		List<File> files = docuFiles.getUseCaseFiles(branchId, buildId);
+		return JsonUtil.loadListOfFiles(files, UseCase.class);
 	}
 	
-	public UseCase loadUsecase(final String branchName, final String buildName, final String useCaseName) {
-		File file = docuFiles.getUseCaseFile(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName));
-		return ScenarioDocuXMLFileUtil.unmarshal(UseCase.class, file);
+	public UseCase loadUsecase(final String branchId, final String buildId, final String useCaseId) {
+		File file = docuFiles.getUseCaseFile(branchId, buildId,
+				useCaseId);
+		return JsonUtil.load(UseCase.class, file);
 	}
 	
-	public List<Scenario> loadScenarios(final String branchName, final String buildName, final String useCaseName) {
-		List<File> files = docuFiles.getScenarioFiles(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName));
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Scenario.class, files);
+	public List<Scenario> loadScenarios(final String branchId, final String buildId, final String useCaseId) {
+		List<File> files = docuFiles.getScenarioFiles(branchId, buildId,
+				useCaseId);
+		return JsonUtil.loadListOfFiles(files, Scenario.class);
 	}
 	
-	public Scenario loadScenario(final String branchName, final String buildName, final String useCaseName,
-			final String scenarioName) {
-		File file = docuFiles.getScenarioFile(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName), checkIdentifier(scenarioName));
-		return ScenarioDocuXMLFileUtil.unmarshal(Scenario.class, file);
+	public Scenario loadScenario(final String branchId, final String buildId, final String useCaseId,
+			final String scenarioId) {
+		File file = docuFiles.getScenarioFile(branchId, buildId,
+				useCaseId, scenarioId);
+		return JsonUtil.load(Scenario.class, file);
 	}
 	
-	public List<Step> loadSteps(final String branchName, final String buildName, final String useCaseName,
-			final String scenarioName) {
-		List<File> files = docuFiles.getStepFiles(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName), checkIdentifier(scenarioName));
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Step.class, files);
+	public List<Step> loadSteps(final String branchId, final String buildId, final String useCaseId,
+			final String scenarioId) {
+		List<File> files = docuFiles.getStepFiles(branchId, buildId,
+				useCaseId, scenarioId);
+		return JsonUtil.loadListOfFiles(files, Step.class);
 	}
 	
-	public Step loadStep(final String branchName, final String buildName, final String useCaseName,
-			final String scenarioName, final int stepIndex) {
-		File file = docuFiles.getStepFile(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName), checkIdentifier(scenarioName), stepIndex);
-		return ScenarioDocuXMLFileUtil.unmarshal(Step.class, file);
+	public Step loadStep(final String branchId, final String buildId, final String useCaseId,
+			final String scenarioId, final int stepIndex) {
+		File file = docuFiles.getStepFile(branchId, buildId,
+				useCaseId, scenarioId, stepIndex);
+		return JsonUtil.load(Step.class, file);
 	}
 	
 	/**
 	 * Screenshot files are simply provided by path, the REST service will take care of streaming it.
 	 */
-	public File getScreenshotFile(final String branchName, final String buildName, final String useCaseName,
-			final String scenarioName, final String imageName) {
-		return new File(docuFiles.getScreenshotsDirectory(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName), checkIdentifier(scenarioName)), imageName);
+	public File getScreenshotFile(final String branchId, final String buildId, final String useCaseId,
+			final String scenarioId, final String imageName) {
+		return new File(docuFiles.getScreenshotsDirectory(branchId, buildId,
+				useCaseId, scenarioId), imageName);
 	}
 	
 }

@@ -43,7 +43,7 @@ public class SaveScreenshotTest {
 	}
 
 	private void assertStoredFileContentEqualsOriginalImage() {
-		File file = writer.getScreenshotFile(TEST_CASE_NAME, TEST_SCENARIO_NAME, TEST_STEP_INDEX);
+		File file = writer.getScreenshotFilePng(TEST_CASE_NAME, TEST_SCENARIO_NAME, TEST_STEP_INDEX);
 		byte[] fileAsByteArray;
 
 		try {

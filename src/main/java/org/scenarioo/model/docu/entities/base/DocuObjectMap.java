@@ -9,8 +9,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.DocuObject;
-import org.scenarioo.writer.mapper.DocuObjectMapDeserializer;
-import org.scenarioo.writer.mapper.ListToDocuObjectMapConverter;
+import org.scenarioo.model.docu.mapper.DocuObjectMapDeserializer;
+import org.scenarioo.model.docu.mapper.ListToDocuObjectMapConverter;
 
 /**
  * DocuObjectMap encapsulates a list of objects with convenience method for fast and easy access and adding docu objects.
@@ -31,6 +31,19 @@ public class DocuObjectMap implements Map<String, DocuObject> {
             add(obj);
         }
     }
+
+    /**
+     * Add an empty DocuObject with a labelKey and return its empty docu object, which can be used to attach any data (items, properties, value, ...) to it.
+     * @param labelKey the key of the property
+     * @return the created docu object to chain further call for data beeing added on that entry
+     */
+    public DocuObject add(String labelKey) {
+        DocuObject object = new DocuObject();
+        object.setLabelKey(labelKey);
+        add(object);
+        return object;
+    }
+
 
     /**
      * Add a DocuObject to this map.
@@ -56,6 +69,19 @@ public class DocuObjectMap implements Map<String, DocuObject> {
         object.setLabelKey(labelKey);
         add(object);
         return object;
+    }
+
+    /**
+     * Add a DocuObject as a property with setting its `labelKey`.
+     *
+     * This will set the labelKey on the passed DocuObject to the passed key.
+     *
+     * @param labelKey the key of the value
+     * @param object the docu object
+     */
+    public void add(String labelKey, DocuObject object) {
+        object.setLabelKey(labelKey);
+        add(object);
     }
 
     public DocuObject get(String labelKey) {

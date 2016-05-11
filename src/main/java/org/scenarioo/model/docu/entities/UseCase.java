@@ -24,6 +24,8 @@
 
 package org.scenarioo.model.docu.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.scenarioo.model.docu.entities.base.DocuObjectMap;
 import org.scenarioo.model.docu.entities.base.LabelableScenariooEntity;
 import org.scenarioo.model.docu.entities.base.Status;
 
@@ -39,6 +41,9 @@ public class UseCase extends LabelableScenariooEntity<UseCase> implements Serial
 	private String name;
 	private String description;
 	private String status;
+
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	private DocuObjectMap sections = new DocuObjectMap();
 
 	public UseCase() {
 	}
@@ -105,5 +110,43 @@ public class UseCase extends LabelableScenariooEntity<UseCase> implements Serial
 		this.status = status;
 		return current();
 	}
+
+	/**
+	 * Sections are special additional docu object data for additional details data of your object,
+	 * that are visualized as special collapsable sections on the right side details view.
+	 *
+	 * Every section must have a `labelKey` as section title and can have as much other data as all other DocuObjects can typically have.
+	 *
+	 * @param sections the sections to add
+	 * @return the current entity to chain further methods
+     */
+	public UseCase setSections(DocuObjectMap sections) {
+		this.sections = sections;
+		return current();
+	}
+
+	public DocuObjectMap getSections() {
+		return sections;
+	}
+
+	/**
+	 * Add a docu object as a section with additional additional application specific data to this entity.
+	 * @param section a docu object with a required `labelKey` as section title and key for this section
+	 * @return this entity to chain further calls on it
+	 */
+	public UseCase addSection(DocuObject section) {
+		sections.add(section);
+		return current();
+	}
+
+	/**
+	 * Create and add a docu object as a section with additional application specific data to this entity.
+	 * @param labelKeyAsSectionTitle a docu object with a required `labelKey` as section title and key for this section
+	 * @return the created section object to attach data to the section
+	 */
+	public DocuObject addSection(String labelKeyAsSectionTitle) {
+		return sections.add(labelKeyAsSectionTitle);
+	}
+
 
 }

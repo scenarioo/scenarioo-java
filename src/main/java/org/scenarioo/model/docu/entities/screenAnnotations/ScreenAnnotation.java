@@ -43,7 +43,6 @@ public class ScreenAnnotation extends ScenariooBaseObject<ScreenAnnotation> impl
 	private String clickActionUrl;
 	private String clickActionText;
 
-
 	/**
 	 * Default constructor, only for use by JAXB.
 	 */

@@ -36,27 +36,7 @@ public class FilesUtil {
 	
 	private FilesUtil() {
 	}
-	
-	public static String decodeName(final String name) {
-		try {
-			return URLDecoder.decode(name, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new IllegalStateException(
-					"Unsupported UTF-8 charset. Scenarioo needs to run on a JVM or server environment that supports 'UTF-8'.",
-					e);
-		}
-	}
-	
-	public static String encodeName(final String name) {
-		try {
-			return URLEncoder.encode(name, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new IllegalStateException(
-					"Unsupported UTF-8 charset. Scenarioo needs to run on a JVM or server environment that supports 'UTF-8'.",
-					e);
-		}
-	}
-	
+
 	/**
 	 * List all files in the given directory sorted alphanumerically using a collator.
 	 */

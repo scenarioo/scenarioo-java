@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.scenarioo.api.exception.IllegalCharacterException;
+import org.scenarioo.model.docu.entities.base.Labels;
 
 public class LabelsTest {
 	
@@ -29,28 +30,21 @@ public class LabelsTest {
 	}
 	
 	@Test
-	public void ifAnInvalidSingleLabelIsAdded_anExceptionIsThrown() {
-		try {
-			Labels labels = new Labels();
-			labels.addLabel("test-1").addLabel("test.2");
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertEquals("Label test.2 contains illegal characters.", e.getMessage());
-		}
+	public void ifAnInvalidSingleLabelIsAdded_itGetsSanitized() {
+		Labels labels = new Labels();
+		labels.addLabel("test-1").addLabel("test.2");
+		assertEquals(2, labels.getLabels().size());
+		assertEquals("Second label expected to be sanitized", "test-2", labels.getLabels().toArray()[1]);
 	}
 	
 	@Test
-	public void ifASetOfLabelsContainingInvalidCharactersIsSet_anExceptionIsThrown() {
-		try {
-			Labels labels = new Labels();
-			Set<String> labelsToSet = new LinkedHashSet<String>();
-			labelsToSet.add("valid");
-			labelsToSet.add(".invalid");
-			labels.setLabels(labelsToSet);
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertEquals("Label .invalid contains illegal characters.", e.getMessage());
-		}
+	public void ifASetOfLabelsContainingInvalidCharactersIsSet_itGetsSanititzed() {
+		Labels labels = new Labels();
+		Set<String> labelsToSet = new LinkedHashSet<String>();
+		labelsToSet.add("valid");
+		labelsToSet.add(".invalid");
+		labels.setLabels(labelsToSet);
+		assertEquals("Second label expected to be sanitized", "-invalid", labels.getLabels().toArray()[1]);
 	}
 	
 	@Test

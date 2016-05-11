@@ -1,4 +1,4 @@
-package org.scenarioo.writer.mapper;
+package org.scenarioo.model.docu.mapper;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;

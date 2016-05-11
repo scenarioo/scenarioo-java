@@ -36,13 +36,36 @@ public class ScenariooBaseObject<EntityType extends ScenariooBaseObject> {
     }
 
     /**
+     * Add an empty property with a labelKey and return its empty docu object, which can be used to attach any data (items, properties, value, ...) to it.
+     * @param labelKey the key of the property
+     * @return the created docu object to chain further call for data beeing added on that entry
+     */
+    public DocuObject addProperty(String labelKey) {
+        return properties.add(labelKey);
+    }
+
+    /**
      * Add a simple property with a string value
      * @param labelKey the key of the value
      * @param value the value
-     * @return properties object to chain further properties beeing added
+     * @return the created docu object to chain further call for data beeing added on that entry
      */
     public DocuObject addProperty(String labelKey, String value) {
         return properties.add(labelKey, value);
+    }
+
+    /**
+     * Add a DocuObject as a property with setting its `labelKey`.
+     *
+     * This will set the labelKey on the passed DocuObject to the passed key.
+     *
+     * @param labelKey the key of the value
+     * @param object the docu object
+     * @return this entity object to chain further calls on this entity
+     */
+    public EntityType addProperty(String labelKey, DocuObject object) {
+        properties.add(labelKey, object);
+        return current();
     }
 
     /**

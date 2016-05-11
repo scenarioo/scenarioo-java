@@ -22,8 +22,6 @@
 
 package org.scenarioo.api;
 
-import static org.scenarioo.api.rules.CharacterChecker.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,19 +32,20 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
 import org.scenarioo.api.files.ScenarioDocuFiles;
-import org.scenarioo.api.rules.CharacterChecker;
-import org.scenarioo.api.rules.DetailsChecker;
-import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
+import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.base.ScenariooEntity;
+import org.scenarioo.model.docu.format.IdentifierFormat;
+import org.scenarioo.writer.utils.JsonUtil;
 
 /**
  * Generator to produce documentation files for a specific build.
@@ -61,9 +60,9 @@ public class ScenarioDocuWriter {
 	
 	private final ScenarioDocuFiles docuFiles;
 	
-	private final String branchName;
+	private final String branchId;
 	
-	private final String buildName;
+	private final String buildId;
 	
 	private final ExecutorService asyncWriteExecutor = newAsyncWriteExecutor();
 	
@@ -72,20 +71,24 @@ public class ScenarioDocuWriter {
 	/**
 	 * Initialize with directory inside which to generate the documentation contents.
 	 * 
-	 * @param destinationDirectory
+	 * @param destinationRootDirectory
 	 *            the directory where the content should be generated (this directory must be precreated by you!).
-	 * @param branchName
-	 *            name of the branch we are generating content for
-	 * @param buildName
-	 *            name of the build (concrete identifier like revision and date) for which we are generating content.
+	 * @param branchId
+	 *            id of the branch we are generating content for (if the id is not explicitly set, you can use the name for id)
+	 * @param buildId
+	 *            id of the branch we are generating content for (if the id is not explicitly set, you can use the name for id)
 	 */
-	public ScenarioDocuWriter(final File destinationRootDirectory, final String branchName, final String buildName) {
-		checkIdentifier(branchName);
-		checkIdentifier(buildName);
+	public ScenarioDocuWriter(final File destinationRootDirectory, final String branchId, final String buildId) {
 		docuFiles = new ScenarioDocuFiles(destinationRootDirectory);
-		this.branchName = branchName;
-		this.buildName = buildName;
+		this.branchId = IdentifierFormat.sanitize(branchId);
+		this.buildId = IdentifierFormat.sanitize(buildId);
 		createBuildDirectoryIfNotYetExists();
+	}
+
+	private void generateMissingId(ScenariooEntity<?> entity, String defaultIdentifierOrName) {
+		if (StringUtils.isBlank(entity.getId())) {
+			entity.setId(IdentifierFormat.sanitize(defaultIdentifierOrName));
+		}
 	}
 	
 	/**
@@ -95,12 +98,13 @@ public class ScenarioDocuWriter {
 	 *            the branch description to write.
 	 */
 	public void saveBranchDescription(final Branch branch) {
-		checkIdentifier(branch.getName());
+		generateMissingId(branch, branchId);
+		Preconditions.checkEquals(branch.getId(), branchId, "Id field on branch is '" + branch.getId() + "' but writer is for writing to branch directory of branch with id='" + branchId + "'.");
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destBranchFile = docuFiles.getBranchFile(branchName);
-				ScenarioDocuXMLFileUtil.marshal(branch, destBranchFile);
+				File branchFile = docuFiles.getBranchFile(branchId);
+				JsonUtil.save(branch, branchFile);
 			}
 		});
 	}
@@ -112,12 +116,13 @@ public class ScenarioDocuWriter {
 	 *            the build description to write
 	 */
 	public void saveBuildDescription(final Build build) {
-		checkIdentifier(build.getName());
+		generateMissingId(build, buildId);
+		Preconditions.checkEquals(build.getId(), buildId, "Id field on build is '" + build.getId() + "' but writer is for writing to build directory with id='" + buildId + "'.");
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destBuildFile = docuFiles.getBuildFile(branchName, buildName);
-				ScenarioDocuXMLFileUtil.marshal(build, destBuildFile);
+				File buildFile = docuFiles.getBuildFile(branchId, buildId);
+				JsonUtil.save(build, buildFile);
 			}
 		});
 	}
@@ -129,124 +134,112 @@ public class ScenarioDocuWriter {
 	 *            the use case description to write
 	 */
 	public void saveUseCase(final UseCase useCase) {
-		checkIdentifier(useCase.getName());
+		generateMissingId(useCase, useCase.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destCaseDir = getUseCaseDirectory(useCase.getName());
-				createDirectoryIfNotYetExists(destCaseDir);
-				File destCaseFile = docuFiles.getUseCaseFile(branchName, buildName, useCase.getName());
-				ScenarioDocuXMLFileUtil.marshal(useCase, destCaseFile);
+				File useCaseFile = docuFiles.getUseCaseFile(branchId, buildId, useCase.getId());
+				createParentDirectoryIfNotYetExists(useCaseFile);
+				JsonUtil.save(useCase, useCaseFile);
 			}
 		});
 	}
 	
 	public void saveScenario(final UseCase useCase, final Scenario scenario) {
-		saveScenario(useCase.getName(), scenario);
+		generateMissingId(useCase, useCase.getName());
+		saveScenario(useCase.getId(), scenario);
 	}
 	
-	public void saveScenario(final String useCaseName, final Scenario scenario) {
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenario.getName());
+	public void saveScenario(final String useCaseId, final Scenario scenario) {
+		generateMissingId(scenario, scenario.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destScenarioDir = getScenarioDirectory(useCaseName, scenario.getName());
-				createDirectoryIfNotYetExists(destScenarioDir);
-				File destScenarioFile = docuFiles.getScenarioFile(branchName, buildName, useCaseName,
-						scenario.getName());
-				ScenarioDocuXMLFileUtil.marshal(scenario, destScenarioFile);
+				File scenarioFile = docuFiles.getScenarioFile(branchId, buildId, useCaseId, scenario.getId());
+				createParentDirectoryIfNotYetExists(scenarioFile);
+				JsonUtil.save(scenario, scenarioFile);
 			}
 		});
 	}
 	
 	public void saveStep(final UseCase useCase, final Scenario scenario, final Step step) {
-		saveStep(useCase.getName(), scenario.getName(), step);
+		generateMissingId(useCase, useCase.getName());
+		generateMissingId(scenario, scenario.getName());
+		saveStep(useCase.getId(), scenario.getId(), step);
 	}
 	
 	/**
-	 * The page property of the step is optional, but it is recommended to use it. Page names are a central part of
-	 * Scenarioo.
+	 * The page property of the step is optional, but it is recommended to use it.
+	 * Page names are a central part of Scenarioo.
 	 */
-	public void saveStep(final String useCaseName, final String scenarioName, final Step step) {
-		checkSaveStepPreconditions(useCaseName, scenarioName, step);
+	public void saveStep(final String useCaseId, final String scenarioId, final Step step) {
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destStepsDir = getScenarioStepsDirectory(useCaseName, scenarioName);
-				createDirectoryIfNotYetExists(destStepsDir);
-				calculateScreenshotFileNameIfNotSetWorkaround(useCaseName, scenarioName, step);
-				File destStepFile = docuFiles.getStepFile(branchName, buildName, useCaseName, scenarioName, step
-						.getStepDescription().getIndex());
-				ScenarioDocuXMLFileUtil.marshal(step, destStepFile);
+				File stepFile = docuFiles.getStepFile(branchId, buildId, useCaseId, scenarioId, step.getIndex());
+				createParentDirectoryIfNotYetExists(stepFile);
+				JsonUtil.save(step, stepFile);
 			}
 		});
 	}
-	
-	private void checkSaveStepPreconditions(final String useCaseName, final String scenarioName, final Step step) {
-		CharacterChecker.checkIdentifier(useCaseName);
-		CharacterChecker.checkIdentifier(scenarioName);
-		if (step.getPage() != null) {
-			CharacterChecker.checkIdentifier(step.getPage().getName());
-		}
-		if (step.getMetadata() != null) {
-			DetailsChecker.checkIdentifiers(step.getMetadata().getDetails());
-		}
-		if (step.getStepDescription() != null) {
-			DetailsChecker.checkIdentifiers(step.getStepDescription().getDetails());
-		}
-	}
-	
-	private void calculateScreenshotFileNameIfNotSetWorkaround(final String useCaseName, final String scenarioName,
-			final Step step) {
-		StepDescription stepDescription = step.getStepDescription();
-		if (stepDescription != null && stepDescription.getScreenshotFileName() == null) {
-			File imageFile = docuFiles.getScreenshotFile(branchName, buildName, useCaseName, scenarioName,
-					stepDescription.getIndex());
-			stepDescription.setScreenshotFileName(imageFile.getName());
-		}
-	}
-	
+
 	/**
 	 * In case you want to define your screenshot names differently than by step name, you can save it on your own, into
 	 * the following directory for a scenario.
 	 */
-	public File getScreenshotsDirectory(final String usecaseName, final String scenarioName) {
-		return docuFiles.getScreenshotsDirectory(branchName, buildName, checkIdentifier(usecaseName),
-				checkIdentifier(scenarioName));
+	public File getScreenshotsDirectory(final String useCaseId, final String scenarioId) {
+		return docuFiles.getScreenshotsDirectory(branchId, buildId, useCaseId, scenarioId);
 	}
 	
 	/**
-	 * Get the file name of the file where the screenshot of a step is stored.
+	 * Get the file name of the file where the screenshot of a step is stored (for any supported image format, pass the correct ending)
 	 */
-	public File getScreenshotFile(final String usecaseName, final String scenarioName, final int stepIndex) {
-		return docuFiles.getScreenshotFile(branchName, buildName, checkIdentifier(usecaseName),
-				checkIdentifier(scenarioName), stepIndex);
+	public File getScreenshotFile(final String useCaseId, final String scenarioId, final int stepIndex, final String fileFormatEnding) {
+		return docuFiles.getScreenshotFile(branchId, buildId, useCaseId, scenarioId, stepIndex, fileFormatEnding);
+	}
+
+	/**
+	 * Get the file name of the file where the screenshot of a step is stored as Png file.
+	 */
+	public File getScreenshotFilePng(final String useCaseId, final String scenarioId, final int stepIndex) {
+		return docuFiles.getScreenshotFile(branchId, buildId, useCaseId, scenarioId, stepIndex, ".png");
 	}
 	
 	/**
 	 * Save the provided PNG image as a PNG file into the correct default file location for a step.
 	 * 
 	 * In case you want to use another image format (e.g. JPEG) or just want to define the image file names for your
-	 * scenarios differently, you can do this by using {@link StepDescription#setScreenshotFileName} and saving the
-	 * picture on your own, as explained in the documentation of the mentioned method.
+	 * scenarios differently, you can do this by using one of the getScreenshotFile methods and save the file on your own to the provided path.
 	 * 
 	 * @param pngScreenshot
 	 *            Screenshot in PNG format.
 	 */
-	public void saveScreenshotAsPng(final String useCaseName, final String scenarioName, final int stepIndex,
-			final byte[] pngScreenshot) {
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenarioName);
+	public void saveScreenshotAsPng(final String useCaseId, final String scenarioId, final int stepIndex, final byte[] pngScreenshot) {
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, useCaseName,
-						scenarioName, stepIndex);
+			final File screenshotFile = docuFiles.getScreenshotFilePng(branchId, buildId, useCaseId, scenarioId, stepIndex);
+			try {
+				FileUtils.writeByteArrayToFile(screenshotFile, pngScreenshot);
+			} catch (IOException e) {
+				throw new RuntimeException("Could not write image: " + screenshotFile.getAbsolutePath(), e);
+			}
+			}
+		});
+	}
+
+	/**
+	 * Save the html source of a step into a separate file for a step
+     */
+	public void saveStepHtml(final String useCaseId, final String scenarioId, final int stepIndex, final String htmlSource) {
+		executeAsyncWrite(new Runnable() {
+			@Override
+			public void run() {
+				final File htmlFile = docuFiles.getStepHtmlFile(branchId, buildId, useCaseId, scenarioId, stepIndex);
 				try {
-					FileUtils.writeByteArrayToFile(screenshotFile, pngScreenshot);
+					FileUtils.writeStringToFile(htmlFile, htmlSource);
 				} catch (IOException e) {
-					throw new RuntimeException("Could not write image: " + screenshotFile.getAbsolutePath(), e);
+					throw new RuntimeException("Could not write html for step: " + htmlFile.getAbsolutePath(), e);
 				}
 			}
 		});
@@ -283,27 +276,32 @@ public class ScenarioDocuWriter {
 	}
 	
 	private File getBuildDirectory() {
-		return docuFiles.getBuildDirectory(branchName, buildName);
+		return docuFiles.getBuildDirectory(branchId, buildId);
 	}
 	
 	private File getUseCaseDirectory(final String useCaseName) {
-		return docuFiles.getUseCaseDirectory(branchName, buildName, useCaseName);
+		return docuFiles.getUseCaseDirectory(branchId, buildId, useCaseName);
 	}
 	
 	private File getScenarioDirectory(final String useCaseName, final String scenarioName) {
-		return docuFiles.getScenarioDirectory(branchName, buildName, useCaseName, scenarioName);
+		return docuFiles.getScenarioDirectory(branchId, buildId, useCaseName, scenarioName);
 	}
 	
 	private File getScenarioStepsDirectory(final String useCaseName, final String scenarioName) {
-		return docuFiles.getStepsDirectory(branchName, buildName, useCaseName, scenarioName);
+		return docuFiles.getStepsDirectory(branchId, buildId, useCaseName, scenarioName);
 	}
 	
 	private void createBuildDirectoryIfNotYetExists() {
 		createDirectoryIfNotYetExists(getBuildDirectory());
 	}
 	
-	private void createDirectoryIfNotYetExists(final File directory) {
+	private void createParentDirectoryIfNotYetExists(final File file) {
 		docuFiles.assertRootDirectoryExists();
+		File directory = file.getParentFile();
+		createDirectoryIfNotYetExists(directory);
+	}
+
+	private void createDirectoryIfNotYetExists(File directory) {
 		if (!directory.exists()) {
 			directory.mkdirs();
 		}

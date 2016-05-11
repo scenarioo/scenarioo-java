@@ -53,6 +53,13 @@ public class Step extends LabelableScenariooEntity<Step> implements Serializable
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private DocuObjectMap sections = new DocuObjectMap();
 
+
+	public Step() {}
+
+	public Step(int index) {
+		this.index = index;
+	}
+
 	public Page getPage() {
 		return page;
 	}
@@ -122,6 +129,15 @@ public class Step extends LabelableScenariooEntity<Step> implements Serializable
 		return current();
 	}
 
+	/**
+	 * Sections are special additional docu object data for additional details data of your object,
+	 * that are visualized as special collapsable sections on the right side details view.
+	 *
+	 * Every section must have a `labelKey` as section title and can have as much other data as all other DocuObjects can typically have.
+	 *
+	 * @param sections the sections to add
+	 * @return the current entity to chain further methods
+	 */
 	public Step setSections(DocuObjectMap sections) {
 		this.sections = sections;
 		return current();
@@ -132,15 +148,23 @@ public class Step extends LabelableScenariooEntity<Step> implements Serializable
 	}
 
 	/**
-	 * Add a docu object as a section to this entity.
-	 * @param section a docu objetc with a required `labelKey` as section title
+	 * Add a docu object as a section with additional additional application specific data to this entity.
+	 * @param section a docu object with a required `labelKey` as section title and key for this section
 	 * @return this entity to chain further calls on it
-     */
+	 */
 	public Step addSection(DocuObject section) {
 		sections.add(section);
 		return current();
 	}
 
+	/**
+	 * Create and add a docu object as a section with additional application specific data to this entity.
+	 * @param labelKeyAsSectionTitle a docu object with a required `labelKey` as section title and key for this section
+	 * @return the created section object to attach data to the section
+	 */
+	public DocuObject addSection(String labelKeyAsSectionTitle) {
+		return sections.add(labelKeyAsSectionTitle);
+	}
 
 
 }

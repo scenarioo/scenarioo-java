@@ -1,7 +1,6 @@
 package org.scenarioo.model.docu.entities.base;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.scenarioo.api.rules.CharacterChecker;
 import org.scenarioo.api.rules.Preconditions;
 
 /**
@@ -19,9 +18,8 @@ public abstract class LabelableScenariooEntity<EntityType extends  LabelableScen
 	/**
 	 * (optional) Add a label to this object.
 	 * 
-	 * @param label
-	 *            A label string, which must only contain alpha-numeric characters, spaces, underscores and dashes. See
-	 *            {@link CharacterChecker#checkLabel(String)}.
+	 * @param label a label
+	 *
 	 * @return The object itself to chain forther calls on it.
 	 */
 	public EntityType addLabel(final String label) {

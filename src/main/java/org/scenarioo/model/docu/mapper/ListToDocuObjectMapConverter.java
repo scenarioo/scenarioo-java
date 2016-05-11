@@ -1,4 +1,4 @@
-package org.scenarioo.writer.mapper;
+package org.scenarioo.model.docu.mapper;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
