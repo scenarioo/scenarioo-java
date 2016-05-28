@@ -40,6 +40,9 @@ import java.util.List;
 public class Step extends LabelableScenariooEntity<Step> implements Serializable {
 
 	private int index;
+
+	private String name;
+	private String description;
 	private String title;
 	private String status;
 
@@ -99,6 +102,24 @@ public class Step extends LabelableScenariooEntity<Step> implements Serializable
 
 	public Step setIndex(int index) {
 		this.index = index;
+		return current();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Step setName(String name) {
+		this.name = name;
+		return current();
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Step setDescription(String description) {
+		this.description = description;
 		return current();
 	}
 

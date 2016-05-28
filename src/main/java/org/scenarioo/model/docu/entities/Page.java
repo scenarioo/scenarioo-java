@@ -35,6 +35,8 @@ public class Page extends LabelableScenariooEntity<Page> implements Serializable
 
 	private String name;
 
+	private String description;
+
 	public Page(final String name) {
 		this.name = name;
 	}
@@ -44,13 +46,22 @@ public class Page extends LabelableScenariooEntity<Page> implements Serializable
 	}
 
 	/**
-	 * Unique name of the page. For a webpage you usualy use the relative application intenal url-path to that page or
+	 * Unique name of the page. For a webpage you usualy use the relative application internal url-path to that page or
 	 * the relative-file-path of the template file rendering this page. Try to use names that are as short as possible
 	 * and do not include any url parameters. Names should be as stable as possible, do not use names that might change
 	 * on each new build.
 	 */
 	public Page setName(final String name) {
 		this.name = name;
+		return current();
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Page setDescription(String description) {
+		this.description = description;
 		return current();
 	}
 
