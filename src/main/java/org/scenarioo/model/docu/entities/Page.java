@@ -24,25 +24,17 @@
 
 package org.scenarioo.model.docu.entities;
 
-import org.scenarioo.model.docu.entities.base.LabelableScenariooEntity;
+import org.scenarioo.model.docu.entities.base.ScenariooLabeledEntity;
 
 import java.io.Serializable;
 
 /**
  * Representation of a unique page of the application under test.
  */
-public class Page extends LabelableScenariooEntity<Page> implements Serializable {
-
-	private String name;
-
-	private String description;
+public class Page extends ScenariooLabeledEntity<Page> implements Serializable {
 
 	public Page(final String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
+		super(name);
 	}
 
 	/**
@@ -52,17 +44,7 @@ public class Page extends LabelableScenariooEntity<Page> implements Serializable
 	 * on each new build.
 	 */
 	public Page setName(final String name) {
-		this.name = name;
-		return current();
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public Page setDescription(String description) {
-		this.description = description;
-		return current();
+		return super.setName(name);
 	}
 
 }

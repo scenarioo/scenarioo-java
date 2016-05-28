@@ -24,7 +24,7 @@
 
 package org.scenarioo.model.docu.entities;
 
-import org.scenarioo.model.docu.entities.base.ScenariooEntity;
+import org.scenarioo.model.docu.entities.base.ScenariooNamedEntity;
 import org.scenarioo.model.docu.entities.base.Status;
 
 import java.io.Serializable;
@@ -34,10 +34,8 @@ import java.util.Date;
  * Simple description for a documentation build. Simply contains most important properties of a build, like when it was
  * generated and whether all tests succeeded and what revision of the software was built and documented.
  */
-public class Build extends ScenariooEntity<Build> implements Serializable {
+public class Build extends ScenariooNamedEntity<Build> implements Serializable {
 
-	private String name;
-	private String description;
 	private String revision;
 	private Date date;
 	private String status;
@@ -46,11 +44,7 @@ public class Build extends ScenariooEntity<Build> implements Serializable {
 	}
 
 	public Build(final String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
+		super(name);
 	}
 
 	/**
@@ -63,8 +57,7 @@ public class Build extends ScenariooEntity<Build> implements Serializable {
 	 * build is displayed.
 	 */
 	public Build setName(final String name) {
-		this.name = name;
-		return current();
+		return super.setName(name);
 	}
 
 	public String getRevision() {
@@ -113,15 +106,6 @@ public class Build extends ScenariooEntity<Build> implements Serializable {
 	 */
 	public Build setStatus(final String status) {
 		this.status = status;
-		return current();
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public Build setDescription(String description) {
-		this.description = description;
 		return current();
 	}
 

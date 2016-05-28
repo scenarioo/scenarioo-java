@@ -24,7 +24,7 @@
 
 package org.scenarioo.model.docu.entities;
 
-import org.scenarioo.model.docu.entities.base.ScenariooEntity;
+import org.scenarioo.model.docu.entities.base.ScenariooNamedEntity;
 
 import java.io.Serializable;
 
@@ -36,47 +36,25 @@ import java.io.Serializable;
  * In case you want to document different applications or modules in the same scenarioo web application, you could also
  * use the branch as a structuring element to document different applications or modules.
  */
-public class Branch extends ScenariooEntity<Branch> implements Serializable {
-
-	private String name = "";
-
-	private String description;
+public class Branch extends ScenariooNamedEntity<Branch> implements Serializable {
 
 	public Branch() {
+		super("");
 	}
 
 	public Branch(final String name) {
-		this.name = name;
+		super(name);
 	}
 
 	public Branch(final String name, final String description) {
-		this.name = name;
-		this.description = description;
-	}
-
-
-	public String getName() {
-		return name;
+		super(name,description);
 	}
 
 	/**
 	 * Unique name of the branch. This name is also displayed in the UI to select a branch.
 	 */
 	public Branch setName(final String name) {
-		this.name = name;
-		return current();
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * More detailed description of a branch.
-	 */
-	public Branch setDescription(final String description) {
-		this.description = description;
-		return current();
+		return super.setName(name);
 	}
 
 }

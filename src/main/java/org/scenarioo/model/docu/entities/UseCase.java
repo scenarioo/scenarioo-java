@@ -26,7 +26,7 @@ package org.scenarioo.model.docu.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.scenarioo.model.docu.entities.base.DocuObjectMap;
-import org.scenarioo.model.docu.entities.base.LabelableScenariooEntity;
+import org.scenarioo.model.docu.entities.base.ScenariooLabeledEntity;
 import org.scenarioo.model.docu.entities.base.Status;
 
 import java.io.Serializable;
@@ -36,10 +36,8 @@ import java.io.Serializable;
  * <p/>
  * It is important that each usecase gets a unique 'name'.
  */
-public class UseCase extends LabelableScenariooEntity<UseCase> implements Serializable {
+public class UseCase extends ScenariooLabeledEntity<UseCase> implements Serializable {
 
-	private String name;
-	private String description;
 	private String status;
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -49,16 +47,11 @@ public class UseCase extends LabelableScenariooEntity<UseCase> implements Serial
 	}
 
 	public UseCase(final String name) {
-		this.name = name;
+		super(name);
 	}
 
 	public UseCase(final String name, final String description) {
-		this.name = name;
-		this.description = description;
-	}
-
-	public String getName() {
-		return name;
+		super(name, description);
 	}
 
 	/**
@@ -68,20 +61,7 @@ public class UseCase extends LabelableScenariooEntity<UseCase> implements Serial
 	 * can compare usecases and its scenarios between different builds.
 	 */
 	public UseCase setName(final String name) {
-		this.name = name;
-		return current();
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * (optional but recommended) More detailed description for current scenario (additionally to descriptive name).
-	 */
-	public UseCase setDescription(final String description) {
-		this.description = description;
-		return current();
+		return super.setName(name);
 	}
 
 	public String getStatus() {

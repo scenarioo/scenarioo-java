@@ -26,8 +26,7 @@ package org.scenarioo.model.docu.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.scenarioo.model.docu.entities.base.DocuObjectMap;
-import org.scenarioo.model.docu.entities.base.LabelableScenariooEntity;
-import org.scenarioo.model.docu.entities.base.Labels;
+import org.scenarioo.model.docu.entities.base.ScenariooLabeledEntity;
 import org.scenarioo.model.docu.entities.base.Status;
 
 import java.io.Serializable;
@@ -37,29 +36,23 @@ import java.io.Serializable;
  * <p/>
  * It is important that each scenario gets a unique 'name' inside its belonging usecase.
  */
-public class Scenario extends LabelableScenariooEntity<Scenario> implements Serializable {
+public class Scenario extends ScenariooLabeledEntity<Scenario> implements Serializable {
 
-	private String name;
-	private String description;
 	private String status;
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private DocuObjectMap sections = new DocuObjectMap();
 
 	public Scenario() {
+		super();
 	}
 
 	public Scenario(String name) {
-		this.name = name;
+		super(name);
 	}
 
 	public Scenario(final String name, final String description) {
-		this.name = name;
-		this.description = description;
-	}
-
-	public String getName() {
-		return name;
+		super(name, description);
 	}
 
 	/**
@@ -69,20 +62,7 @@ public class Scenario extends LabelableScenariooEntity<Scenario> implements Seri
 	 * between different builds.
 	 */
 	public Scenario setName(final String name) {
-		this.name = name;
-		return current();
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * (optional but recommended) More detailed description for current scenario (additionally to descriptive name).
-	 */
-	public Scenario setDescription(final String description) {
-		this.description = description;
-		return current();
+		return super.setName(name);
 	}
 
 	public String getStatus() {

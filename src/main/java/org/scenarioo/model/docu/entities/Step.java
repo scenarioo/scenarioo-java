@@ -26,7 +26,7 @@ package org.scenarioo.model.docu.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.scenarioo.model.docu.entities.base.DocuObjectMap;
-import org.scenarioo.model.docu.entities.base.LabelableScenariooEntity;
+import org.scenarioo.model.docu.entities.base.ScenariooLabeledEntity;
 import org.scenarioo.model.docu.entities.screenAnnotations.ScreenAnnotation;
 
 import java.io.Serializable;
@@ -37,13 +37,12 @@ import java.util.List;
  * Contains all the data collected from a webtest for one step of one scenario/webtest (except for the step image, which
  * has to be stored separately).
  */
-public class Step extends LabelableScenariooEntity<Step> implements Serializable {
+public class Step extends ScenariooLabeledEntity<Step> implements Serializable {
 
 	private int index;
 
-	private String name;
-	private String description;
 	private String title;
+
 	private String status;
 
 	private Page page;
@@ -102,24 +101,6 @@ public class Step extends LabelableScenariooEntity<Step> implements Serializable
 
 	public Step setIndex(int index) {
 		this.index = index;
-		return current();
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Step setName(String name) {
-		this.name = name;
-		return current();
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public Step setDescription(String description) {
-		this.description = description;
 		return current();
 	}
 
