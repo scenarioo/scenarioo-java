@@ -13,10 +13,11 @@ http://www.scenarioo.org
 ## Usage Documentation
 
 Please consider our documentation for how to use `scenarioo-java` in your tests:
-[Documentation](documentation/README.md)
+[Usage Documentation](documentation/README.md)
+
 
 ## Informations for Developers
 
-Please consider our special developer readme;
-[Developer Readme](developer.readme.md)
+Please consider documentation on how to contribute:
+[Conributor Documentation](CONTRIBUTING.md)
 

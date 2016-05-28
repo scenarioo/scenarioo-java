@@ -1,6 +1,6 @@
 # Developer Documentation
 
-This file contains most important informations on how to develop `scenarioo-java`.
+This file contains most important informations on how to develop and contribute to `scenarioo-java`.
 
 ## Build the Java Writer API
 

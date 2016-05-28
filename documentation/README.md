@@ -1,29 +1,6 @@
 # ScenariooJS Documentation
 
-TODO ... work in progress ...
- 
-We need to migrate docu from Wiki:
-[wiki](https://github.com/scenarioo/scenarioo-java/wiki)
-
-also to developer.readme.md in root folder!
-
-TODO  .... following information has been copied from the wiki ... 
-to be reviewed ...
-
-
-# Scenarioo Writer for Java
-
 The *Scenarioo Writer* for Java lets you generate documentation that can be displayed in the *Scenarioo Viewer* web application.
-
-## For Scenarioo Writer users
-
-* [How to use the Java Scenarioo Writer Library](How to use the Java Scenarioo Writer Library)
-* [General Information about Scenarioo](https://github.com/scenarioo/scenarioo/wiki)
-
-## For Scenarioo Writer contributors
-
-* [Release new API version](Release new API version)
-
 
 ## How to use the Scenarioo Java Writer Library
 
