@@ -16,8 +16,8 @@ Please consider our documentation for how to use `scenarioo-java` in your tests:
 [Usage Documentation](docs/README.md)
 
 
-## Informations for Developers
+## Informations for Contributors
 
-Please consider documentation on how to contribute:
+If you want to help develop `scenarioo-java`, then consider documentation on how to contribute:
 [Conributor Documentation](CONTRIBUTING.md)
 
