@@ -20,15 +20,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import javax.security.auth.login.ConfigurationSpi;
 
 group = 'org.scenarioo'
 version = '2.1.1-SNAPSHOT'
 
 apply plugin: 'eclipse'
 apply plugin: 'java'
-apply plugin: 'maven-publish'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 sourceCompatibility=1.6
 targetCompatibility=1.6
@@ -46,21 +45,70 @@ dependencies {
 }
 
 
-task sourceJar(type: Jar) { from sourceSets.main.allJava }
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-			
-			artifact sourceJar { classifier "sources" }
-		}
-	}
-	repositories { 
-		maven { 
-			url "../mvn-repo" 
-		} 
-	}
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Scenarioo java'
+                packaging 'jar'
+                description 'Scenarioo Writer library for Java to generate Scenarioo Documentation http://www.scenarioo.org'
+                url 'http://www.scenarioo.org'
+
+                scm {
+                    connection 'https://github.com/scenarioo/scenarioo-java.git'
+                    developerConnection 'https://github.com/scenarioo/scenarioo-java.git'
+                    url 'https://github.com/scenarioo/scenarioo-java.git'
+                }
+
+                licenses {
+                    license {
+                        name 'GNU GENERAL PUBLIC LICENSE'
+                        url 'https://github.com/scenarioo/scenarioo-java/blob/develop/LICENSE.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'scenarioo'
+                        name 'Scenarioo'
+                        email 'contact@scenarioo.org'
+                    }
+                }
+            }
+        }
+    }
 }
 
 // Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
