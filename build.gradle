@@ -23,7 +23,6 @@
 import javax.security.auth.login.ConfigurationSpi;
 
 group = 'org.scenarioo'
-artifactId = 'scenarioo-java'
 version = '2.1.1-SNAPSHOT'
 
 apply plugin: 'eclipse'
@@ -68,44 +67,6 @@ publishing {
 // because it would delete our version of the org.eclipse.jdt.ui.prefs file.
 cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
 
-
-configurations { xjc }
-
-dependencies {
-	xjc group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: '2.2.4-1'
-}
-
-project.ext.schemaTargetDir = new File("$projectDir/src/main/resources/scenarioo-schemas");
-task createSchemaDirectory << {
-	println 'creating schema directory: ' + schemaTargetDir
-    schemaTargetDir.mkdirs()
-    if (schemaTargetDir.isDirectory()) {
-        println 'schemas directory created properly.'
-    }
-    else {
-    	println 'ERROR: creating schema directory failed.'
-    	throw new MissingResourceException("Schema directory was not present and could not be created")
-    }
-}
-
-task removeSchemaDirectory(type: Delete) {
-  delete schemaTargetDir
-}
-
-task schemagen(dependsOn: 'createSchemaDirectory') << {
-    ant.taskdef(name: 'schemagen', classname: 'com.sun.tools.jxc.SchemaGenTask', classpath: configurations.xjc.asPath)
-
-	ant.schemagen(
-		srcdir: new File('src/main/java/org/scenarioo/model/docu/entities'),
-		destdir: schemaTargetDir, 
-		classpath: configurations.xjc.asPath
-		) { schema (namespace: '', file: 'scenarioo-api.xsd' ) }
-	
-}
-
-clean.dependsOn removeSchemaDirectory
-compileJava.dependsOn schemagen
-
-
 task wrapper(type: Wrapper) {
-}	
+    gradleVersion = '3.3'
+}
