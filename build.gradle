@@ -22,7 +22,7 @@
 
 
 group = 'org.scenarioo'
-version = '2.1.1'
+version = '2.1.2-SNAPSHOT'
 
 apply plugin: 'eclipse'
 apply plugin: 'java'
@@ -110,6 +110,13 @@ uploadArchives {
         }
     }
 }
+
+task generateSchema(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
+    main = 'org.scenarioo.util.GenerateScenariooApiSchema'
+}
+
+jar.dependsOn generateSchema
 
 // Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
 // because it would delete our version of the org.eclipse.jdt.ui.prefs file.
