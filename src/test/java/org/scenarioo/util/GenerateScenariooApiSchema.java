@@ -14,22 +14,26 @@ public class GenerateScenariooApiSchema {
 	private static final File SCHEMA_LOCATION = new File("src/main/resources/scenarioo-schemas/scenarioo-api.xsd");
 
 	public static void main(String[] args) throws Exception {
-		Class[] classes = getClassesWithoutInterfaces("org.scenarioo.model.docu.entities");
+		Class[] classes = getClassesWithoutInterfacesAndTests("org.scenarioo.model.docu.entities");
 
 		JAXBContext jaxbContext = JAXBContext.newInstance(classes);
 		SchemaOutputResolver outputResolver = new MySchemaOutputResolver();
 		jaxbContext.generateSchema(outputResolver);
 	}
 
-	private static Class[] getClassesWithoutInterfaces(String packageName) throws ClassNotFoundException, IOException {
+	private static Class[] getClassesWithoutInterfacesAndTests(String packageName) throws ClassNotFoundException, IOException {
 		Class[] classes = getClasses(packageName);
 		List<Class<?>> filtered = new LinkedList<Class<?>>();
 		for (Class aClass : classes) {
-			if (!aClass.isInterface()) {
+			if (!aClass.isInterface() && !isTest(aClass)) {
 				filtered.add(aClass);
 			}
 		}
 		return filtered.toArray(new Class[filtered.size()]);
+	}
+
+	private static boolean isTest(Class aClass) {
+		return aClass.getSimpleName().endsWith("Test");
 	}
 
 	public static class MySchemaOutputResolver extends SchemaOutputResolver {

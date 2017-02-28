@@ -326,10 +326,6 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="labelsTest">
-    <xs:sequence/>
-  </xs:complexType>
-
   <xs:simpleType name="screenAnnotationStyle">
     <xs:restriction base="xs:string">
       <xs:enumeration value="CLICK"/>
