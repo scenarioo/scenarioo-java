@@ -11,8 +11,9 @@ ossrhPassword=#sonatype password goes here#
 ```
 
 2. Change the version appropriately in the build.gradle
-3. gradlew clean uploadArchives
+3. `gradlew clean uploadArchives`
 
 ## Releases
 Same steps as for snapshot releases and
-4. Promote build to maven central
+4. Promote build to maven central:
+http://central.sonatype.org/pages/releasing-the-deployment.html
