@@ -8,7 +8,7 @@ Scenarioo-Java is available on maven central: Include the latest version as a de
 dependency management system:
 `compile 'org.scenarioo:scenarioo-java:2.1.1'`
 
-You will find more information in our [usage guide](docds/usage.md).
+You will find more information in our [usage guide](docs/usage.md).
 
 
 ## Development
