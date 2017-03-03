@@ -1,10 +1,6 @@
 The Scenarioo Writer Library for Java helps you produce correct Scenarioo documentations in your file system, out of your UI tests, such that the Scenarioo web application can read those documentations and present them to your stakeholders and let them browse it.
 
 ## Getting the Java library as a JAR
-
-To use the Scenarioo Writer library as a dependency in your Java project (with Maven, Gradle, Ivy, etc.) we recommend to get the packaged library from our Maven-Repo:
-https://github.com/scenarioo/mvn-repo 
-
 We recommend to always use the latest version of the library with same major version as the web application of scenarioo you have installed in your project.
 
 The following example shows the correct gradle dependency for using scenarioo in your Java project:

@@ -94,7 +94,7 @@ uploadArchives {
 
                 licenses {
                     license {
-                        name 'GNU GENERAL PUBLIC LICENSE'
+                        name 'GNU GENERAL PUBLIC LICENCE with linking exception'
                         url 'https://github.com/scenarioo/scenarioo-java/blob/develop/LICENSE.txt'
                     }
                 }
