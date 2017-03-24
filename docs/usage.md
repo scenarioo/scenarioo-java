@@ -1,7 +1,13 @@
+# User Guide
+
 The Scenarioo Writer Library for Java helps you produce correct Scenarioo documentations in your file system, out of your UI tests, such that the Scenarioo web application can read those documentations and present them to your stakeholders and let them browse it.
 
 ## Getting the Java library as a JAR
-We recommend to always use the latest version of the library with same major version as the web application of scenarioo you have installed in your project.
+
+The JAR is available on Maven Central:
+http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.scenarioo%22
+
+We recommend to always use the latest version of the library or the highest available major version number that is equal or less to the major version number of the viewer web application you are using.
 
 The following example shows the correct gradle dependency for using scenarioo in your Java project:
  
@@ -12,10 +18,6 @@ The following example shows the correct gradle dependency for using scenarioo in
       dependencies {
          compile 'org.scenarioo:scenarioo-java:2.1.1'
       }
-
-You can also find the latest release of the Java library as a JAR file here for download:
-https://github.com/scenarioo/mvn-repo/tree/master/org/scenarioo/scenarioo-java
-
 
 ## Basic usage
 
@@ -31,7 +33,6 @@ In one CI build run, you should store the following objects using the Scenarioo 
   * Call `saveScreenshotAsPng(useCaseName, scenarioName, stepIndex, screenshot)` to store the *screenshot* image as a PNG file for each step you want to document
 * Call `saveStep(useCaseName, scenarioName, step)` once for each *step* you want to document inside a scenario (use `getScreenshotFile(useCaseName, scenarioName, stepIndex)` to retrieve the filename of the PNG screenshot file to set it in the Step object)
 
-
 ## Tutorial
 
 Our tutorial on our webpage describes basic usage of the Writer library:
@@ -40,7 +41,7 @@ http://scenarioo.github.io/tutorial.html
 
 ## Example Sources
 
-There are currently three examples:
+There are currently three examples for Scenarioo Java Writer:
 
 * **Pizza Delivery Example at https://github.com/scenarioo/pizza-delivery**: This is the latest example and it contains an integration of Scenarioo that is quite close to what you would use in a real project. This is a good starting point for integrating Scenarioo into your JUnit / Selenium based project.
 
@@ -65,4 +66,4 @@ Capture step data from UI tests using one of three strategies
 
 ## More ...
 
-Just study the example code, there are a lot of comments in the code, that should help you a lot!
+* Just study the [Examples](http://scenarioo.org/docs/examples.html), there are a lot of comments in the code, that should help you a lot!
