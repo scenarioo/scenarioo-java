@@ -1,15 +1,16 @@
-# Repository
+# Release Scenarioo Writer Library for Java
 
-# Branching strategy
+## Branches
+
 The `scenarioo-java` repository has two branches: `develop` for developing the next release and `master` for all published releases.
 
-# Release a new API version
+## Prepare Release
 
 Precondition: Before considering a release, make sure that the new version is well tested. If you are not 100% sure about the quality of the code, make a release candidate first and test it well in a realistic environment.
 
 ## Release to master branch
 
-1. Finalize the code in the `develop` branch of `scenarioo-java` by setting the correct version number in the `build.gradle` file. This version number must not exist yet in the `mvn-repo`. Remove `SNAPSHOT` from the version number and add `-RCx` for release candidates where `x` is the RC number.
+1. Finalize the code in the `develop` branch of `scenarioo-java` by setting the correct version number in the `build.gradle` file. This version number must not exist yet in mavem central. Remove `SNAPSHOT` from the version number and add `-RCx` for release candidates where `x` is the RC number.
 2. Make sure the build runs on the `develop` branch by running `./gradlew clean build`. Then commit to `develop`.
 3. Now checkout the `master` branch and merge `develop` into it, commit.
 4. Still on the `master` branch, add a tag with the release version number and push the tag.
