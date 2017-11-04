@@ -28,7 +28,7 @@ timestamps {
 
                 junit '**/build/test-results/*.xml'
 
-                archiveArtifacts artifacts: 'build/documentation.zip'
+                archiveArtifacts artifacts: 'build/libs/scenarioo-*.jar, build/**/*.xsd, LICENSE.txt, README.md'
 
             }
 
