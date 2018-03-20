@@ -22,7 +22,7 @@ timestamps {
 
             try {
 
-                gradle '-x signArchives clean build'
+                gradle '-Psign -x signArchives clean build'
 
             } finally {
 
