@@ -124,10 +124,6 @@ task generateSchema(type: JavaExec) {
 
 jar.dependsOn generateSchema
 
-// Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
-// because it would delete our version of the org.eclipse.jdt.ui.prefs file.
-cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
-
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.3'
+    gradleVersion = '4.7'
 }
