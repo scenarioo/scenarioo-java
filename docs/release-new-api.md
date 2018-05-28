@@ -14,7 +14,7 @@ Precondition: Before considering a release, make sure that the new version is we
 
 ## Final Release to master branch
  
-1. recondition: see Prepare Release above.
+1. Precondition: see Prepare Release above.
 2. Set the final version number in develop or release branch (without `-SNAPSHOT` or `-RC`) in `build.gradle` and merge it to the develop branch (or the release branch).
 3. The Jenkins CI will automatically publish the final release from that branch and under that version number for you to our sonatype maven repository (see also [Publish release to maven central](upload-to-maven-central.md) in case you want to do this manually).
 4. Promote the final release to maven central: http://central.sonatype.org/pages/releasing-the-deployment.html
