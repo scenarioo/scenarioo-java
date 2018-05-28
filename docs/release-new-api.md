@@ -8,18 +8,18 @@ The `scenarioo-java` repository has two branches: `develop` for developing the n
 
 Precondition: Before considering a release, make sure that the new version is well tested. If you are not 100% sure about the quality of the code, make a release candidate first and test it well in a realistic environment.
 
-1. Finalize the code in the `develop` branch of `scenarioo-java` by setting the correct version number in the `build.gradle` file. This version number must not exist yet in mavem central. Remove `SNAPSHOT` from the version number and add `-RCx` for release candidates where `x` is the RC number for further release candidate testing.
-2. Everytime you push to develop our jenkins CI will automatically upload a new version of the release candidate to our sonatype maven repo (see also [Publish release to maven central](upload-to-maven-central.md)).
-3. Make sure the changelog.md is updated for the new version
+1. Finalize the code in the `develop` branch of `scenarioo-java` by setting the correct version number in the `build.gradle` file. This version number must not exist yet in Maven Central. Remove `SNAPSHOT` from the version number and add `-RCx` for release candidates where `x` is the RC number for further release candidate testing.
+2. Every time you push to develop our jenkins CI will automatically upload a new version of the release candidate to our Sonatype Maven Repository (see also [Publish Release to Maven Central](upload-to-maven-central.md)).
+3. Make sure the changelog.md is updated for the new version.
 
 ## Final Release to master branch
  
 1. Precondition: see Prepare Release above.
 2. Set the final version number in develop or release branch (without `-SNAPSHOT` or `-RC`) in `build.gradle` and merge it to the develop branch (or the release branch).
-3. The Jenkins CI will automatically publish the final release from that branch and under that version number for you to our sonatype maven repository (see also [Publish release to maven central](upload-to-maven-central.md) in case you want to do this manually).
+3. The Jenkins CI will automatically publish the final release from that branch and under that version number for you to our Sonatype Maven repository (see also [Publish Release to Maven Central](upload-to-maven-central.md) in case you want to do this manually).
 4. Promote the final release to maven central: http://central.sonatype.org/pages/releasing-the-deployment.html
 5. Add a tag with the release version number to the commit where you set that version number and push the tag.
 6. **Write Release Notes** for the new release on GitHub ([here](https://github.com/scenarioo/scenarioo-java/releases))
 7. Merge the release branch to master.
 8. **IMPORTANT - Increase Version to next snapshot version on Develop Branch:** Checkout `develop` again, change the version in `build.gradle` to the next `x.y.z-SNAPSHOT` version and commit. `x.y` corresponds to the last release version and `z` is incremented by one compared to the last release.
-9. **Switch Scenarioo Viewer Webapp to newest version:** Go to repo `scenarioo` and change the version of the writer library used to the newest version and commit and push (--> PR to next release branch or to develop).
+9. **Switch Scenarioo Viewer Web App to newest version:** Go to repo `scenarioo` and change the version of the writer library used to the newest version and commit and push (--> PR to next release branch or to develop).
