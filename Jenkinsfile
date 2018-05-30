@@ -22,7 +22,13 @@ timestamps {
 
             try {
 
-                gradle '-Psign -x signArchives clean build'
+                if (env.BRANCH_NAME == "master" || env.BRANCH_NAME == "develop" || env.BRANCH_NAME.startsWith("release")) {
+                    // Upload a release or release candidate for important branches
+                    gradle '-Psign -x signArchives clean build uploadArchives'
+                } else {
+                    // Other branches: no publishing
+                    gradle '-Psign -x signArchives clean build'
+                }
 
             } finally {
 
