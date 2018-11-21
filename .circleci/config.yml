@@ -24,6 +24,7 @@ jobs:
     - run:
         name: Collect artifacts
         command: |
+          mkdir -p artifacts/libs
           cp -pR build/libs/* artifacts/libs || true
           cp -pR build/**/*.xsd artifacts/schema || true
           cp -pR LICENSE.txt artifacts/
