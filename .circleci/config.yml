@@ -14,10 +14,10 @@ jobs:
         name: Clean & install
         command: |
           mkdir -p test-results
-          ./gradlew clean build -x test --no-daemon
+          ./gradlew clean build -x test --no-daemon -s
     - run:
         name: Tests
-        command: ./gradlew test
+        command: ./gradlew test -s
     - store_test_results:
         path: build/test-results
 
