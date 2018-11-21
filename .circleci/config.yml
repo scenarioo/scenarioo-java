@@ -5,7 +5,7 @@ jobs:
     working_directory: ~/repo
 
     docker:
-    - image: circleci/openjdk:8-jdk-browsers
+    - image: circleci/openjdk:8-jdk
 
     steps:
 
@@ -13,7 +13,7 @@ jobs:
     - run:
         name: Clean & install
         command: |
-          mkdir -p test-results
+          mkdir -p test-results¯
           ./gradlew clean build -x test --no-daemon
     - run:
         name: Tests
