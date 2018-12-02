@@ -12,12 +12,12 @@ jobs:
     - checkout
     - run:
         name: Clean & install
-        command: |
-          mkdir -p test-results
-          ./gradlew clean build -x test --no-daemon -s
+        command: ./gradlew clean build -x test --no-daemon -s
+
     - run:
         name: Tests
         command: ./gradlew test -s
+
     - store_test_results:
         path: build/test-results
 
@@ -26,6 +26,7 @@ jobs:
         command: |
           mkdir -p artifacts/libs
           mkdir -p artifacts/schema
+          cp -pR build/test-results artifacts || true
           cp -pR build/libs/* artifacts/libs || true
           cp -pR build/resources/main/scenarioo-schemas/*.xsd artifacts/schema || true
           cp -pR LICENSE.txt artifacts/
