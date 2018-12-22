@@ -10,12 +10,15 @@ jobs:
     steps:
 
     - checkout
+
     - run:
         name: Clean & install
         command: ./gradlew clean build -x test --no-daemon -s
+
     - run:
         name: Tests
         command: ./gradlew test -s
+
     - store_test_results:
         path: build/test-results
 
