@@ -22,7 +22,7 @@
 
 package org.scenarioo.api;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.scenarioo.api.TestConstants.*;
 
 import java.io.File;
@@ -30,9 +30,9 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
@@ -55,7 +55,7 @@ import org.scenarioo.model.docu.entities.screenAnnotations.ScreenAnnotationStyle
 /**
  * Some smoke tests for the Scenarioo generator API.
  */
-public class ScenarioDocuWriterAndReaderTest {
+class ScenarioDocuWriterAndReaderTest {
 	
 	private static final String TEST_DETAILS_VERSION_KEY = "version";
 	
@@ -70,16 +70,16 @@ public class ScenarioDocuWriterAndReaderTest {
 	 */
 	private ScenarioDocuFiles docuFiles;
 	
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		TEST_ROOT_DIRECTORY.mkdirs();
 		writer = new ScenarioDocuWriter(TEST_ROOT_DIRECTORY, TEST_BRANCH_NAME, TEST_BUILD_NAME);
 		reader = new ScenarioDocuReader(TEST_ROOT_DIRECTORY);
 		docuFiles = new ScenarioDocuFiles(TEST_ROOT_DIRECTORY);
 	}
 	
-	@AfterClass
-	public static void tearDown() {
+	@AfterAll
+	static void tearDown() {
 		deleteDirectory(TEST_ROOT_DIRECTORY);
 	}
 	
@@ -92,7 +92,7 @@ public class ScenarioDocuWriterAndReaderTest {
 	}
 	
 	@Test
-	public void write_and_read_branch_description() {
+	void write_and_read_branch_description() {
 		
 		// GIVEN: a typical branch
 		Branch branch = new Branch();
@@ -105,13 +105,13 @@ public class ScenarioDocuWriterAndReaderTest {
 		
 		// THEN: the branch can be loaded successfully and correctly
 		Branch branchFromFile = reader.loadBranch(TEST_BRANCH_NAME);
-		assertEquals("expected branch name", TEST_BRANCH_NAME, branchFromFile.getName());
-		assertEquals("expected branch description", branch.getDescription(), branchFromFile.getDescription());
+		assertEquals(TEST_BRANCH_NAME, branchFromFile.getName(), "expected branch name");
+		assertEquals(branch.getDescription(), branchFromFile.getDescription(), "expected branch description");
 		
 	}
 	
 	@Test
-	public void write_and_read_build_description() {
+	void write_and_read_build_description() {
 		
 		// GIVEN: a typical build
 		Build build = new Build();
@@ -127,17 +127,17 @@ public class ScenarioDocuWriterAndReaderTest {
 		
 		// THEN: the build can be loaded successfully and correctly
 		Build buildFromFile = reader.loadBuild(TEST_BRANCH_NAME, TEST_BUILD_NAME);
-		assertEquals("expected build name", TEST_BUILD_NAME, buildFromFile.getName());
-		assertEquals("expected date", build.getDate(), buildFromFile.getDate());
-		assertEquals("expected revision", build.getRevision(), buildFromFile.getRevision());
-		assertEquals("expected state", build.getStatus(), buildFromFile.getStatus());
-		assertEquals("expected details properties", build.getDetails().getProperties(), buildFromFile.getDetails()
-				.getProperties());
+		assertEquals(TEST_BUILD_NAME, buildFromFile.getName(), "expected build name");
+		assertEquals(build.getDate(), buildFromFile.getDate(), "expected date");
+		assertEquals(build.getRevision(), buildFromFile.getRevision(), "expected revision");
+		assertEquals(build.getStatus(), buildFromFile.getStatus(), "expected state");
+		assertEquals(build.getDetails().getProperties(), buildFromFile.getDetails()
+				.getProperties(), "expected details properties");
 		
 	}
 	
 	@Test
-	public void write_and_read_case_description() {
+	void write_and_read_case_description() {
 		
 		// GIVEN: a typical use case
 		UseCase usecase = new UseCase();
@@ -153,16 +153,16 @@ public class ScenarioDocuWriterAndReaderTest {
 		
 		// THEN: the usecase can be loaded successfully and correctly
 		UseCase usecaseFromFile = reader.loadUsecase(TEST_BRANCH_NAME, TEST_BUILD_NAME, TEST_CASE_NAME);
-		assertEquals("expected case name", TEST_CASE_NAME, usecaseFromFile.getName());
-		assertEquals("expected case desription", usecase.getDescription(), usecaseFromFile.getDescription());
-		assertEquals("expected case state", usecase.getStatus(), usecaseFromFile.getStatus());
-		assertEquals("expected details properties", usecase.getDetails().getProperties(), usecaseFromFile.getDetails()
-				.getProperties());
+		assertEquals(TEST_CASE_NAME, usecaseFromFile.getName(), "expected case name");
+		assertEquals(usecase.getDescription(), usecaseFromFile.getDescription(), "expected case desription");
+		assertEquals(usecase.getStatus(), usecaseFromFile.getStatus(), "expected case state");
+		assertEquals(usecase.getDetails().getProperties(), usecaseFromFile.getDetails()
+				.getProperties(), "expected details properties");
 		assertExpectedLabels(usecaseFromFile.getLabels(), "label1", "label2");
 	}
 	
 	@Test
-	public void write_and_read_scenario_description() {
+	void write_and_read_scenario_description() {
 		
 		// GIVEN: a typical scenario
 		Scenario scenario = new Scenario();
@@ -179,11 +179,11 @@ public class ScenarioDocuWriterAndReaderTest {
 		// THEN: the scenario can be loaded successfully and correctly
 		Scenario scenarioFromFile = reader.loadScenario(TEST_BRANCH_NAME, TEST_BUILD_NAME, TEST_CASE_NAME,
 				TEST_SCENARIO_NAME);
-		assertEquals("expected scneario name", TEST_SCENARIO_NAME, scenarioFromFile.getName());
-		assertEquals("expected scenario desription", scenario.getDescription(), scenarioFromFile.getDescription());
-		assertEquals("expected scenario state", scenario.getStatus(), scenarioFromFile.getStatus());
-		assertEquals("expected scenario details properties", scenario.getDetails().getProperties(), scenarioFromFile
-				.getDetails().getProperties());
+		assertEquals(TEST_SCENARIO_NAME, scenarioFromFile.getName(), "expected scneario name");
+		assertEquals(scenario.getDescription(), scenarioFromFile.getDescription(), "expected scenario desription");
+		assertEquals(scenario.getStatus(), scenarioFromFile.getStatus(), "expected scenario state");
+		assertEquals(scenario.getDetails().getProperties(), scenarioFromFile
+				.getDetails().getProperties(), "expected scenario details properties");
 		assertExpectedLabels(scenarioFromFile.getLabels(), "label1", "label2");
 		
 	}
@@ -193,7 +193,7 @@ public class ScenarioDocuWriterAndReaderTest {
 	 * correctly.
 	 */
 	@Test
-	public void write_and_read_step_minimal() {
+	void write_and_read_step_minimal() {
 
 		// GIVEN: a typical step with only minimal required fields beeing set
 		Step step = new Step();
@@ -209,16 +209,15 @@ public class ScenarioDocuWriterAndReaderTest {
 		// THEN: the step can be loaded successfully and correctly
 		Step stepFromFile = reader.loadStep(TEST_BRANCH_NAME, TEST_BUILD_NAME, TEST_CASE_NAME, TEST_SCENARIO_NAME,
 				TEST_STEP_INDEX);
-		assertEquals("expected step index", TEST_STEP_INDEX, stepFromFile.getStepDescription().getIndex());
-		assertEquals("expected empty step title", "", stepFromFile.getStepDescription().getTitle());
-		assertEquals("expected no status", "", stepFromFile.getStepDescription().getStatus());
-		assertEquals("expected no step step description details properties", 0, stepFromFile.getStepDescription()
-				.getDetails()
-				.getProperties().size());
-		assertEquals("expected no step metadata details properties", 0, stepFromFile.getMetadata().getDetails()
-				.getProperties().size());
-		assertEquals("expected no labels", 0, stepFromFile.getStepDescription().getLabels().size());
-		assertNull("expected no page", stepFromFile.getPage());
+		assertEquals(TEST_STEP_INDEX, stepFromFile.getStepDescription().getIndex(), "expected step index");
+		assertEquals("", stepFromFile.getStepDescription().getTitle(), "expected empty step title");
+		assertEquals("", stepFromFile.getStepDescription().getStatus(), "expected no status");
+		assertEquals(0, stepFromFile.getStepDescription().getDetails().getProperties().size(),
+			"expected no step step description details properties");
+		assertEquals(0, stepFromFile.getMetadata().getDetails().getProperties().size(),
+			"expected no step metadata details properties");
+		assertEquals(0, stepFromFile.getStepDescription().getLabels().size(), "expected no labels");
+		assertNull(stepFromFile.getPage(), "expected no page");
 
 	}
 
@@ -226,7 +225,7 @@ public class ScenarioDocuWriterAndReaderTest {
 	 * This test tests also all optional fields of a step, that they can be set and are loaded again properly.
 	 */
 	@Test
-	public void write_and_read_step_with_major_optional_fields() {
+	void write_and_read_step_with_major_optional_fields() {
 		
 		// GIVEN: a typical step with all major optional fields also beeing set
 		Step step = new Step();
@@ -253,21 +252,22 @@ public class ScenarioDocuWriterAndReaderTest {
 		// THEN: the step can be loaded successfully and correctly
 		Step stepFromFile = reader.loadStep(TEST_BRANCH_NAME, TEST_BUILD_NAME, TEST_CASE_NAME, TEST_SCENARIO_NAME,
 				TEST_STEP_INDEX);
-		assertEquals("expected step name", TEST_STEP_INDEX, stepFromFile.getStepDescription().getIndex());
-		assertEquals("expected step desription", step.getStepDescription().getTitle(), stepFromFile
-				.getStepDescription().getTitle());
-		assertEquals("expected step status", step.getStepDescription().getStatus(), stepFromFile.getStepDescription()
-				.getStatus());
-		assertEquals("expected step description details properties", step.getStepDescription().getDetails()
-				.getProperties(), stepFromFile.getStepDescription().getDetails().getProperties());
+		assertEquals(TEST_STEP_INDEX, stepFromFile.getStepDescription().getIndex(), "expected step name");
+		assertEquals(step.getStepDescription().getTitle(), stepFromFile.getStepDescription().getTitle(),
+			"expected step desription");
+		assertEquals(step.getStepDescription().getStatus(), stepFromFile.getStepDescription().getStatus(),
+			"expected step status");
+		assertEquals(step.getStepDescription().getDetails().getProperties(),
+			stepFromFile.getStepDescription().getDetails().getProperties(),
+			"expected step description details properties");
 		assertExpectedLabels(stepFromFile.getStepDescription().getLabels(), "label1", "label2");
-		assertEquals("expected step html", step.getHtml().getHtmlSource(), stepFromFile.getHtml().getHtmlSource());
+		assertEquals(step.getHtml().getHtmlSource(), stepFromFile.getHtml().getHtmlSource(), "expected step html");
 		Page pageFromFile = stepFromFile.getPage();
-		assertEquals("expected step page name", step.getPage().getName(), pageFromFile.getName());
+		assertEquals(step.getPage().getName(), pageFromFile.getName(), "expected step page name");
 		assertExpectedLabels(pageFromFile.getLabels(), "page-label1", "page-label2");
-		assertEquals("expected step visible text", "just some page text", stepFromFile.getMetadata().getVisibleText());
-		assertEquals("expected step metadata details properties", step.getMetadata().getDetails().getProperties(),
-				stepFromFile.getMetadata().getDetails().getProperties());
+		assertEquals("just some page text", stepFromFile.getMetadata().getVisibleText(), "expected step visible text");
+		assertEquals(step.getMetadata().getDetails().getProperties(),
+				stepFromFile.getMetadata().getDetails().getProperties(), "expected step metadata details properties");
 
 	}
 
@@ -275,7 +275,7 @@ public class ScenarioDocuWriterAndReaderTest {
 	 * Test adding screen annotations to a step (which is optional too)
 	 */
 	@Test
-	public void write_and_read_step_with_screen_annotations() {
+	void write_and_read_step_with_screen_annotations() {
 
 		// GIVEN: a typical step with only minimal required fields beeing set and two screen annotations
 		Step step = new Step();
@@ -293,7 +293,7 @@ public class ScenarioDocuWriterAndReaderTest {
 		// THEN: the step can be loaded successfully and correctly
 		Step stepFromFile = reader.loadStep(TEST_BRANCH_NAME, TEST_BUILD_NAME, TEST_CASE_NAME, TEST_SCENARIO_NAME,
 				TEST_STEP_INDEX);
-		assertEquals("expected number of screen annotations", 2, stepFromFile.getScreenAnnotations().size());
+		assertEquals(2, stepFromFile.getScreenAnnotations().size(), "expected number of screen annotations");
 		assertMinimalScreenAnnotation(stepFromFile.getScreenAnnotations().get(0));
 		assertFullScreenAnnotation(stepFromFile.getScreenAnnotations().get(1));
 
@@ -303,7 +303,7 @@ public class ScenarioDocuWriterAndReaderTest {
 	 * Tests writing and reading of a scenario docu file containing some basic collections that need to be supported.
 	 */
 	@Test
-	public void write_and_read_generic_collections_in_details() {
+	void write_and_read_generic_collections_in_details() {
 		
 		// GIVEN: any object containing collections in details
 		Scenario scenario = new Scenario();
@@ -342,7 +342,7 @@ public class ScenarioDocuWriterAndReaderTest {
 	 * written.
 	 */
 	@Test
-	public void async_write_of_multiple_files_and_flush() {
+	void async_write_of_multiple_files_and_flush() {
 		
 		// GIVEN: a lot of large steps to write, that have not yet been written
 		Step[] steps = new Step[10];
@@ -373,17 +373,17 @@ public class ScenarioDocuWriterAndReaderTest {
 	}
 
 	private void assertMinimalScreenAnnotation(final ScreenAnnotation screenAnnotation) {
-		assertEquals("Expected x coordinate", 100, screenAnnotation.getRegion().getX());
-		assertEquals("Expected y coordinate", 150, screenAnnotation.getRegion().getY());
-		assertEquals("Expected width", 90, screenAnnotation.getRegion().getWidth());
-		assertEquals("Expected height", 10, screenAnnotation.getRegion().getHeight());
-		assertEquals("Expected no text", "", screenAnnotation.getScreenText());
-		assertEquals("Expected no description", "", screenAnnotation.getDescription());
-		assertEquals("Expected default style", screenAnnotation.getStyle(), ScreenAnnotationStyle.DEFAULT);
-		assertNull("Expected no click action", screenAnnotation.getClickAction());
-		assertNull("Expected no click action url", screenAnnotation.getClickActionUrl());
-		assertNull("Expected no click action text", screenAnnotation.getClickActionText());
-		assertEquals("Expected no details", 0, screenAnnotation.getDetails().size());
+		assertEquals(100, screenAnnotation.getRegion().getX(), "Expected x coordinate");
+		assertEquals(150, screenAnnotation.getRegion().getY(), "Expected y coordinate");
+		assertEquals(90, screenAnnotation.getRegion().getWidth(), "Expected width");
+		assertEquals(10, screenAnnotation.getRegion().getHeight(), "Expected height");
+		assertEquals("", screenAnnotation.getScreenText(), "Expected no text");
+		assertEquals("", screenAnnotation.getDescription(), "Expected no description");
+		assertEquals(screenAnnotation.getStyle(), ScreenAnnotationStyle.DEFAULT, "Expected default style");
+		assertNull(screenAnnotation.getClickAction(), "Expected no click action");
+		assertNull(screenAnnotation.getClickActionUrl(), "Expected no click action url");
+		assertNull(screenAnnotation.getClickActionText(), "Expected no click action text");
+		assertEquals(0, screenAnnotation.getDetails().size(), "Expected no details");
 	}
 
 	/**
@@ -403,18 +403,18 @@ public class ScenarioDocuWriterAndReaderTest {
 	}
 
 	private void assertFullScreenAnnotation(final ScreenAnnotation screenAnnotation) {
-		assertEquals("Expected x coordinate", 200, screenAnnotation.getRegion().getX());
-		assertEquals("Expected y coordinate", 150, screenAnnotation.getRegion().getY());
-		assertEquals("Expected width", 90, screenAnnotation.getRegion().getWidth());
-		assertEquals("Expected height", 20, screenAnnotation.getRegion().getHeight());
-		assertEquals("Expected screen text", "just a text", screenAnnotation.getScreenText());
-		assertEquals("Expected title", "title", screenAnnotation.getTitle());
-		assertEquals("Expected description", "just a description", screenAnnotation.getDescription());
-		assertEquals("Expected style", ScreenAnnotationStyle.CLICK, screenAnnotation.getStyle());
-		assertEquals("Expected clickAction", ScreenAnnotationClickAction.TO_URL, screenAnnotation.getClickAction());
-		assertEquals("Expected clickActionUrl", "http://just-an-url.com", screenAnnotation.getClickActionUrl());
-		assertEquals("Expected clickActionText", "just a click action text", screenAnnotation.getClickActionText());
-		assertEquals("Expected details", 1, screenAnnotation.getDetails().size());
+		assertEquals(200, screenAnnotation.getRegion().getX(), "Expected x coordinate");
+		assertEquals(150, screenAnnotation.getRegion().getY(), "Expected y coordinate");
+		assertEquals(90, screenAnnotation.getRegion().getWidth(), "Expected width");
+		assertEquals(20, screenAnnotation.getRegion().getHeight(), "Expected height");
+		assertEquals("just a text", screenAnnotation.getScreenText(), "Expected screen text");
+		assertEquals("title", screenAnnotation.getTitle(), "Expected title");
+		assertEquals("just a description", screenAnnotation.getDescription(), "Expected description");
+		assertEquals(ScreenAnnotationStyle.CLICK, screenAnnotation.getStyle(), "Expected style");
+		assertEquals(ScreenAnnotationClickAction.TO_URL, screenAnnotation.getClickAction(), "Expected clickAction");
+		assertEquals("http://just-an-url.com", screenAnnotation.getClickActionUrl(), "Expected clickActionUrl");
+		assertEquals("just a click action text", screenAnnotation.getClickActionText(), "Expected clickActionText");
+		assertEquals(1, screenAnnotation.getDetails().size(), "Expected details");
 	}
 
 	private Step createBigDataStepForLoadTestAsyncWriting(final int index) {
@@ -461,9 +461,8 @@ public class ScenarioDocuWriterAndReaderTest {
 		builder.append("<html><head></head><body>");
 		builder.append("<p>This is just a dummy html code with lot of content to generate a lot of big data to write for load testing.<p>");
 		for (int i = 0; i < 1000; i++) {
-			builder.append("<div class=\"dummyParagraph"
-					+ i
-					+ "\">This is just a dummy html code with lot of content to generate a lot of big data to write for load testing.</div>");
+			builder.append("<div class=\"dummyParagraph").append(i)
+				.append("\">This is just a dummy html code with lot of content to generate a lot of big data to write for load testing.</div>");
 		}
 		builder.append("</body></html>");
 		
@@ -474,10 +473,10 @@ public class ScenarioDocuWriterAndReaderTest {
 	}
 	
 	private void assertExpectedLabels(final Labels labels, final String... expectedLabels) {
-		assertEquals("Expected number of labels", expectedLabels.length, labels.size());
+		assertEquals(expectedLabels.length, labels.size(), "Expected number of labels");
 		for (String expectedLabel : expectedLabels) {
-			assertTrue("expected label '" + expectedLabel + "' to be contained in labels.",
-					labels.contains(expectedLabel));
+			assertTrue(labels.contains(expectedLabel),
+				"expected label '" + expectedLabel + "' to be contained in labels.");
 		}
 	}
 }

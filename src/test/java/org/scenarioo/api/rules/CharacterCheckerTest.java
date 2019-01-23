@@ -1,24 +1,24 @@
 package org.scenarioo.api.rules;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.scenarioo.api.exception.IllegalCharacterException;
 
-public class CharacterCheckerTest {
+class CharacterCheckerTest {
 	
 	@Test
-	public void checkIdentifier_nullIdentifiers_areValid() {
+	void checkIdentifier_nullIdentifiers_areValid() {
 		CharacterChecker.checkIdentifier(null);
 	}
 	
 	@Test
-	public void checkIdentifier_stringsWithoutASlashOrBackslash_areValid() {
+	void checkIdentifier_stringsWithoutASlashOrBackslash_areValid() {
 		CharacterChecker.checkIdentifier("Some5!*%&?+String");
 	}
 	
 	@Test
-	public void checkIdentifier_stringsWithASlash_resultInAnException() {
+	void checkIdentifier_stringsWithASlash_resultInAnException() {
 		try {
 			CharacterChecker.checkIdentifier("abc/def");
 			fail();
@@ -28,7 +28,7 @@ public class CharacterCheckerTest {
 	}
 	
 	@Test
-	public void checkIdentifier_stringsWithABackslash_resultInAnException() {
+	void checkIdentifier_stringsWithABackslash_resultInAnException() {
 		try {
 			CharacterChecker.checkIdentifier("abc\\def");
 			fail();
@@ -38,13 +38,13 @@ public class CharacterCheckerTest {
 	}
 	
 	@Test
-	public void checkIdentifier_forValidIdentifiers_returnsTheIdentifier() {
+	void checkIdentifier_forValidIdentifiers_returnsTheIdentifier() {
 		String identifier = "valid";
 		assertEquals(identifier, CharacterChecker.checkIdentifier(identifier));
 	}
 	
 	@Test
-	public void checkLabel_aNullLabel_resultsInAnException() {
+	void checkLabel_aNullLabel_resultsInAnException() {
 		try {
 			CharacterChecker.checkLabel(null);
 			fail();
@@ -54,12 +54,12 @@ public class CharacterCheckerTest {
 	}
 	
 	@Test
-	public void checkLabel_aLabelContainingAllTypesOfAllowedCharacters_passesTheCheck() {
+	void checkLabel_aLabelContainingAllTypesOfAllowedCharacters_passesTheCheck() {
 		CharacterChecker.checkLabel("abc_DEF-012 3456789");
 	}
 	
 	@Test
-	public void checkLabel_aLabelWithASlash_resultsInAnException() {
+	void checkLabel_aLabelWithASlash_resultsInAnException() {
 		try {
 			CharacterChecker.checkLabel("abc/def");
 			fail();
@@ -69,7 +69,7 @@ public class CharacterCheckerTest {
 	}
 	
 	@Test
-	public void checkLabel_aLabelWithAnUmlaut_resultsInAnException() {
+	void checkLabel_aLabelWithAnUmlaut_resultsInAnException() {
 		try {
 			CharacterChecker.checkLabel("äuäää");
 			fail();
@@ -79,7 +79,7 @@ public class CharacterCheckerTest {
 	}
 	
 	@Test
-	public void checkLabel_forValidLabels_returnsTheLabel() {
+	void checkLabel_forValidLabels_returnsTheLabel() {
 		String label = "valid";
 		assertEquals(label, CharacterChecker.checkLabel(label));
 	}
