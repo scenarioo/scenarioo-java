@@ -30,38 +30,28 @@ class LabelsTest {
 	
 	@Test
 	void ifAnInvalidSingleLabelIsAdded_anExceptionIsThrown() {
-		try {
-			Labels labels = new Labels();
-			labels.addLabel("test-1").addLabel("test.2");
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertEquals("Label test.2 contains illegal characters.", e.getMessage());
-		}
+		Labels labels = new Labels();
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> labels.addLabel("test-1").addLabel("test.2"));
+		assertEquals("Label test.2 contains illegal characters.", e.getMessage());
 	}
 	
 	@Test
 	void ifASetOfLabelsContainingInvalidCharactersIsSet_anExceptionIsThrown() {
-		try {
-			Labels labels = new Labels();
-			Set<String> labelsToSet = new LinkedHashSet<String>();
-			labelsToSet.add("valid");
-			labelsToSet.add(".invalid");
-			labels.setLabels(labelsToSet);
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertEquals("Label .invalid contains illegal characters.", e.getMessage());
-		}
+		Labels labels = new Labels();
+		Set<String> labelsToSet = new LinkedHashSet<String>();
+		labelsToSet.add("valid");
+		labelsToSet.add(".invalid");
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> labels.setLabels(labelsToSet));
+		assertEquals("Label .invalid contains illegal characters.", e.getMessage());
 	}
 	
 	@Test
 	void ifANullSetOfLabelsIsSet_anExceptionIsThrown() {
-		try {
-			Labels labels = new Labels();
-			labels.setLabels(null);
-			fail();
-		} catch (NullPointerException e) {
-			assertEquals("Labels must not be null.", e.getMessage());
-		}
+		Labels labels = new Labels();
+		NullPointerException e = assertThrows(NullPointerException.class, () ->  labels.setLabels(null));
+		assertEquals("Labels must not be null.", e.getMessage());
 	}
 	
 }

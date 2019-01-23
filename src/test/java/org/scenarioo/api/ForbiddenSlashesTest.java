@@ -62,162 +62,115 @@ class ForbiddenSlashesTest {
 	
 	@Test
 	void creatingAScenarioDocuWriter_withAnIllegalBranchName_resultsInAnException() {
-		try {
-			new ScenarioDocuWriter(dataDirectory, ILLEGAL_NAME, LEGAL_NAME);
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> new ScenarioDocuWriter(dataDirectory, ILLEGAL_NAME, LEGAL_NAME));
+		assertException(e);
 	}
 	
 	@Test
 	void creatingAScenarioDocuWriter_withAnIllegalBuildName_resultsInAnException() {
-		try {
-			new ScenarioDocuWriter(dataDirectory, LEGAL_NAME, ILLEGAL_NAME);
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> new ScenarioDocuWriter(dataDirectory, LEGAL_NAME, ILLEGAL_NAME));
+		assertException(e);
 	}
 	
 	@Test
 	void writingAUseCase_withAnIllegalUseCaseName_resultsInAnException() {
-		try {
-			scenarioDocuWriter.saveUseCase(getUseCaseWithIllegalName());
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuWriter.saveUseCase(getUseCaseWithIllegalName()));
+		assertException(e);
 	}
 	
 	@Test
 	void writingAScenario_withAnIllegalUseCaseName_resultsInAnException() {
-		try {
-			scenarioDocuWriter.saveScenario(ILLEGAL_NAME, getScenarioWithName(LEGAL_NAME));
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuWriter.saveScenario(ILLEGAL_NAME, getScenarioWithName(LEGAL_NAME)));
+		assertException(e);
+
 	}
 	
 	@Test
 	void writingAScenario_withAnIllegalScenarioName_resultsInAnException() {
-		try {
-			scenarioDocuWriter.saveScenario(LEGAL_NAME, getScenarioWithName(ILLEGAL_NAME));
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuWriter.saveScenario(LEGAL_NAME, getScenarioWithName(ILLEGAL_NAME)));
+		assertException(e);
 	}
 	
 	@Test
 	void writingAStep_withAnIllegalUseCaseName_resultsInAnException() {
-		try {
-			scenarioDocuWriter.saveStep(ILLEGAL_NAME, LEGAL_NAME, getStepWithPageName(LEGAL_NAME));
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuWriter.saveStep(ILLEGAL_NAME, LEGAL_NAME, getStepWithPageName(LEGAL_NAME)));
+		assertException(e);
 	}
 	
 	@Test
 	void writingAStep_withAnIllegalScenarioName_resultsInAnException() {
-		try {
-			scenarioDocuWriter.saveStep(LEGAL_NAME, ILLEGAL_NAME, getStepWithPageName(LEGAL_NAME));
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuWriter.saveStep(LEGAL_NAME, ILLEGAL_NAME, getStepWithPageName(LEGAL_NAME)));
+		assertException(e);
 	}
 	
 	@Test
 	void writingAStep_withAnIllegalPageName_resultsInAnException() {
-		try {
-			scenarioDocuWriter.saveStep(LEGAL_NAME, LEGAL_NAME, getStepWithPageName(ILLEGAL_NAME));
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuWriter.saveStep(LEGAL_NAME, LEGAL_NAME, getStepWithPageName(ILLEGAL_NAME)));
+		assertException(e);
 	}
 	
 	@Test
 	void writingAStep_withAnIllegalObjectTypeInMetadata_resultsInAnException() {
-		try {
-			scenarioDocuWriter.saveStep(LEGAL_NAME, LEGAL_NAME, getStepWithIllegalObjectTypeInMetadata());
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuWriter.saveStep(LEGAL_NAME, LEGAL_NAME, getStepWithIllegalObjectTypeInMetadata()));
+		assertException(e);
 	}
 	
 	@Test
 	void writingAStep_withAnIllegalObjectNameInMetadata_resultsInAnException() {
-		try {
-			scenarioDocuWriter.saveStep(LEGAL_NAME, LEGAL_NAME, getStepWithIllegalObjectNameInMetadata());
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() ->  scenarioDocuWriter.saveStep(LEGAL_NAME, LEGAL_NAME, getStepWithIllegalObjectNameInMetadata()));
+		assertException(e);
 	}
 	
 	@Test
 	void writingAStep_withAnIllegalObjectTypeInStepDescription_resultsInAnException() {
-		try {
-			scenarioDocuWriter.saveStep(LEGAL_NAME, LEGAL_NAME, getStepWithIllegalObjectTypeInStepDescription());
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuWriter.saveStep(LEGAL_NAME, LEGAL_NAME, getStepWithIllegalObjectTypeInStepDescription()));
+		assertException(e);
 	}
 	
 	@Test
 	void writingAStep_withAnIllegalObjectNameInStepDescription_resultsInAnException() {
-		try {
-			scenarioDocuWriter.saveStep(LEGAL_NAME, LEGAL_NAME, getStepWithIllegalObjectNameInStepDescription());
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuWriter.saveStep(LEGAL_NAME, LEGAL_NAME, getStepWithIllegalObjectNameInStepDescription()));
+		assertException(e);
 	}
 	
 	@Test
 	void readingAUseCase_withAnIllegalBranchName_resultsInAnException() {
-		try {
-			scenarioDocuReader.loadUsecase(ILLEGAL_NAME, LEGAL_NAME, LEGAL_NAME);
-			fail();
-		} catch (IllegalCharacterException e) {
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuReader.loadUsecase(ILLEGAL_NAME, LEGAL_NAME, LEGAL_NAME));
 			assertException(e);
-		}
 	}
 	
 	@Test
 	void readingAUseCase_withAnIllegalBuildName_resultsInAnException() {
-		try {
-			scenarioDocuReader.loadUsecase(LEGAL_NAME, ILLEGAL_NAME, LEGAL_NAME);
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuReader.loadUsecase(LEGAL_NAME, ILLEGAL_NAME, LEGAL_NAME));
+		assertException(e);
 	}
 	
 	@Test
 	void readingAUseCase_withAnIllegalUseCaseName_resultsInAnException() {
-		try {
-			scenarioDocuReader.loadUsecase(LEGAL_NAME, LEGAL_NAME, ILLEGAL_NAME);
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuReader.loadUsecase(LEGAL_NAME, LEGAL_NAME, ILLEGAL_NAME));
+		assertException(e);
 	}
 	
 	@Test
 	void readingAScenario_withAnIllegalScenarioName_resultsInAnException() {
-		try {
-			scenarioDocuReader.loadScenario(LEGAL_NAME, LEGAL_NAME, LEGAL_NAME, ILLEGAL_NAME);
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertException(e);
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> scenarioDocuReader.loadScenario(LEGAL_NAME, LEGAL_NAME, LEGAL_NAME, ILLEGAL_NAME));
+		assertException(e);
 	}
 	
 	@Test

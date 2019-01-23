@@ -24,22 +24,18 @@ class DetailsCheckerTest {
 	
 	@Test
 	void ifThereIsAnInvalidObjectType_anExceptionIsThrown() {
-		try {
-			DetailsChecker.checkIdentifiers(getDetailsWithInvalidObjectType());
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertEquals("Identifier /illegal contains illegal characters.", e.getMessage());
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> DetailsChecker.checkIdentifiers(getDetailsWithInvalidObjectType()));
+		assertEquals("Identifier /illegal contains illegal characters.", e.getMessage());
+
 	}
 	
 	@Test
 	void ifThereIsAnInvalidObjectName_anExceptionIsThrown() {
-		try {
-			DetailsChecker.checkIdentifiers(getDetailsWithInvalidObjectName());
-			fail();
-		} catch (IllegalCharacterException e) {
-			assertEquals("Identifier /illegal contains illegal characters.", e.getMessage());
-		}
+		IllegalCharacterException e = assertThrows(IllegalCharacterException.class,
+			() -> DetailsChecker.checkIdentifiers(getDetailsWithInvalidObjectName()));
+		assertEquals("Identifier /illegal contains illegal characters.", e.getMessage());
+
 	}
 	
 	private Details getDetailsWithInvalidObjectType() {
