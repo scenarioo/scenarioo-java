@@ -139,7 +139,7 @@ jar.dependsOn generateSchema
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
-    gradleVersion = "5.6"
+    gradleVersion = "6.7.1"
 }
 
 
