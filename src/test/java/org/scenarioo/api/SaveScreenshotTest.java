@@ -1,15 +1,16 @@
 package org.scenarioo.api;
 
-import static org.scenarioo.api.TestConstants.*;
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.scenarioo.api.TestConstants.*;
 
 class SaveScreenshotTest {
 
@@ -49,12 +50,11 @@ class SaveScreenshotTest {
 		try {
 			fileAsByteArray = FileUtils.readFileToByteArray(file);
 		} catch (IOException e) {
-			Assertions.fail("Could not read file " + file);
-			e.printStackTrace();
+			fail("Could not read file " + file, e);
 			return;
 		}
 
-		Assertions.assertArrayEquals(imageAsByteArray, fileAsByteArray);
+		assertArrayEquals(imageAsByteArray, fileAsByteArray);
 	}
 
 }
