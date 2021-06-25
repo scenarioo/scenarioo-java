@@ -6,7 +6,7 @@ Scenarioo Writer API for Java to generate Scenarioo Documentations - http://www.
 ## Usage
 Scenarioo-Java is available on maven central: Include the latest version as a dependency in your favorite 
 dependency management system:
-`compile 'org.scenarioo:scenarioo-java:3.0.0'`
+`implementation 'org.scenarioo:scenarioo-java:3.0.0'`
 
 Notice that at least Java 8 is required for version 3.0.0 of the writer library
 
