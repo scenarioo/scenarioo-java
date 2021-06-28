@@ -2,7 +2,7 @@ package org.scenarioo.api;
 
 import java.io.File;
 
-public class TestConstants {
+class TestConstants {
 	
 	public static final File TEST_ROOT_DIRECTORY = new File("tmpScenarioDocuUnitTestFiles");
 	public static final String TEST_BRANCH_NAME = "testBranch";

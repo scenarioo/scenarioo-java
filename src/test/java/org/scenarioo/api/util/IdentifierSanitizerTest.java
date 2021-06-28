@@ -1,23 +1,23 @@
 package org.scenarioo.api.util;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IdentifierSanitizerTest {
+class IdentifierSanitizerTest {
 	
 	@Test
-	public void nullIdentifiersStayNull() {
-		assertEquals(null, IdentifierSanitizer.sanitize(null));
+	void nullIdentifiersStayNull() {
+		assertNull(IdentifierSanitizer.sanitize(null));
 	}
 	
 	@Test
-	public void slashesAreReplacedWithUnderscores() {
+	void slashesAreReplacedWithUnderscores() {
 		assertEquals("test_identifier__", IdentifierSanitizer.sanitize("test/identifier//"));
 	}
 	
 	@Test
-	public void backslashesAreReplacedWithUnderscores() {
+	void backslashesAreReplacedWithUnderscores() {
 		assertEquals("test_identifier__", IdentifierSanitizer.sanitize("test\\identifier\\\\"));
 	}
 	

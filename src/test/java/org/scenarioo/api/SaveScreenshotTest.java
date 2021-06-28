@@ -6,20 +6,20 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SaveScreenshotTest {
+class SaveScreenshotTest {
 
 	private static final String pngFileName = "/scenarioo-icon-unittest.png";
 	private static byte[] imageAsByteArray;
 
 	private ScenarioDocuWriter writer;
 
-	@BeforeClass
-	public static void loadImage() {
+	@BeforeAll
+	static void loadImage() {
 		try {
 			imageAsByteArray = FileUtils.readFileToByteArray(new File(SaveScreenshotTest.class.getResource(pngFileName)
 					.getFile()));
@@ -28,14 +28,14 @@ public class SaveScreenshotTest {
 		}
 	}
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		TEST_ROOT_DIRECTORY.mkdirs();
 		writer = new ScenarioDocuWriter(TEST_ROOT_DIRECTORY, TEST_BRANCH_NAME, TEST_BUILD_NAME);
 	}
 
 	@Test
-	public void savePngScreenshot() {
+	void savePngScreenshot() {
 		writer.saveScreenshotAsPng(TEST_CASE_NAME, TEST_SCENARIO_NAME, TEST_STEP_INDEX, imageAsByteArray);
 		writer.flush();
 
@@ -49,12 +49,12 @@ public class SaveScreenshotTest {
 		try {
 			fileAsByteArray = FileUtils.readFileToByteArray(file);
 		} catch (IOException e) {
-			Assert.fail("Could not read file " + file);
+			Assertions.fail("Could not read file " + file);
 			e.printStackTrace();
 			return;
 		}
 
-		Assert.assertArrayEquals(imageAsByteArray, fileAsByteArray);
+		Assertions.assertArrayEquals(imageAsByteArray, fileAsByteArray);
 	}
 
 }
