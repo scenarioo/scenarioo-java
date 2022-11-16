@@ -15,3 +15,10 @@ With version 3, the Java Writer Library needs at least Java 8 to run.
 Java 11 does not include Java EE libraries anymore. Since scenarioo-java relies on JAXB for writing the XML files, 
 we need to provide the dependencies out of the box. Users of Java 11+ should switch to this version, if they don't want 
 to supply the missing dependencies themselves.
+
+
+### Improvements to the details interface
+
+* [#1 - Improve details interface & API documentation](https://github.com/scenarioo/scenarioo-java/issues/1)
+
+The possibility to add details via the API has been improved by a few more method overloads. For more details see the [Details class](https://github.com/scenarioo/scenarioo-java/blob/develop/src/main/java/org/scenarioo/model/docu/entities/generic/Details.java)
