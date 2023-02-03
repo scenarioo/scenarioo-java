@@ -3,7 +3,7 @@ package org.scenarioo.api.util;
 import org.scenarioo.api.rules.CharacterChecker;
 
 /**
- * Use this to make sure your identifiers are compilant with the Scenarioo APIs restrictions that are enforced in the
+ * Use this to make sure your identifiers are compliant with the Scenarioo APIs restrictions that are enforced in the
  * {@link CharacterChecker}.
  */
 public class IdentifierSanitizer {

@@ -66,4 +66,4 @@ Capture step data from UI tests using one of three strategies
 
 ## More ...
 
-* Just study the [Examples](http://scenarioo.org/docs/examples.html), there are a lot of comments in the code, that should help you a lot!
+* Just study the [Examples in the Docu](http://scenarioo.org/docs/master/examples.html), there are a lot of comments in the code, that should help you a lot!
